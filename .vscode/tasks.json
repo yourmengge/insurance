@@ -4,7 +4,6 @@
     "version": "0.1.0",
     "command": "live-server",
     "isShellCommand": true,
-    "args": ["-p", "."],
-    "showOutput": "silent",
-    "problemMatcher": "$tsc"
+    "args": [],
+    "showOutput": "always"
 }
