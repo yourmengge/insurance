@@ -5,9 +5,10 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
             if(res.data.http_status == 200){
                 layer.msg('登录成功');
                 setTimeout(function() {
-                    g
+                    goto_view('renbao_main/addorder');
                 }, 1000);
             }
+            isError(res)
         })
     }
 }])

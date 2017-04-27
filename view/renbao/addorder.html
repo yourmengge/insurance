@@ -1,0 +1,49 @@
+<div class="addorder_div" ng-controller="addorderCtrl">
+    <div class="addorder_jiexi" ng-hide="jiexi">
+        <textarea ng-model="message" name="" id="" cols="30" rows="10" placeholder="将您的订单短信粘贴到此处进行解析"></textarea>
+        <br>
+        <button class="button" ng-click="analysis()">解析订单</button>
+    </div>
+    <div class="addorder" ng-hide="!jiexi">
+        <table>
+            <tr>
+                <td>事故地点：</td>
+                <td><input type="text" ng-model="accident"></td>
+            </tr>
+             <tr>
+                <td>目的地点：</td>
+                <td><input type="text"></td>
+            </tr>
+             <tr>
+                <td>车主姓名：</td>
+                <td><input type="text" ng-model="accidentDriverName"></td>
+            </tr>
+             <tr>
+                <td>车主电话：</td>
+                <td><input type="text" ng-model="accidentDriverPhone"></td>
+            </tr>
+             <tr>
+                <td>案件号：</td>
+                <td><input type="text" ng-model="caseNo"></td>
+            </tr>
+             <tr>
+                <td>车牌号：</td>
+                <td><input type="text" ng-model="accidentCarNo"></td>
+            </tr>
+             <tr>
+                <td>指派司机：</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>车保类型：</td>
+                <td><input type="checkbox">标的车</td>
+                <td><input type="checkbox">三者车</td>
+            </tr>
+            <tr>
+                <td>救援车类型：</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+</div>

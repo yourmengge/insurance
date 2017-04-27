@@ -1,9 +1,11 @@
 var
     host = 'http://dev.road167.com:8080/extrication';
-    urlOrder = '/order';
-    urlV1 = '/v1';
-    urlLogin = '/login';
-    urlAction = '/action';
-    urlToken = '/token';
+urlOrder = '/order';
+urlV1 = '/v1';
+urlLogin = '/login';
+urlAction = '/action';
+urlToken = '/token';
+urlActions = '/actions';
+show = '0';
+hide = '1';
 
-    

@@ -1,0 +1,25 @@
+<div class="renbao_main" ng-controller="mainCtrl" ng-init="initData()">
+    <img src="img/bg.jpg" alt="" class="bg">
+    <div class="main_title_bar">
+        <span>欢迎您，{{adminName}}</span>
+        <a>退出登录</a>
+    </div>
+    <div class="left_menu">
+        <p id="lm1" class="left_menu_click" ui-sref='renbao_main.addorder'>
+            下单
+        </p>
+        <p id="lm2">
+            查看订单
+        </p>
+        <p id="lm3">
+            查看评价
+        </p>
+        <p id="lm4">
+            查看指派司机
+        </p>
+        <p id="lm5" ui-sref='renbao_main.fixaddress'>
+            查看固定目的地
+        </p>
+    </div>
+    <div ui-view class="right_content"></div>
+</div>

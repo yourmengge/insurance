@@ -27,3 +27,113 @@ html,body{
     color: #fff;
     border: none;
 }
+.main_title_bar{
+    height: 6vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    line-height: 6vh;
+    text-align: right;
+    color: #fff;
+}
+.main_title_bar a{
+    margin:0 50px;
+}
+.bg{
+    width: 100vw;
+    height: 100vh;
+
+}
+.left_menu{
+    position: fixed;
+    left: 1vw;
+    top: 10vh;
+    color: #0079b5;
+    width: 13vw;
+    font-size: 15px;
+    border-radius: 3px;
+    background: #fff;
+}
+.left_menu p{
+    margin: 0;
+    padding: 19px 25px;
+    border-bottom: solid 1px #d4d4d4;
+}
+.left_menu p:hover{
+    background: #00BCD4;
+    color: #fff;
+    border-bottom: solid 1px #00BCD4;
+}
+.left_menu_click{
+    background: #00BCD4;
+    color: #fff;
+    border-bottom: solid 1px #00BCD4;
+}
+.right_content{
+    position: fixed;
+    left: 16vw;
+    top: 8vh;
+    height: 82vh;
+    width: 79vw;
+    border-radius: 5px;
+    background: #fff;
+    padding: 30px;
+}
+.button{
+    padding: 10px 25px;
+    background: #21b6ff;
+    border: #21b6ff;
+    color: #fff;
+    border-radius: 3px;
+}
+textarea{
+    padding: 10px;
+    margin: 30px;
+    margin-left: 0;
+    resize: none;
+    width: 500px;
+    height: 300px;
+    border: solid 2px #dedede;
+    border-radius: 3px;
+    font-size: 15px;
+}
+.addorder table{
+    height: 40vh;
+}
+.addorder table tr{
+    height: 50px;
+}
+.addorder table tr td:nth-child(even){
+    text-align: left;
+}
+.addorder table tr td:nth-child(odd){
+    text-align: right;
+}
+.addorder table tr td input{
+    height: 40px;
+    width: 300px;
+    border: solid 1px #dedede;
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 15px;
+}
+.addorder{
+    padding: 45px;
+}
+.closeBg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2f2f2f;
+    opacity: 0.8;
+}
+.map_div{
+    position: fixed;
+    width: 80vw;
+    height: 80vh;
+    background: #fff;
+    top: 10vh;
+    left: 10vw;
+}

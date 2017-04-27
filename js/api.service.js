@@ -1,8 +1,8 @@
 var Road167 = angular.module('Road167', []);
 Road167.factory('APIService', function ($http) {
     var service = {
-        token : sessionStorage.getItem('token'),
-        userId : sessionStorage.getItem('userId')
+        token: sessionStorage.getItem('token'),
+        userId: sessionStorage.getItem('userId')
     }
     service.get = function (url) {
         return $http({
@@ -11,10 +11,6 @@ Road167.factory('APIService', function ($http) {
             headers: {
                 "Authorization": service.token,
                 "user-id": service.userId
-            }
-        }).success(function (res) {
-            if (res.http_status == 401.1) {
-                goto_view('login');
             }
         })
     };
@@ -27,10 +23,6 @@ Road167.factory('APIService', function ($http) {
                 "Authorization": service.token,
                 "user-id": service.userId
             }
-        }).success(function (res) {
-            if (res.http_status == 401.1) {
-                goto_view('login');
-            }
         })
     };
     service.put = function (url, data) {
@@ -41,10 +33,6 @@ Road167.factory('APIService', function ($http) {
             headers: {
                 "Authorization": service.token,
                 "user-id": service.userId
-            }
-        }).success(function (res) {
-            if (res.http_status == 401.1) {
-                goto_view('login');
             }
         })
     };
@@ -57,12 +45,13 @@ Road167.factory('APIService', function ($http) {
                 "Authorization": service.token,
                 "user-id": service.userId
             }
-        }).success(function (res) {
-            if (res.http_status == 401.1) {
-                goto_view('login');
-            }
         })
     };
+
+    service.analysis = function (message) {
+        return service.post(host + urlV1 + urlOrder + urlActions + '/parse', { 'message': message });
+    }
+
     service.login = function (phone, password, roleId) {
         var password = hex_md5(password);
         var data = {
@@ -73,14 +62,14 @@ Road167.factory('APIService', function ($http) {
 
         return $http.post(host + urlLogin + urlAction + urlToken, data).then(function (res) {
             if (res.data.http_status == 200) {
-                service.userId = res.userId;
-                service.token = res.token;
-                sessionStorage.setItem('token', res.token);
-                sessionStorage.setItem('userId', res.userId);
+                service.userId = res.data.userId;
+                service.token = res.data.token;
+                sessionStorage.setItem('adminName',res.data.name);
+                sessionStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('userId', res.data.userId);
                 return res;
-            }
-            if (res.data.http_status == 400) {
-                throw res;
+            } else {
+                return res;
             }
         });
     };
