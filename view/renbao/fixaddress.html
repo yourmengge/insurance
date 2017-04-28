@@ -1,10 +1,31 @@
-<div class="fixaddress">
+<div class="fixaddress" ng-controller="fixaddressCtrl" ng-init="initData()">
     <h2>查看固定目的地</h2>
-    <button class="button">
+    <button class="button" ng-click="addFixAddress()" ui-sref='renbao_main.fixaddress.map'>
         添加目的地
     </button>
-    <div class="closeBg"></div>
+    <table>
+        <tr>
+            <th></th>
+            <th>简称</th>
+            <th>百度地图位置</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="a in fix_address_list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.addressAbbr}}</td>
+            <td>{{a.address}}</td>
+            <td><button class="button">修改</button><button class="button button_del" ng-click="delete(a)">删除</button></td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+    <div class="closeBg" ng-click="closeBG()"></div>
     <div class="map_div">
-        
+        <div ui-view></div>
     </div>
 </div>

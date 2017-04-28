@@ -1,0 +1,38 @@
+<div class="adddriver" ng-controller="adddriverCtrl" ng-init="initData()">
+    <h2>查看指派司机</h2>
+    <button class="button" ng-click="addDriver()">
+        添加指派司机
+    </button>
+    <div class="add_driver_div">
+        <h2>添加指派司机</h2>
+        <button class="close_btn" ng-click="cencle()">X</button>
+        <input type="number" placeholder="请输入司机的手机号码" ng-change="input_tel()" ng-model="phone" ng-click="input_tel()"><br>
+        <p class="add_driver_div_p" ng-click="select()">
+            {{name}} - {{driverphone}}
+        </p>
+        <button id="submit" class="button button_disabled" ng-click="submit_add()" disabled>确定</button>
+        <button class="button button_del" ng-click="cencle()">取消</button>
+    </div>
+    <h2>{{tips}}</h2>
+    <table ng-hide="table">
+        <tr>
+            <th></th>
+            <th>姓名</th>
+            <th>手机号码</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="a in fav_driver_list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.driverName}}</td>
+            <td>{{a.driverMobile}}</td>
+            <td><button class="button button_del" ng-click="delete(a)">移除</button></td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['ui.router', 'login', 'Road167', 'fixaddress', 'renbao_main', 'addorder']);
+var insurance = angular.module('insurance', ['ui.router','adddriver','map', 'login', 'Road167', 'fixaddress', 'renbao_main', 'addorder']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -17,6 +17,14 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('renbao_main.fixaddress', {
             url: '/fixaddress',
             templateUrl: 'view/renbao/fixaddress.html'
+        })
+        .state('renbao_main.adddriver', {
+            url: '/adddriver',
+            templateUrl: 'view/renbao/adddriver.html'
+        })
+        .state('renbao_main.fixaddress.map', {
+            url: '/map',
+            templateUrl: 'view/renbao/map.html'
         })
 
 

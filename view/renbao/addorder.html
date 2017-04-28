@@ -1,49 +1,50 @@
-<div class="addorder_div" ng-controller="addorderCtrl">
+<div class="addorder_div" ng-controller="addorderCtrl" ng-init="initData()">
+    <h2>下单</h2>
     <div class="addorder_jiexi" ng-hide="jiexi">
-        <textarea ng-model="message" name="" id="" cols="30" rows="10" placeholder="将您的订单短信粘贴到此处进行解析"></textarea>
+        <textarea ng-change="change()" ng-model="message" name="" id="" cols="30" rows="10" placeholder="将您的订单短信粘贴到此处进行解析"></textarea>
         <br>
-        <button class="button" ng-click="analysis()">解析订单</button>
+        <button class="button button_disabled" ng-click="analysis()" disabled id="button">解析订单</button>
     </div>
     <div class="addorder" ng-hide="!jiexi">
         <table>
             <tr>
                 <td>事故地点：</td>
-                <td><input type="text" ng-model="accident"></td>
+                <td><input class="input" type="text" ng-model="accident"><span class="require">*</span></td>
             </tr>
              <tr>
                 <td>目的地点：</td>
-                <td><input type="text"></td>
+                <td><select class="input" ng-model="fixAddress" ng-options="a.address as a.address for a in address_list"></select></td>
             </tr>
              <tr>
                 <td>车主姓名：</td>
-                <td><input type="text" ng-model="accidentDriverName"></td>
+                <td><input class="input" type="text" ng-model="accidentDriverName"></td>
             </tr>
              <tr>
                 <td>车主电话：</td>
-                <td><input type="text" ng-model="accidentDriverPhone"></td>
+                <td><input class="input" type="text" ng-model="accidentDriverPhone"><span class="require">*</span></td>
             </tr>
              <tr>
                 <td>案件号：</td>
-                <td><input type="text" ng-model="caseNo"></td>
+                <td><input class="input"  type="text" ng-model="caseNo"></td>
             </tr>
              <tr>
                 <td>车牌号：</td>
-                <td><input type="text" ng-model="accidentCarNo"></td>
+                <td><input class="input" type="text" ng-model="accidentCarNo"></td>
             </tr>
              <tr>
                 <td>指派司机：</td>
-                <td><input type="text"></td>
+                <td><select class="input" ng-model="Driver" ng-options="a.driverUserId as a.driverName for a in driver_list"></select></td>
             </tr>
             <tr>
                 <td>车保类型：</td>
-                <td><input type="checkbox">标的车</td>
-                <td><input type="checkbox">三者车</td>
+                <td><input type="checkbox" class="checkbox" ng-model="biaodi">标的车 <input ng-model="sanzhe" type="checkbox" class="checkbox">三者车</td>
             </tr>
             <tr>
                 <td>救援车类型：</td>
-                <td></td>
+                <td>拖车</td>
             </tr>
         </table>
+        <button class="button" style="margin-left: 10vw;margin-top: 30px;" id="submit">提交订单</button>
     </div>
 
 </div>

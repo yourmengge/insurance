@@ -1,0 +1,11 @@
+<div class="map" ng-controller="mapCtrl" ng-init="initData()">
+    <div id="allmap"></div>
+    <div class="map_right">
+         <h3>目的地点：</h3>
+         <p><input class="input" type="text" placeholder="请输入托送地点" ng-model="searchName" id="searchName" ng-change="change(searchName)"></p>
+         <p><button class="button" ng-click="findPlace()">查询</button></p>
+         <h3>简称：（必填）</h3>
+         <p><input class="input" type="text" placeholder="20字以内" ng-model="remark" ng-change="change(remark)"></p>
+         <button class="button button_disabled" disabled ng-click="add()" id="add">添加</button>
+    </div>
+</div>

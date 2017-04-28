@@ -27,6 +27,10 @@ html,body{
     color: #fff;
     border: none;
 }
+.checkbox{
+    width: 15px;
+    height: initial;
+}
 .main_title_bar{
     height: 6vh;
     width: 100vw;
@@ -73,18 +77,21 @@ html,body{
     position: fixed;
     left: 16vw;
     top: 8vh;
-    height: 82vh;
+    bottom: 20px;
     width: 79vw;
     border-radius: 5px;
     background: #fff;
     padding: 30px;
+    overflow-y: auto;
 }
 .button{
-    padding: 10px 25px;
+    padding: 4px 20px;
     background: #21b6ff;
     border: #21b6ff;
     color: #fff;
+    font-size: 14px;
     border-radius: 3px;
+    margin: 0 5px;
 }
 textarea{
     padding: 10px;
@@ -109,7 +116,7 @@ textarea{
 .addorder table tr td:nth-child(odd){
     text-align: right;
 }
-.addorder table tr td input{
+.addorder table tr td .input{
     height: 40px;
     width: 300px;
     border: solid 1px #dedede;
@@ -121,6 +128,7 @@ textarea{
     padding: 45px;
 }
 .closeBg{
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -130,10 +138,115 @@ textarea{
     opacity: 0.8;
 }
 .map_div{
+    display: none;
+    width: 70vw;
+    height: 78vh;
     position: fixed;
-    width: 80vw;
-    height: 80vh;
-    background: #fff;
     top: 10vh;
-    left: 10vw;
+    background: #fff;
+}
+#allmap {
+    width: 75%;
+    height: 100%;
+    overflow: hidden;
+    margin:0;
+    font-family:"微软雅黑";
+    float: left;
+}
+.add_driver_div{
+    width: 500px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px 5px #9c9c9c;
+    padding: 30px;
+    margin-top: 7px;
+    display: none;
+    position: absolute;
+    background: #fff;
+}
+.add_driver_div input{
+        height: 40px;
+    width: 250px;
+    border-radius: 3px;
+    border: solid 2px #dedede;
+    padding-left: 5px;
+    margin: 9px 0;
+    margin-bottom: 25px;
+}
+/*去除type=number右边的箭头*/
+input[type=number] {  
+    -moz-appearance:textfield;  
+}  
+input[type=number]::-webkit-inner-spin-button,  
+input[type=number]::-webkit-outer-spin-button {  
+    -webkit-appearance: none;  
+    margin: 0;  
+}  
+
+.button_del{
+    background: #f00;
+}
+.button_disabled{
+    background: gray;
+}
+.add_driver_div_p{
+    display: none;
+    margin-top: -25px;
+    width: 228px;
+    border: solid 1px #dedede;
+    padding: 10px;
+    line-height: 2;
+}
+.close_btn{
+    float: right;
+    margin-top: -80px;
+    background: none;
+    border: solid 1px #f00;
+    color: #f00;
+    border-radius: 45px;
+    height: 25px;
+    width: 25px;
+}
+table{
+    width: 60vw;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+}
+table tr{
+    height: 45px;
+}
+.page_p{
+    position: fixed;
+    bottom: 4px;
+    background: #fff;
+    width: 80vw;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+.page_btn{
+        border: solid 1px #008cff;
+    background: none;
+    color: #008cff;
+    padding: 4px 15px;
+    border-radius: 3px;
+}
+.page_btn:hover{
+    background: #008cff;
+    color: #fff;
+}
+.map_right{
+    width: 15vw;
+    float: right;
+}
+.input{
+    height: 35px;
+    padding-left: 8px;
+    width: 14vw;
+    border-radius: 3px;
+    border: solid 1px #b5b5b5;
+}
+.require{
+    color: #f00;
+    margin-left: 20px;
 }
