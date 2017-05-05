@@ -9,31 +9,35 @@
         <table>
             <tr>
                 <td>事故地点：</td>
-                <td><input class="input" type="text" ng-model="accident"><span class="require">*</span></td>
+                <td><input class="input" type="text" ng-model="accident" ng-change="change2()"><span class="require">*</span></td>
             </tr>
-             <tr>
+            <tr>
                 <td>目的地点：</td>
-                <td><select class="input" ng-model="fixAddress" ng-options="a.address as a.address for a in address_list"></select></td>
+                <td><select class="input" ng-model="fixAddress" ng-options="a.address as a.address for a in address_list"></select>
+                    <button ng-click="addFixAddress()" class="button">地图上选择</button>
+                </td>
             </tr>
-             <tr>
+            <tr>
                 <td>车主姓名：</td>
                 <td><input class="input" type="text" ng-model="accidentDriverName"></td>
             </tr>
-             <tr>
+            <tr>
                 <td>车主电话：</td>
-                <td><input class="input" type="text" ng-model="accidentDriverPhone"><span class="require">*</span></td>
+                <td><input class="input" type="text" ng-change="change2()" ng-model="accidentDriverPhone"><span class="require">*</span></td>
             </tr>
-             <tr>
+            <tr>
                 <td>案件号：</td>
-                <td><input class="input"  type="text" ng-model="caseNo"></td>
+                <td><input class="input" type="text" ng-model="caseNo"></td>
             </tr>
-             <tr>
+            <tr>
                 <td>车牌号：</td>
                 <td><input class="input" type="text" ng-model="accidentCarNo"></td>
             </tr>
-             <tr>
+            <tr>
                 <td>指派司机：</td>
-                <td><select class="input" ng-model="Driver" ng-options="a.driverUserId as a.driverName for a in driver_list"></select></td>
+                <td><select class="input" ng-model="Driver" ng-change="change2()" ng-options="a.driverUserId as a.driverName + ' - ' +  a.driverMobile  for a in driver_list"></select>
+                    <span class="require">*</span>
+                </td>
             </tr>
             <tr>
                 <td>车保类型：</td>
@@ -44,7 +48,14 @@
                 <td>拖车</td>
             </tr>
         </table>
-        <button class="button" style="margin-left: 10vw;margin-top: 30px;" id="submit">提交订单</button>
+        <button class="button" style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
+
+        <div class="closeBg" ng-click="closeBG()"></div>
+        <div class="map_div">
+            <div ui-view>
+
+            </div>
+        </div>
     </div>
 
 </div>

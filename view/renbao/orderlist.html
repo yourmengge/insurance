@@ -1,0 +1,44 @@
+<div class="adddriver" ng-controller="orderlistCtrl" ng-init="initData()">
+    <h2>查看订单</h2>
+    <p class="search_div">
+        开始时间：<input type="date" id="startDay" class="input">
+        结束时间：<input type="date" id="endDay" class="input">
+        订单状态：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>
+        案件号：
+        <input class="input" type="text" ng-model="caseNo" style="width:160px;" placeholder="请输入案件号">
+        <button class="button" ng-click="search()">查询</button>
+    </p>
+    <h1>{{tips}}</h1>
+    <table  cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr>
+            <th width='3%'></th>
+            <th>案件号</th>
+            <th>订单日期</th>
+            <th width='7%'>订单状态</th>
+            <th width="25%">事故地点</th>
+            <th>车主手机号</th>
+            <th>维修地点</th>
+            <th>订单来源</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="a in orderList">
+            <td>{{$index + 1}}</td>
+            <td>{{a.caseNo}}</td>
+            <td>{{a.createTime | ToLocal}}</td>
+            <td>{{a.status | OrderStatus}}</td>
+            <td>{{a.accidentAddress}}</td>
+            <td>{{a.accidentDriverPhone}}</td>
+            <td>{{a.fixAddress}}</td>
+            <td>{{a.createRoleId | CreateRole}} {{a.createName}}</td>
+            <td><button class="button" ng-click="detail(a.orderNo)" style="min-width: 97px;">查看详情</button></td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

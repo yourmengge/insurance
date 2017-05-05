@@ -1,17 +1,19 @@
 <div class="renbao_main" ng-controller="mainCtrl" ng-init="initData()">
     <img src="img/bg.jpg" alt="" class="bg">
     <div class="main_title_bar">
+        <img src="img/logo.png" alt="" class="logo">
+        <span style="float:left;">{{companyName}}</span>
         <span>欢迎您，{{adminName}}</span>
-        <a>退出登录</a>
+        <a style="cursor:pointer" ng-click="logout()">退出登录</a>
     </div>
     <div class="left_menu">
         <p id="lm1" class="left_menu_click" ui-sref='renbao_main.addorder'>
             下单
         </p>
-        <p id="lm2">
+        <p id="lm2" ui-sref='renbao_main.orderlist'>
             查看订单
         </p>
-        <p id="lm3">
+        <p id="lm3" ui-sref='renbao_main.evaluation'>
             查看评价
         </p>
         <p id="lm4" ui-sref='renbao_main.adddriver'>

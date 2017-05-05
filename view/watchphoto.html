@@ -1,0 +1,34 @@
+<script src="../js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        padding: 15vh;
+        background: #333;
+    }
+    
+    #youzhuan {
+        margin-left: 60px;
+        width: 48px;
+        height: 48px;
+        display: block;
+        float: left;
+        position: fixed;
+        top: 30vh;
+    }
+</style>
+<img src="" alt="" id="pic" style="width: 40vw;margin-left: 20vw;">
+<button style="border:none" id="youzhuan">旋转</button>
+
+<script>
+    $(document).ready(function () {
+        var num = 0;
+        var jiaodu = 90;
+        $('#pic').attr('src', sessionStorage.getItem('img'));
+        $("#youzhuan").click(function () {
+            num++;
+            jiaodu = 90 * num + "deg";
+            $('#pic').css("transform", "rotate(" + jiaodu + ")")
+        });
+    })
+</script>

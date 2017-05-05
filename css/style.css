@@ -4,7 +4,7 @@ html,body{
     font-family: '微软雅黑'
 }
 .login_div{
-      background: #303641;
+      background: url('../img/bg2.jpg');
       height: 100vh;
       width: 100vw;
       text-align: center;
@@ -21,6 +21,7 @@ html,body{
     min-width: 200px;
     font-size: .9vw;
     border-radius: 2px;
+        border: none;
 }
 .login_btn{
     background: #007db9;
@@ -32,11 +33,11 @@ html,body{
     height: initial;
 }
 .main_title_bar{
-    height: 6vh;
+    height: 70px;
     width: 100vw;
     position: fixed;
     top: 0;
-    line-height: 6vh;
+    line-height: 70px;
     text-align: right;
     color: #fff;
 }
@@ -48,10 +49,16 @@ html,body{
     height: 100vh;
 
 }
+.logo{
+        width: 60px;
+    float: left;
+    margin: 8px 44px;
+    margin-right: 10px;
+}
 .left_menu{
     position: fixed;
     left: 1vw;
-    top: 10vh;
+    top: 80px;
     color: #0079b5;
     width: 13vw;
     font-size: 15px;
@@ -76,7 +83,7 @@ html,body{
 .right_content{
     position: fixed;
     left: 16vw;
-    top: 8vh;
+    top: 80px;
     bottom: 20px;
     width: 79vw;
     border-radius: 5px;
@@ -109,6 +116,7 @@ textarea{
 }
 .addorder table tr{
     height: 50px;
+    border-bottom: solid 1px #dedede;
 }
 .addorder table tr td:nth-child(even){
     text-align: left;
@@ -206,14 +214,32 @@ input[type=number]::-webkit-outer-spin-button {
     height: 25px;
     width: 25px;
 }
-table{
-    width: 60vw;
+.table{
+    width: 75vw;
     text-align: center;
     margin-top: 30px;
     font-size: 14px;
 }
-table tr{
+.table tr{
     height: 45px;
+}
+.table tr:nth-child(1){
+    background: #a9ebff;
+    color: #4e4e4e;
+}
+.table tr:nth-child(1):hover{
+    background: #a9ebff;
+    color: #4e4e4e;
+}
+.table tr td{
+    border: solid 1px #c8f0ff;
+    cursor: pointer;
+}
+.table tr:hover{
+    background: #f7f7f7;
+}
+.table tr td:hover{
+    background: #e4f6ff;
 }
 .page_p{
     position: fixed;
@@ -249,4 +275,112 @@ table tr{
 .require{
     color: #f00;
     margin-left: 20px;
+}
+.evalImg{
+    width: 90px;
+}
+.detail_table{
+    width: 60vw;
+    text-align: right;
+}
+.detail_table tr{
+    height: 30px;
+}
+.detail_table tr td{
+    width: 80px;
+}
+.detail_table tr td:nth-child(odd){
+    color:#d42626;
+}
+.detail_table tr td:nth-child(even){
+    text-align: left;
+}
+.detail_table tr:hover{
+    background: none;
+}
+.detail_table tr td:hover{
+    background: #efefef
+}
+.detail_title{
+    color: #545454;
+    border-bottom: solid 1px #d6d6d6;
+    padding-bottom: 10px;
+    width: 70vw;
+}
+.img_div{
+    width: 60vw;
+    padding: 5px 30px;
+}
+.img_div img{
+    width: 10vw;
+    padding: 20px;
+    cursor: pointer;
+}
+.img_div img:hover{
+    transform: scale(1.1);
+    transition-duration: 1000ms;
+}
+.car_div{
+    padding: 10px;
+    padding-left: 40px;
+    font-size: 14px;
+}
+.car_div_title{
+    margin-left: 40px;
+    color: #d42626;
+}
+.detail_map{
+    display: none;
+    width: 70vw;
+    height: 70vh;
+    background: #fff;
+    position: fixed;
+    top: 15vh;
+    z-index: 100;
+}
+.goback{
+    float: right;
+    width: 50px;
+    border: solid 1px #0d8fde;
+    background: none;
+    color: #0d8fde;
+    border-radius: 2px;
+    height: 25px;
+    cursor: pointer;
+    position: fixed;
+    right: 4vw;
+    z-index: 10;
+    top: 94px;
+}
+.goback:hover{
+    border: solid 1px #0d8fde;
+    color: #fff;
+    background: #0d8fde;
+}
+.search_div{
+    padding: 5px;
+}
+.search_div .input{
+        width: 130px;
+    height: 30px;
+    line-height: 30px;
+}
+.hide{
+    display: none;
+}
+.bold{
+    font-weight: bold;
+}
+.distance_div{
+    float: left;
+    position: fixed;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.65);
+    width: 268px;
+    line-height: 72px;
+    text-align: center;
+    border-radius: 2px;
+}
+.distance_div span{
+    font-size: 19px;
 }

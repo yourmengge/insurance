@@ -2,13 +2,26 @@ var fixaddress = angular.module('fixaddress', ['Road167']);
 fixaddress.controller('fixaddressCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.addFixAddress = function () {
         $('.closeBg').css('display', 'block');
-        $('.map_div').css('display', 'block')
+        $('.map_div').css('display', 'block');
+        goto_view('renbao_main/map');
+        sessionStorage.setItem('map_type', 'add');
     }
     $scope.closeBG = function () {
         $('.closeBg').css('display', 'none');
         $('.map_div').css('display', 'none');
         goto_view('renbao_main/fixaddress');
         $scope.initData();
+    }
+    $scope.update = function(data){
+        $('.closeBg').css('display', 'block');
+        $('.map_div').css('display', 'block');
+        goto_view('renbao_main/map');
+        sessionStorage.setItem('map_type', 'update');
+        sessionStorage.setItem('map_id' , data.id);
+        sessionStorage.setItem('map_address' , data.address);
+        sessionStorage.setItem('map_remark' , data.addressAbbr);
+        sessionStorage.setItem('map_lat' , data.latitude);
+        sessionStorage.setItem('map_lng' , data.longitude);
     }
     $scope.initData = function () {
         $('.closeBg').css('display', 'none');

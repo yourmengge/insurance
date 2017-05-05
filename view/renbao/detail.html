@@ -1,0 +1,157 @@
+<div class="fixaddress" ng-controller="detailCtrl" ng-init="initData()">
+    <button class="goback" ng-click="back()">返回</button>
+    <h2>订单详情</h2>
+    <h4 class="detail_title">订单{{detail.orderNo}}</h4>
+    <table class="detail_table">
+        <tr>
+            <td>订单状态：</td>
+            <td>{{detail.status | OrderStatus}}</td>
+            <td>订单类型：</td>
+            <td>{{detail.orderType | OrderType}}</td>
+            <td>下单时间：</td>
+            <td>{{detail.createTime | ToLocal}}</td>
+        </tr>
+        <tr>
+            <td>订单来源：</td>
+            <td>{{detail.createRoleId | CreateRole}} {{detail.createName}}</td>
+            <td>标的/三者：</td>
+            <td>{{detail.insuranceType | InsuranceType}}</td>
+            <td>施救车类型：</td>
+            <td>{{detail.carType | CarType}}</td>
+        </tr>
+        <tr>
+            <td>车主姓名：</td>
+            <td>{{detail.accidentDriverName}}</td>
+            <td>车主电话：</td>
+            <td>{{detail.accidentDriverPhone}}</td>
+            <td>车牌号：</td>
+            <td>{{detail.accidentCarNo}}</td>
+        </tr>
+        <tr>
+            <td>订单费用：</td>
+            <td>{{detail.orderPrice | Price}}</td>
+            <td>下单备注：</td>
+            <td>{{detail.remark}}</td>
+        </tr>
+    </table>
+    <h4 class="detail_title">机构信息</h4>
+    <table class="detail_table">
+        <tr>
+            <td>案件来源：</td>
+            <td>{{detail.caseSource}}</td>
+            <td>案件号：</td>
+            <td>{{detail.caseNo}}</td>
+        </tr>
+        <tr>
+            <td>查勘员：</td>
+            <td>{{detail.inspectorName}}</td>
+            <td>查勘电话：</td>
+            <td>{{detail.inspectorPhone}}</td>
+            <td>查勘员ID：</td>
+            <td>{{detail.inspectorUserId}}</td>
+        </tr>
+    </table>
+    <h4 class="detail_title" ng-hide="detail.grabFleetId == null || detail.grabFleetId == 0">施救单位</h4>
+    <table class="detail_table" ng-hide="detail.grabFleetId == null || detail.grabFleetId == 0">
+        <tr>
+            <td>接单车队：</td>
+            <td>{{detail.grabFleetName}}</td>
+        </tr>
+        <tr>
+            <td>调度姓名：</td>
+            <td>{{detail.grabUserName}}</td>
+            <td>调度电话：</td>
+            <td>{{detail.grabPhone}}</td>
+            <td>调度ID：</td>
+            <td>{{detail.grabUserId}}</td>
+        </tr>
+    </table>
+    <h4 class="detail_title">地图位置</h4>
+    <table class="detail_table">
+        <tr>
+            <td>事故地点：</td>
+            <td>{{detail.accidentAddress}}</td>
+            <td>经度：</td>
+            <td>{{detail.accidentLongitude}}</td>
+            <td>纬度：</td>
+            <td>{{detail.accidentLatitude}}</td>
+            <td><button class="button" ng-click="location(detail)">地图定位</button></td>
+        </tr>
+        <tr>
+            <td>拍照事故地点：</td>
+            <td>{{detail.accidentAddressPicture}}</td>
+        </tr>
+        <tr>
+            <td>拖送目的地：</td>
+            <td>{{detail.fixAddress}}</td>
+            <td>经度：</td>
+            <td>{{detail.fixLongitude}}</td>
+            <td>纬度：</td>
+            <td>{{detail.fixLatitude}}</td>
+        </tr>
+        <tr>
+            <td>拍照维修地点：</td>
+            <td>{{detail.fixAddressPicture}}</td>
+        </tr>
+    </table>
+    <h4 class="detail_title">
+        下单照片
+    </h4>
+    <div class="img_div">
+        <img ng-repeat="a in order_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+    </div>
+    <h4 class="detail_title">派遣车辆</h4>
+    <div class="car_div" ng-repeat="driver in assignDriverses">
+        <p>
+            <span class="car_div_title">任务状态：</span>
+            <span>{{}}</span>
+            <span class="car_div_title">车辆类型：</span>
+            <span>{{driver.carType | CarType}}</span>
+            <span class="car_div_title">派遣备注：</span>
+            <span>{{driver.remark}}</span>
+        </p>
+        <p>
+            <span class="car_div_title">派遣司机：</span>
+            <span>{{driver.driverName}}</span>
+            <span class="car_div_title">司机电话：</span>
+            <span>{{driver.phone}}</span>
+            <span class="car_div_title">司机ID：</span>
+            <span>{{driver.driverUserId}}</span>
+        </p>
+        <p>
+            <span class="car_div_title">派遣司机时间：</span>
+            <span>{{driver.createTime | ToLocal}}</span>
+            <span class="car_div_title">司机接单时间：</span>
+            <span>{{driver.departureTime | ToLocal}}</span>
+        </p>
+        <p>
+            <span class="car_div_title">到达现场时间：</span>
+            <span>{{driver.accidentReachTime | ToLocal}}</span>
+            <span class="car_div_title">施救完成时间：</span>
+            <span>{{driver.taskEndTime | ToLocal}}</span>
+        </p>
+        <p>
+            <span class="car_div_title">派遣费用：</span>
+            <span>{{driver.assignPrice | Price}}</span>
+        </p>
+        <p>
+            <span class="car_div_title">收费公里数：</span>
+            <span>{{driver.chargedDistance | Distance}}</span>
+            <button class="button" ng-click="reload(driver.id)">同步距离</button>
+            <button class="button" ng-hide="driver.taskEndTime != null">查看轨迹</button>
+            <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver)">查看历史轨迹</button>
+        </p>
+        <h4>事故地点照片</h4>
+        <div class="img_div">
+            <img ng-repeat="a in accident_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+        </div>
+        <h4>拖送地点照片</h4>
+        <div class="img_div">
+            <img ng-repeat="a in fix_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+        </div>
+    </div>
+    <div class="detail_map">
+        <div id="allmap" style="width:100%"></div>
+    </div>
+    <div class="closeBg" ng-click="closeBG()"></div>
+</div>

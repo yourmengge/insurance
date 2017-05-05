@@ -58,30 +58,83 @@ Road167.factory('APIService', function ($http) {
             }
         })
     };
+
+    //解析短信
     service.analysis = function (message) {
         return service.post(host + urlV1 + urlOrder + urlActions + '/parse', { 'message': message });
     }
+
+    //手机号查询司机
     service.get_driver_list = function (phone) {
         return service.get(host + urlV1 + urlDriver + '/all?phone=' + phone);
     }
+
+    //添加指派司机
     service.add_driver = function (data) {
         return service.post(host + urlV1 + fav_driver, data);
     }
+
+    //获取指派司机列表
     service.get_fav_driver_list = function (limit) {
         return service.get(host + urlV1 + fav_driver + '/all?$limit=' + limit);
     }
+
+    //删除指派司机列表中的司机，传司机列表中，司机Id
     service.delete_driver = function (id) {
         return service.delete(host + urlV1 + fav_driver + '/' + id);
     }
+
+    //新增固定目的地点
     service.add_fix_address = function (data) {
         return service.post(host + urlV1 + fav_address, data);
     }
+
+    //修改固定目的地点
+    service.update_fix_address = function (data) {
+        return service.patch(host + urlV1 + fav_address, data);
+    }
+
+    //获取固定目的地点列表
     service.get_fix_address = function (limit) {
         return service.get(host + urlV1 + fav_address + '/all?$limit=' + limit);
     }
+
+    //删除固定目的地点，传列表中的Id
     service.del_fix_address = function (id) {
         return service.delete(host + urlV1 + fav_address + '/' + id);
     }
+
+    // 新增订单
+    service.add_order = function (data) {
+        return service.post(host + urlV1 + urlOrder + urlAdd, data);
+    }
+
+    //获取评价列表
+    service.get_evaluation = function (limit) {
+        return service.get(host + urlV1 + order_eval + '/page?$limit=' + limit);
+    }
+
+    //获取订单详情
+    service.get_order_detail = function (orderNo) {
+        return service.get(host + urlV1 + urlOrder + "/" + orderNo + '?bVerifyAddress=true');
+    }
+
+    //同步距离
+    service.reflash_distance = function (id) {
+        return service.post(host + urlV1 + urlAssigndrivers + '/' + id + '/acitons' + '/chargedistance', { '': '' });
+    }
+
+    //获取轨迹
+    service.get_track = function (stime, etime, userId) {
+        return service.get(host + urlV1 + urlTrack1 + parseInt(stime / 1000) + urlTrack2 + parseInt(etime / 1000) + urlTrack3 + userId + urlTrack4);
+    }
+
+    //获取订单列表
+    service.get_order_list = function (limit, startDay, endDay, status, caseno) {
+        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&caseNo=' + caseno);
+    }
+
+    //分页
     service.paging = function (url, limit, type, pagecount) {
         if (type == 'home') {
             offset = 0;
@@ -97,6 +150,13 @@ Road167.factory('APIService', function ($http) {
         }
         return service.get(host + url + '&$limit=' + limit + '&$offset=' + offset);
     }
+
+    //退出登录
+    service.user_logout = function () {
+        return service.delete(host + urlV1 + urlUser + urlActions + '/loginout');
+    }
+
+    //登录
     service.login = function (phone, password, roleId) {
         var password = hex_md5(password);
         var data = {
@@ -109,6 +169,7 @@ Road167.factory('APIService', function ($http) {
             if (res.data.http_status == 200) {
                 service.userId = res.data.userId;
                 service.token = res.data.token;
+                sessionStorage.setItem('companyName', res.data.companyName);
                 sessionStorage.setItem('adminName', res.data.name);
                 sessionStorage.setItem('token', res.data.token);
                 sessionStorage.setItem('userId', res.data.userId);

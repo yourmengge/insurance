@@ -3,23 +3,41 @@ var map, localSearch;
 
 map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+        $scope.map_type = sessionStorage.getItem('map_type');
+        if ($scope.map_type == 'update') {
+            $scope.text = '修改';
+            $scope.searchName = sessionStorage.getItem('map_address');
+            $scope.remark = sessionStorage.getItem('map_remark');
+            $scope.lng = sessionStorage.getItem('map_lng');
+            $scope.lat = sessionStorage.getItem('map_lat');
+            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        } else {
+            $scope.text = '添加'
+        }
         map = new BMap.Map("allmap");
         map.addEventListener("click", showInfo);
-        var top_left_control = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_TOP_LEFT });// 左上角，添加比例尺
-        var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
-        map.addControl(top_left_control);
-        map.addControl(top_left_navigation);
+        // var top_left_control = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_TOP_LEFT });// 左上角，添加比例尺
+        // var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+        // map.addControl(top_left_control);
+        // map.addControl(top_left_navigation);
         localSearch = new BMap.LocalSearch(map);
         setTimeout(function () {
-            map.centerAndZoom("福州", 12);
+            if ($scope.map_type == 'update') {
+                map.centerAndZoom(new BMap.Point($scope.lng, $scope.lat), 13);
+                var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
+                map.addOverlay(marker);
+            } else {
+                map.centerAndZoom("厦门", 12);
+            }
+
         }, 1000);
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
     }
-    $scope.change = function(text){
-        if(text != null && text != ''){
+    $scope.change = function (text) {
+        if (text != null && text != '') {
             $('#add').removeClass('button_disabled').removeAttr("disabled");
-        }else{
-            $('#add').addClass('button_disabled').attr("disabled",'true');
+        } else {
+            $('#add').addClass('button_disabled').attr("disabled", 'true');
         }
     }
     $scope.findPlace = function () {
@@ -51,15 +69,34 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
         } else if (data.addressAbbr == '' || data.addressAbbr == null) {
             layer.msg('请填写地址简称');
         } else {
-            APIService.add_fix_address(data).then(function (res) {
-                if (res.data.http_status == 200) {
-                    layer.msg('添加成功');
-                } else {
-                    isError(res);
-                }
-            })
+            if ($scope.map_type == 'update') {
+                data.id = sessionStorage.getItem('map_id');
+                APIService.update_fix_address(data).then(function (res) {
+                    if (res.data.http_status == 200) {
+                        layer.msg('修改成功');
+                        goto_view('renbao_main/fixaddress');
+                    } else {
+                        isError(res);
+                    }
+                })
+            } else {
+                APIService.add_fix_address(data).then(function (res) {
+                    if (res.data.http_status == 200) {
+                        layer.msg('添加成功');
+                        if ($scope.map_type == 'add') {
+                            goto_view('renbao_main/fixaddress')
+                        }
+                    } else {
+                        isError(res);
+                    }
+                })
+            }
+
         }
 
+    }
+    $scope.goBack = function () {
+        window.history.back();
     }
     var showInfo = function (e) {
         map.clearOverlays(); //清空原来的标注
