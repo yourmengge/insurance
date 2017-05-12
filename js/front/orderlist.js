@@ -24,6 +24,23 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
             }
         })
     }
+    $scope.editOrder = function (data) {
+        goto_view('main/editorder');
+        sessionStorage.setItem('editorder', JSON.stringify(data));
+        sessionStorage.setItem('location_lat',data.accidentLatitude);
+        sessionStorage.setItem('location_lng',data.accidentLongitude);
+        sessionStorage.setItem('location_address',data.accidentAddress)
+    }
+    $scope.toexcel = function () {
+        $("#table2excel").table2excel({
+            // 不被导出的表格行的CSS class类
+            exclude: ".noExl",
+            // 导出的Excel文档的名称
+            name: "Excel Document Name",
+            // Excel文件的名称
+            filename: "下载"
+        });
+    }
     $scope.search = function () {
         $scope.get_date();
         APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
@@ -62,7 +79,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
     }
     $scope.detail = function (orderNo) {
         sessionStorage.setItem('orderNo', orderNo);
-        goto_view('renbao_main/detail');
+        goto_view('main/detail');
     }
     $scope.Page = function (type) {
         if (type == 'home') {
@@ -103,4 +120,16 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
         { id: 8, name: '查勘取消' },
         { id: 9, name: '历史未完成' }
     ]
+    $scope.cancel = function (orderNo) {
+        if (confirm('确定要取消订单吗')) {
+            APIService.cancel_order(orderNo).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('取消订单成功');
+                    $scope.initData();
+                } else {
+                    isError(res);
+                }
+            })
+        }
+    }
 }])

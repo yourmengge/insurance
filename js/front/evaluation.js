@@ -32,7 +32,7 @@ evaluation.controller('evaluationCtrl', ['$scope', 'APIService', function ($scop
     }
     $scope.detail = function (orderNo) {
         sessionStorage.setItem('orderNo', orderNo);
-        goto_view('renbao_main/detail');
+        goto_view('main/detail');
     }
     $scope.Page = function (type) {
         if (type == 'home') {

@@ -134,6 +134,40 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&caseNo=' + caseno);
     }
 
+    //获取已配置施救车队列表
+    service.get_team_list = function (limit) {
+        return service.get(host + urlV1 + urlSpecify_fleet + '/all?$limit=' + limit);
+    }
+
+    //删除已配置施救车队
+    service.delete_team = function (id) {
+        return service.delete(host + urlV1 + urlSpecify_fleet + '/' + id);
+    }
+
+    //查询车队
+    service.search_team = function (name) {
+        return service.get(host + urlV1 + urlFleet + '/list?$offset=0&$limit=3&fleetname=' + name);
+    }
+
+    //添加施救车队
+    service.add_team = function (data) {
+        return service.post(host + urlV1 + urlSpecify_fleet, data);
+    }
+
+    //取消订单
+    service.cancel_order = function (order) {
+        return service.patch(host + urlV1 + urlOrder + '/' + order + urlActions + '/cancel', { '': '' })
+    }
+
+    //修改订单
+    service.update_order = function (data, orderNo) {
+        return service.patch(host + urlV1 + urlOrder + '/' + orderNo, data);
+    }
+
+    //获取菜单
+    service.get_menu = function () {
+        return service.get(host + urlV1 + '/menu');
+    }
     //分页
     service.paging = function (url, limit, type, pagecount) {
         if (type == 'home') {

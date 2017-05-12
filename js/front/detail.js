@@ -2,6 +2,7 @@ var detail = angular.module('detail', ['Road167']);
 var map, orderPic = [], accidentPic = [], fixPic = [];
 detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+        orderPic = []; accidentPic = []; fixPic = [];
         var order = sessionStorage.getItem('orderNo');
         APIService.get_order_detail(order).then(function (res) {
             if (res.data.http_status == 200) {
@@ -29,7 +30,7 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
             }
         })
     }
-    $scope.back = function(){
+    $scope.back = function () {
         window.history.go(-1);
     }
     $scope.openPic = function (path) {
@@ -71,8 +72,8 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
             }
         })
     }
-    $scope.track = function(data){
-        sessionStorage.setItem('driver_detail',JSON.stringify(data));
-        goto_view('renbao_main/track')
+    $scope.track = function (data) {
+        sessionStorage.setItem('driver_detail', JSON.stringify(data));
+        goto_view('main/track')
     }
 }])

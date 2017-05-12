@@ -1,0 +1,30 @@
+<div class="main" ng-controller="mainCtrl" ng-init="initData()">
+    <img src="img/bg.jpg" alt="" class="bg">
+    <div class="main_title_bar">
+        <img src="img/logo.png" alt="" class="logo">
+        <span style="float:left;">{{companyName}}</span>
+        <span>欢迎您，{{adminName}}</span>
+        <a style="cursor:pointer" ng-click="logout()">退出登录</a>
+    </div>
+    <div class="left_menu">
+        <p id="lm1" class="left_menu_click addorder" ui-sref='main.addorder' >
+            <img src="img/addorder1.png" alt="">下单
+        </p>
+        <p id="lm2 orderlist" ui-sref='main.orderlist' class='orderlist'>
+            <img src="img/orderlist1.png" alt="">查看订单
+        </p>
+        <p id="lm3" ui-sref='main.evaluation' class='evaluation'>
+            <img src="img/eval1.png" alt="">查看评价
+        </p>
+        <p id="lm4" ui-sref='main.adddriver' class='adddriver'>
+            <img src="img/driver1.png" alt="">查看指派司机
+        </p>
+        <p id="lm5" ui-sref='main.fixaddress' class='fixaddress'>
+            <img src="img/location1.png" alt="">查看固定目的地
+        </p>
+        <p id="lm6" ui-sref='main.team' class='team'>
+            <img src="img/location1.png" alt="">施救车队管理
+        </p>
+    </div>
+    <div ui-view class="right_content"></div>
+</div>

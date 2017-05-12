@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['track', 'detail', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'renbao_main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -6,45 +6,57 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/login',
             templateUrl: 'view/login.html'
         })
-        .state('renbao_main', {
-            url: '/renbao_main',
-            templateUrl: 'view/renbao/main.html'
+        .state('main', {
+            url: '/main',
+            templateUrl: 'view/main.html'
         })
-        .state('renbao_main.addorder', {
+        .state('main.addorder', {
             url: '/addorder',
-            templateUrl: 'view/renbao/addorder.html'
+            templateUrl: 'view/addorder.html'
         })
-        .state('renbao_main.evaluation', {
+        .state('main.selectlocation', {
+            url: '/selectlocation',
+            templateUrl: 'view/selectlocation.html'
+        })
+        .state('main.editorder', {
+            url: '/editorder',
+            templateUrl: 'view/editorder.html'
+        })
+        .state('main.team', {
+            url: '/team',
+            templateUrl: 'view/team.html'
+        })
+        .state('main.evaluation', {
             url: '/evaluation',
-            templateUrl: 'view/renbao/evaluation.html'
+            templateUrl: 'view/evaluation.html'
         })
-        .state('renbao_main.fixaddress', {
+        .state('main.fixaddress', {
             url: '/fixaddress',
-            templateUrl: 'view/renbao/fixaddress.html'
+            templateUrl: 'view/fixaddress.html'
         })
-        .state('renbao_main.adddriver', {
+        .state('main.adddriver', {
             url: '/adddriver',
-            templateUrl: 'view/renbao/adddriver.html'
+            templateUrl: 'view/adddriver.html'
         })
-        .state('renbao_main.detail', {
+        .state('main.detail', {
             url: '/detail',
-            templateUrl: 'view/renbao/detail.html'
+            templateUrl: 'view/detail.html'
         })
-        .state('renbao_main.map', {
+        .state('main.map', {
             url: '/map',
-            templateUrl: 'view/renbao/map.html'
+            templateUrl: 'view/map.html'
         })
-        .state('renbao_main.orderlist', {
+        .state('main.orderlist', {
             url: '/orderlist',
-            templateUrl: 'view/renbao/orderlist.html'
+            templateUrl: 'view/orderlist.html'
         })
-        .state('renbao_main.track', {
+        .state('main.track', {
             url: '/track',
-            templateUrl: 'view/renbao/track.html'
+            templateUrl: 'view/track.html'
         })
-        .state('renbao_main.addorder.map', {
+        .state('main.addorder.map', {
             url: '/map',
-            templateUrl: 'view/renbao/map.html'
+            templateUrl: 'view/map.html'
         })
         .state('watchphoto', {
             url: '/watchphoto',
@@ -66,6 +78,10 @@ function isError(err) {
     if (err.data.http_status >= 500) {
         layer.msg('网络出现问题了，请刷新重试');
     }
+}
+function getString(url) {
+    var type = url.split('=');
+    return type[1];
 }
 function goto_view(v) {
     var baseUrl = window.location.href;
@@ -140,8 +156,8 @@ insurance.filter('ToLocal', function () {
 });
 insurance.filter('Driver', function () {
     function ToLocal(array) {
-        if (array.length == 0) {
-            return null;
+        if (array == null) {
+            return '';
         } else {
             return array[0].driverName + ' - ' + array[0].driverPhone;
         }
@@ -171,6 +187,9 @@ insurance.filter('OrderStatus', function () {
             case 8:
                 return '查勘取消'
                 break;
+            case 81:
+                return '保险人员取消'
+                break;
             case 9:
                 return '历史未完成'
                 break;
@@ -196,6 +215,60 @@ insurance.filter('OrderType', function () {
         }
     }
     return OrderType;
+});
+insurance.filter('TaskStatus', function () {
+    function TaskStatus(text) {
+        switch (parseInt(text)) {
+            case 1:
+                return '派遣审核中'
+                break;
+            case 2:
+                return '前往事故地点'
+                break;
+            case 3:
+                return '审核未通过'
+                break;
+            default:
+                break;
+        }
+    }
+    return TaskStatus;
+});
+insurance.filter('TaskFlag', function () {
+    function TaskFlag(text) {
+        switch (parseInt(text)) {
+            case 0:
+                return '任务结束'
+                break;
+            case 2:
+                return '前往目的地点'
+                break;
+            case 4:
+                return '审核未通过'
+                break;
+            case 1:
+                return '前往事故地点'
+                break;
+            case 8:
+                return '查勘取消'
+                break;
+            case 81:
+                return '保险人员取消'
+                break;
+            case 9:
+                return '任务取消'
+                break;
+            case 7:
+                return '管理员取消'
+                break;
+            case 6:
+                return '公里数未填写'
+                break;
+            default:
+                break;
+        }
+    }
+    return TaskFlag;
 });
 insurance.filter('CreateRole', function () {
     function CreateRole(text) {
@@ -278,7 +351,16 @@ insurance.filter('Price', function () {
     }
     return Price;
 });
-
+insurance.filter('AccidentCarNoType', function () {
+    function Price(text) {
+        if (text != 1) {
+            return null;
+        } else {
+            return '挂';
+        }
+    }
+    return Price;
+});
 insurance.filter('Distance', function () {
     function Price(text) {
         if (text == null) {
@@ -288,4 +370,63 @@ insurance.filter('Distance', function () {
         }
     }
     return Price;
+});
+insurance.filter('Shi', function () {
+    function Shi(address) {
+        if (address == null || address.length == 0) {
+            return null;
+        } else {
+            address = address.replace(/-/g, "");
+            if (address.indexOf('省') != -1) {
+                if (address.indexOf('市') != -1) {
+                    return address.substring(address.indexOf('省') + 1, address.indexOf('市'));
+                } else {
+                    return null;
+                }
+            } else {
+                if (address.indexOf('市') != -1) {
+                    return address.substring(0, address.indexOf('市'));
+                } else {
+                    return null;
+                }
+
+            }
+        }
+
+    }
+    return Shi;
+});
+insurance.filter('Qu', function () {
+    function Qu(address) {
+        if (address == null || address.length == 0) {
+            return null;
+        } else {
+            address = address.replace(/-/g, "");
+            if (address.indexOf('省') != -1) {
+                if (address.indexOf('市') != -1) {
+                    if (address.indexOf('区') != -1) {
+                        return address.substring(address.indexOf('市') + 1, address.indexOf('区'));
+                    } else if (address.indexOf('县') != -1) {
+                        return address.substring(address.indexOf('市') + 1, address.indexOf('县'));
+                    }
+
+                } else {
+                    return null;
+                }
+            } else {
+                if (address.indexOf('市') != -1) {
+                    if (address.indexOf('区') != -1) {
+                        return address.substring(address.indexOf('市') + 1, address.indexOf('区'));
+                    } else if (address.indexOf('县') != -1) {
+                        return address.substring(address.indexOf('市') + 1, address.indexOf('县'));
+                    }
+                } else {
+                    return null;
+                }
+
+            }
+        }
+
+    }
+    return Qu;
 });

@@ -1,0 +1,29 @@
+<div class="adddriver" ng-controller="editorderCtrl" ng-init="initData()">
+    <h2>修改订单</h2>
+    <div class="addorder">
+        <table>
+            <tr>
+                <td>事故地点：</td>
+                <td>
+                    <input class="input" type="text" ng-model="editAddress" ui-sref='main.selectlocation'>
+                </td>
+            </tr>
+            <tr>
+                <td>案件号：</td>
+                <td>
+                    <input class="input" type="text" ng-model="editCaseNo">
+                </td>
+            </tr>
+            <tr>
+                <td>车主姓名：</td>
+                <td><input class="input" type="text" ng-model="editDriverName"></td>
+            </tr>
+            <tr>
+                <td>车主电话：</td>
+                <td><input class="input" type="text" ng-model="editDriverPhone"></td>
+            </tr>
+        </table>
+        <button class="button" style="margin-left: 5vw;margin-top: 30px;" ng-click="addOrder()">提交</button>
+        <button class="button button_del" style="margin-left: 50px;;margin-top: 30px;"  ng-click="goBack()">返回</button>
+    </div>
+</div>

@@ -74,7 +74,7 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 APIService.update_fix_address(data).then(function (res) {
                     if (res.data.http_status == 200) {
                         layer.msg('修改成功');
-                        goto_view('renbao_main/fixaddress');
+                        goto_view('main/fixaddress');
                     } else {
                         isError(res);
                     }
@@ -84,7 +84,7 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     if (res.data.http_status == 200) {
                         layer.msg('添加成功');
                         if ($scope.map_type == 'add') {
-                            goto_view('renbao_main/fixaddress')
+                            goto_view('main/fixaddress')
                         }
                     } else {
                         isError(res);

@@ -1,5 +1,6 @@
 var
     host = 'http://dev.road167.com:8080/extrication';
+    url = 'http://localhost:8080';
 urlOrder = '/order';
 urlV1 = '/v1';
 urlUser = '/user';
@@ -7,7 +8,8 @@ urlLogin = '/login';
 urlAction = '/action';
 urlToken = '/token';
 urlActions = '/actions';
-third = '/third'
+third = '/third';
+urlFleet = '/fleet';
 show = 0;
 hide = 1;
 urlDriver = '/driver';
@@ -23,3 +25,5 @@ urlTrack1 = '/proxy/baidu/map/trace/gethistory?start_time=';
 urlTrack2 = '&end_time=';
 urlTrack3 = '&entity_name=';
 urlTrack4 = '&page_size=5000&is_processed=1&simple_return=0&supplement_mode=driving&process_option=[need_denoise=1,need_vacuate=1,need_mapmatch=1,transport_mode=1]'
+isPhone = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+urlSpecify_fleet = '/specify-fleet';

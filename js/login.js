@@ -6,7 +6,7 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 layer.msg('登录成功');
                 sessionStorage.setItem('lmId', 1)
                 setTimeout(function () {
-                    goto_view('renbao_main/addorder');
+                    goto_view('main');
                 }, 1000);
             }
             isError(res)

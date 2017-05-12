@@ -25,7 +25,7 @@
             <td>车主电话：</td>
             <td>{{detail.accidentDriverPhone}}</td>
             <td>车牌号：</td>
-            <td>{{detail.accidentCarNo}}</td>
+            <td>{{detail.accidentCarNo}} {{detail.accidentCarNoType | AccidentCarNoType}}</td>
         </tr>
         <tr>
             <td>订单费用：</td>
@@ -104,7 +104,8 @@
     <div class="car_div" ng-repeat="driver in assignDriverses">
         <p>
             <span class="car_div_title">任务状态：</span>
-            <span>{{}}</span>
+            <span ng-hide="driver.taskFlag == 5">{{driver.taskFlag | TaskFlag}}</span>
+            <span ng-hide="driver.taskFlag != 5">{{driver.status | TaskStatus}}</span>
             <span class="car_div_title">车辆类型：</span>
             <span>{{driver.carType | CarType}}</span>
             <span class="car_div_title">派遣备注：</span>

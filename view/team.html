@@ -1,0 +1,40 @@
+<div class="adddriver" ng-controller="teamCtrl" ng-init="initData()">
+    <h2>查看施救车队</h2>
+    <button class="button" ng-click="addDriver()">
+        添加施救车队
+    </button>
+    <div class="add_driver_div">
+        <h2>添加施救车队</h2>
+        <button class="close_btn" ng-click="cencle()">X</button>
+        <input type="text" placeholder="支持车队名或手机号码模糊查询" ng-change="search()" ng-model="searchName" ng-click="search()"><br>
+        <p class="add_driver_div_p" ng-click="select(a)" ng-repeat="a in searchlist" style="display:block">
+            {{a.name}} - {{a.bossPhone}}
+        </p>
+        <button id="submit" class="button button_disabled" ng-click="submit_add()" disabled>确定</button>
+        <button class="button button_del" ng-click="cencle()">取消</button>
+    </div>
+    <h2>{{tips}}</h2>
+    <table ng-hide="table"  cellspacing="0" class="table">
+        <tr>
+            <th></th>
+            <th>施救车队</th>
+            <th>调度姓名</th>
+            <th>调度电话</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="a in team_list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.fleetName}}</td>
+            <td>{{a.bossName}}</td>
+            <td>{{a.bossPhone}}</td>
+            <td><button class="button button_del" ng-click="delete(a)">移除</button></td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

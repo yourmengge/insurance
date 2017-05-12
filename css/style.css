@@ -61,6 +61,7 @@ html,body{
     top: 80px;
     color: #0079b5;
     width: 13vw;
+    min-width: 230px;
     font-size: 15px;
     border-radius: 3px;
     background: #fff;
@@ -69,27 +70,43 @@ html,body{
     margin: 0;
     padding: 19px 25px;
     border-bottom: solid 1px #d4d4d4;
+    line-height: 2;
+}
+.green{
+    background: #36b304;
+}
+.red{
+    background: #f00
+}
+.left_menu p img{
+    width: 28px;
+    float: left;
+    margin-right: 23px;
 }
 .left_menu p:hover{
-    background: #00BCD4;
-    color: #fff;
-    border-bottom: solid 1px #00BCD4;
+    background: #efefef;
+    border-bottom: solid 1px #fff;
 }
 .left_menu_click{
-    background: #00BCD4;
-    color: #fff;
-    border-bottom: solid 1px #00BCD4;
+    background: #efefef;
+    border-bottom: solid 1px #efefef;
+}
+.close_img{
+        float: right;
+    margin: 30px;
+    background: #fff;
+    border-radius: 32px;
 }
 .right_content{
     position: fixed;
-    left: 16vw;
+    left: 300px;
     top: 80px;
     bottom: 20px;
-    width: 79vw;
     border-radius: 5px;
     background: #fff;
     padding: 30px;
     overflow-y: auto;
+    right: 50px;
 }
 .button{
     padding: 4px 20px;
@@ -135,6 +152,21 @@ textarea{
 .addorder{
     padding: 45px;
 }
+.fixaddress_div{
+    display: none;
+    width: 500px;
+    float: left;
+    position: absolute;
+}
+.input_p{
+    border: solid 1px #dedede;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    background: #fff;
+    margin: 0;
+    cursor: pointer;
+}
 .closeBg{
     display: none;
     position: fixed;
@@ -142,8 +174,7 @@ textarea{
     left: 0;
     right: 0;
     bottom: 0;
-    background: #2f2f2f;
-    opacity: 0.8;
+    background: rgba(47, 47, 47, 0.72);
 }
 .map_div{
     display: none;
@@ -215,7 +246,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 25px;
 }
 .table{
-    width: 75vw;
+    width: 100%;
     text-align: center;
     margin-top: 30px;
     font-size: 14px;
@@ -245,7 +276,7 @@ input[type=number]::-webkit-outer-spin-button {
     position: fixed;
     bottom: 4px;
     background: #fff;
-    width: 80vw;
+    width: 500px;
     text-align: center;
     height: 50px;
     line-height: 50px;
@@ -348,8 +379,8 @@ input[type=number]::-webkit-outer-spin-button {
     height: 25px;
     cursor: pointer;
     position: fixed;
-    right: 4vw;
-    z-index: 10;
+    right: 100px;
+    z-index: 0;
     top: 94px;
 }
 .goback:hover{
@@ -383,4 +414,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .distance_div span{
     font-size: 19px;
+}
+.table_1_tr{
+    font-weight: bold;
 }

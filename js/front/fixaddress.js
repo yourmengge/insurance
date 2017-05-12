@@ -3,19 +3,19 @@ fixaddress.controller('fixaddressCtrl', ['$scope', 'APIService', function ($scop
     $scope.addFixAddress = function () {
         $('.closeBg').css('display', 'block');
         $('.map_div').css('display', 'block');
-        goto_view('renbao_main/map');
+        goto_view('main/map');
         sessionStorage.setItem('map_type', 'add');
     }
     $scope.closeBG = function () {
         $('.closeBg').css('display', 'none');
         $('.map_div').css('display', 'none');
-        goto_view('renbao_main/fixaddress');
+        goto_view('main/fixaddress');
         $scope.initData();
     }
     $scope.update = function(data){
         $('.closeBg').css('display', 'block');
         $('.map_div').css('display', 'block');
-        goto_view('renbao_main/map');
+        goto_view('main/map');
         sessionStorage.setItem('map_type', 'update');
         sessionStorage.setItem('map_id' , data.id);
         sessionStorage.setItem('map_address' , data.address);

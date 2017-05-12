@@ -3,22 +3,22 @@
     <button class="button" ng-click="toexcel()">
         导出当前页到excel
     </button>
-    <table id="table2excel"  cellspacing="0" class="table">
-        <tr>
+    <table id="table2excel" cellspacing="0" class="table">
+        <tr class="table_1_tr">
             <td width='3%'></td>
-            <td class="bold">评价时间</td>
-            <td class="noExl bold">评级</td>
-            <td class="bold">意见建议</td>
-            <td class="hide bold">客户姓名</td>
-            <td class="bold">车主电话</td>
-            <td class="bold">施救司机</td>
-            <td class="noExl bold">具体服务信息</td>
-            <td class="hide bold">车牌号</td>
-            <td class="hide bold">报案号</td>
-            <td class="hide bold">服务项目</td>
-            <td class="hide bold">服务受理时间</td>
-            <td class="hide bold">服务完成时间</td>
-            <td class="hide bold">满意度</td>
+            <td>评价时间</td>
+            <td class="noExl">评级</td>
+            <td>意见建议</td>
+            <td class="hide">客户姓名</td>
+            <td>车主电话</td>
+            <td>施救司机</td>
+            <td class="noExl">具体服务信息</td>
+            <td class="hide">车牌号</td>
+            <td class="hide">报案号</td>
+            <td class="hide">服务项目</td>
+            <td class="hide ">服务受理时间</td>
+            <td class="hide ">服务完成时间</td>
+            <td class="hide">满意度</td>
         </tr>
         <tr ng-repeat="a in items">
             <td>{{$index + 1}}</td>
@@ -26,7 +26,7 @@
                 {{a.evalTime | ToDay}}<br> {{a.evalTime | ToTime}}
             </td>
             <td class="noExl"><img class="evalImg" src="img/{{a.evalStar}}.png" alt=""></td>
-            <td>{{a.evalContent}}</td>
+            <td style="max-width: 600px;padding: 20px;"><p style="word-wrap: break-word;">{{a.evalContent}}</p></td>
             <td class="hide">{{a.accidentDriverName}}</td>
             <td>{{a.accidentDriverPhone}}</td>
             <td>{{a.assignDrivers | Driver}}</td>
