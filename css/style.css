@@ -71,6 +71,7 @@ html,body{
     padding: 19px 25px;
     border-bottom: solid 1px #d4d4d4;
     line-height: 2;
+    cursor: pointer;
 }
 .green{
     background: #36b304;

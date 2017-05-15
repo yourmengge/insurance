@@ -16,7 +16,7 @@
                 <td>
                     <input class="input" ng-model="fixAddress" ng-click="openFix()" placeholder="请选择目的地点" readonly="true">
                     <div class="fixaddress_div" id="fixaddress_div">
-                        <p class="input_p" ng-repeat="a in address_list" ng-click="clickFix(a.address,a.addressAbbr)">
+                        <p class="input_p" ng-repeat="a in address_list" ng-click="clickFix(a.address,a.addressAbbr,a.id)">
                             {{a.address}} - {{a.addressAbbr}}
                         </p>
                     </div>
@@ -48,12 +48,12 @@
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()"  placeholder="请选择指派司机" readonly="true">
                     <div class="fixaddress_div" id="driver_div">
-                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile)">
+                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.id)">
                             {{a.driverName}} - {{a.driverMobile}}
                         </p>
                     </div>
                     <span class="require">*</span>
-                    <span ng-hide="error == 0">当前没有司机 请<span style="color:blue;cursor:pointer" ui-sref="main.adddriver">添加指派司机</span></span>
+                    <span ng-hide="error != 0">当前没有司机 请<span style="color:blue;cursor:pointer" ui-sref="main.adddriver">添加指派司机</span></span>
                 </td>
             </tr>
             <tr>

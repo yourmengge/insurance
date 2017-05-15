@@ -2,10 +2,12 @@ var detail = angular.module('detail', ['Road167']);
 var map, orderPic = [], accidentPic = [], fixPic = [];
 detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+        loading();
         orderPic = []; accidentPic = []; fixPic = [];
         var order = sessionStorage.getItem('orderNo');
         APIService.get_order_detail(order).then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 $scope.detail = res.data;
                 $scope.assignDriverses = res.data.assignDriverses;
                 $scope.pictures = $scope.detail.pictures;
@@ -58,9 +60,11 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
     }
 
     $scope.reload = function (paiqianId) {
-
+        loading();
         APIService.reflash_distance(paiqianId).then(function (res) {
+
             if (res.data.http_status == 200) {
+                closeloading();
                 layer.msg('同步成功');
                 for (var i = 0; i < $scope.assignDriverses.length; i++) {
                     if ($scope.assignDriverses[i].id == paiqianId) {

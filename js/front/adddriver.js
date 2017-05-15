@@ -9,9 +9,12 @@ adddriver.controller('adddriverCtrl', ['$scope', 'APIService', function ($scope,
         $('.add_driver_div_p').css('display', 'none');
     }
     $scope.input_tel = function () {
+
         if (isPhone.test($scope.phone)) {
+            loading();
             APIService.get_driver_list($scope.phone).then(function (res) {
                 if (res.data.http_status == 200) {
+                    closeloading();
                     $('.add_driver_div_p').css('display', 'block');
                     if (res.data.count == 0) {
                         $scope.name = '未找到相关匹配';
@@ -39,8 +42,10 @@ adddriver.controller('adddriverCtrl', ['$scope', 'APIService', function ($scope,
             driverMobile: $scope.phone,
             driverUserId: $scope.userId
         }
+        loading();
         APIService.add_driver(data).then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 layer.msg('添加成功！')
                 setTimeout(function () {
                     $scope.initData();
@@ -57,8 +62,10 @@ adddriver.controller('adddriverCtrl', ['$scope', 'APIService', function ($scope,
         $('.add_driver_div_p').css('display', 'none');
     }
     $scope.initData = function () {
+        loading();
         APIService.get_fav_driver_list(10).then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 if (res.data.count == 0) {
                     $scope.tips = '没有数据';
                     $scope.table = hide;
@@ -86,9 +93,12 @@ adddriver.controller('adddriverCtrl', ['$scope', 'APIService', function ($scope,
 
     }
     $scope.delete = function (data) {
+
         if (confirm('确定移除 ' + data.driverName + '-' + data.driverMobile + '吗？')) {
+            loading();
             APIService.delete_driver(data.id).then(function (res) {
                 if (res.data.http_status == 200) {
+                    closeloading();
                     layer.msg(data.driverName + '-' + data.driverMobile + '移除成功！');
                     $scope.initData();
                 } else {
@@ -122,8 +132,15 @@ adddriver.controller('adddriverCtrl', ['$scope', 'APIService', function ($scope,
                 $scope.up = hide;
             }
         }
+        loading();
         APIService.paging(urlV1 + fav_driver + '/all?', limit, type, $scope.pageCount, $scope.current).then(function (res) {
-            $scope.fav_driver_list = res.data.items;
+            if (res.data.http_status == 200) {
+                closeloading();
+                $scope.fav_driver_list = res.data.items;
+            } else {
+                isError(res)
+            }
+
         })
     }
 }])

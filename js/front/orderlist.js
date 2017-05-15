@@ -2,6 +2,7 @@ var orderlist = angular.module('orderlist', ['Road167']);
 var time = new Date();
 orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+        loading();
         var today = time.getTime();
         $('#startDay').val(ToLocalTime(today - 2678400000));
         $('#endDay').val(ToLocalTime(today));
@@ -10,6 +11,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
         $scope.caseNo = '';
         APIService.get_order_list(10, $scope.start, $scope.endDay, 0, '').then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 $scope.orderList = res.data.orderList;
                 //分页部分
                 $scope.current = 1;
@@ -42,9 +44,11 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
         });
     }
     $scope.search = function () {
+        loading();
         $scope.get_date();
         APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 if (res.data.orderCounts == 0) {
                     $scope.tips = '未找到符合条件的订单';
                     $scope.table = hide;
@@ -106,8 +110,15 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
                 $scope.up = hide;
             }
         }
+        loading();
         APIService.paging(urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&caseNo=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
-            $scope.orderList = res.data.orderList;
+            if(res.data.http_status == 200){
+                closeloading();
+                $scope.orderList = res.data.orderList;
+            }else{
+                isError(res)
+            }
+            
         })
     }
     $scope.statusTexts = [
@@ -122,8 +133,10 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
     ]
     $scope.cancel = function (orderNo) {
         if (confirm('确定要取消订单吗')) {
+            loading();
             APIService.cancel_order(orderNo).then(function (res) {
                 if (res.data.http_status == 200) {
+                    $scope.orderList = res.data.orderList;
                     layer.msg('取消订单成功');
                     $scope.initData();
                 } else {

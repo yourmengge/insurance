@@ -1,8 +1,10 @@
 var evaluation = angular.module('evaluation', ['Road167']);
 evaluation.controller('evaluationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+        loading();
         APIService.get_evaluation(10).then(function (res) {
             if (res.data.http_status == 200) {
+                closeloading();
                 $scope.table = show;
                 $scope.page_p = show;
                 $scope.items = res.data.items;
@@ -59,8 +61,15 @@ evaluation.controller('evaluationCtrl', ['$scope', 'APIService', function ($scop
                 $scope.up = hide;
             }
         }
-        APIService.paging(urlV1 + fav_driver + '/all?', limit, type, $scope.pageCount, $scope.current).then(function (res) {
-            $scope.fav_driver_list = res.data.items;
+        loading();
+        APIService.paging(urlV1 + order_eval + '/page?', limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            if (res.data.http_status == 200) {
+                closeloading();
+                $scope.items = res.data.items;
+            } else {
+                isError(res);
+            }
+
         })
     }
 }])

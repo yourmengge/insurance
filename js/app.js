@@ -74,6 +74,7 @@ function isError(err) {
     }
     if (err.data.http_status == 400) {
         layer.msg(err.data.message);
+        closeloading();
     }
     if (err.data.http_status >= 500) {
         layer.msg('网络出现问题了，请刷新重试');
@@ -430,3 +431,12 @@ insurance.filter('Qu', function () {
     }
     return Qu;
 });
+var index;
+function loading() {
+   index = layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+}
+function closeloading(){
+    layer.close(index);
+}

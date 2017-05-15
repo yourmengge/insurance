@@ -40,13 +40,13 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         var order = {
             accidentCarNo: $scope.accidentCarNo,
             accidentAddress: $scope.accident,
-            fixAddress: $scope.fixAddress,
+            fixAddress: $scope.fixAddress.split('-')[0],
             accidentDriverName: $scope.accidentDriverName,
             accidentDriverPhone: $scope.accidentDriverPhone,
             caseNo: $scope.caseNo,
             accidentCarNo: $scope.accidentCarNo,
             accidentCarNoType: $scope.accidentCarNoType,
-            designateGrabDriverId: '',
+            designateGrabDriverId: $scope.driverId,
             insuranceType: '',
             carType: 2,
             accidentLongitude: 0,
@@ -54,7 +54,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             fixLatitude: '',
             fixLongitude: ''
         }
-
+        if ($scope.fixAddress.indexOf('-') < 0) {//判断文本框中的地址是通过地图选择还是选择框选择，选择框选择的地址包含‘-’；
+            $scope.addressId = null;
+            order.fixLatitude = sessionStorage.getItem('location_lat');
+            order.fixLongitude = sessionStorage.getItem('location_lng');
+        }
         if ($scope.biaodi == true && $scope.sanzhe == true) {//标的车和三者车
             order.insuranceType = 3;
         }
@@ -67,25 +71,18 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         if ($scope.biaodi == false && $scope.sanzhe == false) {//保险类型未知
             order.insuranceType = 0;
         }
-        if (order.accidentCarNo != null) {
+        if (order.accidentCarNo != null) {//判断是否是挂车
             if (order.accidentCarNo.indexOf('挂') > 0) {
                 order.accidentCarNo = order.accidentCarNo.replace('挂', '')
                 order.accidentCarNoType = 1;
             }
         }
-
-        for (let i = 0; i < $scope.address_list.length; i++) {
-            if ($scope.address_list[i].address == $scope.Driver) {
-                order.fixLatitude = $scope.address_list[i].latitude;
-                order.fixLongitude = $scope.address_list[i].longitude;
-            } else {
-                order.fixLatitude = sessionStorage.getItem('location_lat');
-                order.fixLongitude = sessionStorage.getItem('location_lng');
-            }
-        }
-        for (let i = 0; i < $scope.driver_list.length; i++) {
-            if ($scope.driver_list[i].driverMobile == $scope.driverPhone) {
-                order.designateGrabDriverId = $scope.driver_list[i].driverUserId
+        if ($scope.addressId != null) {//addressId 不为空，该地址是通过选择框获取得到，目的地点的经纬度通过addressId从目的地点列表中获取
+            for (let i = 0; i < $scope.address_list.length; i++) {
+                if ($scope.address_list[i].id == $scope.addressId) {
+                    order.fixLatitude = $scope.address_list[i].latitude;
+                    order.fixLongitude = $scope.address_list[i].longitude;
+                }
             }
         }
         if (!isPhone.test($scope.accidentDriverPhone)) {
@@ -201,13 +198,14 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     $scope.closeDriver = function () {
         $('#driver_div').css('display', 'none')
     }
-    $scope.clickFix = function (address) {
-        $scope.fixAddress = address;
+    $scope.clickFix = function (address, abbr, id) {
+        $scope.fixAddress = address + '-' + abbr;
+        $scope.addressId = id
         $('.fixaddress_div').css('display', 'none');
     }
-    $scope.clickDriver = function (name, phone) {
-        $scope.Driver = name;
-        $scope.driverPhone = phone;
+    $scope.clickDriver = function (name, phone,id) {
+        $scope.Driver = name + '-' + phone;
+        $scope.driverId = id;
         $('.fixaddress_div').css('display', 'none');
     }
     $scope.initData = function () {

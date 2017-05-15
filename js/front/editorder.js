@@ -22,8 +22,10 @@ editorder.controller('editorderCtrl', ['$scope', 'APIService', function ($scope,
             accidentLatitude: $scope.lat,
             accidentLongitude: $scope.lng
         }
+        loading();
         APIService.update_order(data, $scope.orderNo).then(function (res) {
             if(res.data.http_status == 200){
+                closeloading();
                 layer.msg('修改成功');
                 $scope.goBack();
             }else{
