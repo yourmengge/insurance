@@ -69,10 +69,12 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
         } else if (data.addressAbbr == '' || data.addressAbbr == null) {
             layer.msg('请填写地址简称');
         } else {
+            loading();
             if ($scope.map_type == 'update') {
                 data.id = sessionStorage.getItem('map_id');
                 APIService.update_fix_address(data).then(function (res) {
                     if (res.data.http_status == 200) {
+                        closeloading();
                         layer.msg('修改成功');
                         goto_view('main/fixaddress');
                     } else {
@@ -82,6 +84,7 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
             } else {
                 APIService.add_fix_address(data).then(function (res) {
                     if (res.data.http_status == 200) {
+                        closeloading();
                         layer.msg('添加成功');
                         if ($scope.map_type == 'add') {
                             goto_view('main/fixaddress')
