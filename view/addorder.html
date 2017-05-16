@@ -48,7 +48,7 @@
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()"  placeholder="请选择指派司机" readonly="true">
                     <div class="fixaddress_div" id="driver_div">
-                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.id)">
+                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.driverUserId)">
                             {{a.driverName}} - {{a.driverMobile}}
                         </p>
                     </div>
