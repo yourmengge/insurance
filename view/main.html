@@ -7,7 +7,10 @@
         <a style="cursor:pointer" ng-click="logout()">退出登录</a>
     </div>
     <div class="left_menu">
-        <p id="lm1" class="left_menu_click addorder" ui-sref='main.addorder' >
+        <p id="lm1" class="addorder" ui-sref='main.addorder' >
+            <img src="img/addorder1.png" alt="">下单
+        </p>
+        <p id="lm7" ui-sref='main.addorder_nar' class='addorder_nar'>
             <img src="img/addorder1.png" alt="">下单
         </p>
         <p id="lm2" ui-sref='main.orderlist' class='orderlist'>
@@ -25,6 +28,7 @@
         <p id="lm6" ui-sref='main.team' class='team'>
             <img src="img/location1.png" alt="">施救车队管理
         </p>
+        
     </div>
     <div ui-view class="right_content"></div>
 </div>

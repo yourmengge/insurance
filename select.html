@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl" >
+
+    <div ng-repeat="item in list">
+        <input type="checkbox" name="tagName"  ng-checked="isSelected(item.id)" value="item.id"  > {{item.shortName}}
+    </div>
+    结果：{{result}}
+</div>
+
+<script>    
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) {
+        //初始化checkbox的list
+        $scope.list=[{"id":1,"shortName":"张三"},{"id":2,"shortName":"李四"},{"id":3,"shortName":"王二"}];
+
+
+        //此处省略接口，直接取返回值
+        $scope.result = [3,2];
+
+        //被选中条件：ng-checked的结果为true
+        $scope.isSelected = function(id){          
+            return $scope.result.indexOf(id)!=-1; 
+
+            //将result与checkbox的当前id即value值匹配
+            //有就返回的true，没有就返回false
+        };
+    });
+</script>
+</body>
+</html>

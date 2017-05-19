@@ -33,6 +33,27 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
         }, 1000);
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
     }
+    $scope.$watch('searchName', function (newValue) {
+        if (newValue != null && newValue != '') {
+            $scope.tips1 = 1;
+        } else {
+            $scope.tips1 = 0;
+        }
+    })
+    $scope.$watch('remark', function (newValue) {
+        if (newValue != null && newValue != '') {
+            $scope.tips2 = 1;
+        } else {
+            $scope.tips2 = 0;
+        }
+    })
+    $scope.$watch('tips2 + tips1', function (newValue) {
+        if (newValue == 2) {
+            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        } else {
+            $('#add').addClass('button_disabled').attr("disabled", 'true');
+        }
+    })
     $scope.change = function (text) {
         if (text != null && text != '') {
             $('#add').removeClass('button_disabled').removeAttr("disabled");

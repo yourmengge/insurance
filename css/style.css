@@ -66,12 +66,34 @@ html,body{
     border-radius: 3px;
     background: #fff;
 }
+.photo_label{
+    padding: 7px 13px;
+    background: #0796ff;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 3px;
+}
 .left_menu p{
     margin: 0;
     padding: 19px 25px;
     border-bottom: solid 1px #d4d4d4;
     line-height: 2;
     cursor: pointer;
+}
+.photo_div{
+    width: 700px;
+    float: left;
+}
+.photo_div .img{
+    width: 200px;
+    height: 200px;
+    padding-bottom: 10px;
+    float: left;
+    margin-right: 1vw;
+        overflow: hidden;
+}
+.photo_div .img img{
+    width: 100%
 }
 .green{
     background: #36b304;
@@ -144,7 +166,7 @@ textarea{
 }
 .addorder table tr td .input{
     height: 40px;
-    width: 300px;
+    width: 340px;
     border: solid 1px #dedede;
     border-radius: 3px;
     padding: 0 5px;

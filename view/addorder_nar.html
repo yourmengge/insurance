@@ -1,0 +1,80 @@
+<div class="addorder_div" ng-controller="addorder_narCtrl" ng-init="initData()">
+    <h2>下单</h2>
+    <div class="addorder">
+        <table>
+            <tr>
+                <td><span class="require">*</span>事故地点：</td>
+                <td><input class="input" type="text" ng-model="accident" ng-click="selectMap(1)" readonly="true" placeholder="请输入事故地点">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="require">*</span>救援类型：
+                </td>
+                <td width='50px;'>
+                    <input type="radio" name="type" value="tuoche" ng-model="rescueType.type">拖车
+                    <input type="radio" name="type" value="songyou" ng-model="rescueType.type">送油
+                    <input type="radio" name="type" value="dadian" ng-model="rescueType.type">搭电
+                    <input type="radio" name="type" value="huantai" ng-model="rescueType.type">换胎
+                    <input type="radio" name="type" value="yingji" ng-model="rescueType.type">应急抢修
+                </td>
+            </tr>
+            <tr ng-hide="fix != 0">
+                <td> <span class="require">*</span>目的地点：</td>
+                <td>
+                    <input class="input" ng-model="fixAddress" ng-click="selectMap(2)" placeholder="请选择目的地点" readonly="true">
+                </td>
+            </tr>
+            <tr>
+                <td>车主姓名：</td>
+                <td><input class="input" type="text" ng-model="accidentDriverName" placeholder="请输入车主姓名"></td>
+            </tr>
+            <tr>
+                <td><span class="require">*</span>车主电话：</td>
+                <td><input class="input" type="text" ng-change="change2()" ng-model="accidentDriverPhone" placeholder="请输入车主电话">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>案件号：</td>
+                <td><input class="input" type="text" ng-model="caseNo" placeholder="请输入案件号"></td>
+            </tr>
+            <tr>
+                <td>车牌号：</td>
+                <td><input class="input" type="text" ng-model="accidentCarNo" placeholder="请输入车牌号"></td>
+            </tr>
+            <tr>
+                <td>指派司机：</td>
+                <td>
+                    <select class="input" ng-model="GrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list" ></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    事故现场：
+                </td>
+                <td>
+                    <label for="photo" class="photo_label">上传照片</label>
+                    <input type="file" style="opacity: 0;"  id="photo"onchange="angular.element(this).scope().readFile()" accept="image/png, image/jpeg, image/gif, image/jpg" >
+                </td>
+            </tr>
+        </table>
+        <div class="photo_div">
+            <div class="img" ng-repeat="a in localPic">
+                <img src="{{a}}" alt="">
+            </div>
+        </div>
+        <button class="button" style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">下单</button>
+
+        <div class="closeBg" ng-click="closeBG()">
+            <img src="img/close.png" ng-click="closeBG()" alt="" class="close_img">
+        </div>
+
+        <div class="map_div">
+            <div ui-view>
+
+            </div>
+        </div>
+    </div>
+
+</div>

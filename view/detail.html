@@ -131,7 +131,7 @@
             <span class="car_div_title">施救完成时间：</span>
             <span>{{driver.taskEndTime | ToLocal}}</span>
         </p>
-        <p>
+        <!--<p>
             <span class="car_div_title">派遣费用：</span>
             <span>{{driver.assignPrice | Price}}</span>
         </p>
@@ -139,9 +139,9 @@
             <span class="car_div_title">收费公里数：</span>
             <span>{{driver.chargedDistance | Distance}}</span>
             <button class="button" ng-click="reload(driver.id)">同步距离</button>
-            <button class="button" ng-hide="driver.taskEndTime != null">查看轨迹</button>
+            <button class="button" ng-hide="driver.taskEndTime != null"  ng-click="track(driver)">查看轨迹</button>
             <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver)">查看历史轨迹</button>
-        </p>
+        </p>-->
         <h4>事故地点照片</h4>
         <div class="img_div">
             <img ng-repeat="a in accident_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
