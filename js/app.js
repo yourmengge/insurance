@@ -11,6 +11,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'view/main.html'
         })
         
+        
         .state('main.addorder', {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
