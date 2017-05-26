@@ -27,12 +27,38 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
             } else {
-                map.centerAndZoom("厦门", 12);
+                var geolocation = new BMap.Geolocation();
+                geolocation.getCurrentPosition(function (r) {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+                    }
+                }, { enableHighAccuracy: true })
             }
 
         }, 1000);
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
     }
+    $scope.$watch('searchName', function (newValue) {
+        if (newValue != null && newValue != '') {
+            $scope.tips1 = 1;
+        } else {
+            $scope.tips1 = 0;
+        }
+    })
+    $scope.$watch('remark', function (newValue) {
+        if (newValue != null && newValue != '') {
+            $scope.tips2 = 1;
+        } else {
+            $scope.tips2 = 0;
+        }
+    })
+    $scope.$watch('tips2 + tips1', function (newValue) {
+        if (newValue == 2) {
+            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        } else {
+            $('#add').addClass('button_disabled').attr("disabled", 'true');
+        }
+    })
     $scope.change = function (text) {
         if (text != null && text != '') {
             $('#add').removeClass('button_disabled').removeAttr("disabled");

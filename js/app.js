@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['nar_location', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -15,6 +15,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
         })
+        .state('main.addorder_nar', {
+            url: '/addorder_nar',
+            templateUrl: 'view/addorder_nar.html'
+        })
         .state('main.selectlocation', {
             url: '/selectlocation',
             templateUrl: 'view/selectlocation.html'
@@ -30,6 +34,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.evaluation', {
             url: '/evaluation',
             templateUrl: 'view/evaluation.html'
+        })
+        .state('main.nar_location', {
+            url: '/nar_location',
+            templateUrl: 'view/nar_location.html'
         })
         .state('main.fixaddress', {
             url: '/fixaddress',
@@ -70,7 +78,9 @@ function isError(err) {
     if (err.data.http_status == 401.1 || err.data.http_code == 'userId.head.illeagl') {
         layer.msg('您的账号在别处登录，请重新登录');
         setTimeout(function () {
+            closeloading();
             goto_view('login');
+
         }, 2000);
     }
     if (err.data.http_status == 400) {
@@ -79,6 +89,7 @@ function isError(err) {
     }
     if (err.data.http_status >= 500) {
         layer.msg('网络出现问题了，请刷新重试');
+        closeloading();
     }
 }
 function getString(url) {
@@ -162,6 +173,28 @@ insurance.filter('Driver', function () {
             return '';
         } else {
             return array[0].driverName + ' - ' + array[0].driverPhone;
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('Drivers', function () {
+
+    function ToLocal(array) {
+        var drivers = '';
+        var a = '';
+        if (array == null) {
+            return '';
+        } else {
+            for (var i = 0; i < array.length; i++) {
+                a = array[i].driverName + ' - ' + array[i].driverPhone;
+                drivers = drivers + a + ';';
+                
+            }
+
+            return drivers;
+
         }
 
 
@@ -434,10 +467,10 @@ insurance.filter('Qu', function () {
 });
 var index;
 function loading() {
-   index = layer.load(1, {
+    index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
 }
-function closeloading(){
+function closeloading() {
     layer.close(index);
 }
