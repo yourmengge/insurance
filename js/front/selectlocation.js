@@ -3,7 +3,15 @@ var map, localSearch;
 selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         map = new BMap.Map("allmap");
-        map.centerAndZoom("厦门", 12);
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+               map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+            }
+            else {
+                alert('failed' + this.getStatus());
+            }
+        }, { enableHighAccuracy: true })
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
         map.addEventListener("click", showInfo);
         localSearch = new BMap.LocalSearch(map);
@@ -58,7 +66,7 @@ selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', functio
 
     }
     $scope.add = function () {
-        sessionStorage.setItem('location_address',$scope.searchName);
+        sessionStorage.setItem('location_address', $scope.searchName);
         sessionStorage.setItem('location_lat', $scope.lat);
         sessionStorage.setItem('location_lng', $scope.lng);
         window.history.back();

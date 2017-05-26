@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['nar_location','addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['nar_location', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -79,7 +79,7 @@ function isError(err) {
         setTimeout(function () {
             closeloading();
             goto_view('login');
-            
+
         }, 2000);
     }
     if (err.data.http_status == 400) {
@@ -172,6 +172,28 @@ insurance.filter('Driver', function () {
             return '';
         } else {
             return array[0].driverName + ' - ' + array[0].driverPhone;
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('Drivers', function () {
+
+    function ToLocal(array) {
+        var drivers = '';
+        var a = '';
+        if (array == null) {
+            return '';
+        } else {
+            for (var i = 0; i < array.length; i++) {
+                a = array[i].driverName + ' - ' + array[i].driverPhone;
+                drivers = drivers + a + ';';
+                
+            }
+
+            return drivers;
+
         }
 
 

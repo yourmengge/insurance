@@ -17,7 +17,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             APIService.analysis($scope.message).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('解析成功');
-                    history.pushState({}, "", url + "/#!/main/addorder?type=success");
+                    // history.pushState({}, "", url + "insurance/#!/main/addorder?type=success");
+                    sessionStorage.setItem('jiexi_success','success');
                     $scope.jiexi = hide;
                     $scope.accident = res.data.accidentAddress;
                     $scope.caseNo = res.data.caseNo;
@@ -78,7 +79,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             }
         }
         if ($scope.addressId != null) {//addressId 不为空，该地址是通过选择框获取得到，目的地点的经纬度通过addressId从目的地点列表中获取
-            for (let i = 0; i < $scope.address_list.length; i++) {
+            for (var i = 0; i < $scope.address_list.length; i++) {
                 if ($scope.address_list[i].id == $scope.addressId) {
                     order.fixLatitude = $scope.address_list[i].latitude;
                     order.fixLongitude = $scope.address_list[i].longitude;
@@ -91,6 +92,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             APIService.add_order(order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
+                    sessionStorage.setItem('jiexi_success','');
                     setTimeout(function () {
                         goto_view('main/orderlist');
 
@@ -208,11 +210,15 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.driverId = id;
         $('.fixaddress_div').css('display', 'none');
     }
+    $scope.back = function(){
+        sessionStorage.setItem('jiexi_success','');
+        $scope.initData();
+    }
     $scope.initData = function () {
         $scope.biaodi = false;
         $scope.sanzhe = false;
         $scope.counts = 0;
-        if (getString(location.href) == 'success') {
+        if (sessionStorage.getItem('jiexi_success') == 'success') {
             $scope.jiexi = hide;
             var data = JSON.parse(sessionStorage.getItem('addorder_data'));
             if (data != null) {

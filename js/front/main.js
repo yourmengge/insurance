@@ -3,6 +3,7 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
     $('.left_menu p').click(function () {
         $(this).addClass('left_menu_click').siblings().removeClass('left_menu_click');
         sessionStorage.setItem('lmId', $(this).attr('id'));
+        sessionStorage.setItem('jiexi_success','');
     })
     $scope.logout = function () {
         APIService.user_logout().then(function (res) {
@@ -22,7 +23,7 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
         APIService.get_menu().then(function (res) {
             if (res.data.http_status == 200) {
                 if (res.data.items != null) {
-                    for (let i = 0; i < res.data.items.length; i++) {
+                    for (var i = 0; i < res.data.items.length; i++) {
                         $('.left_menu .' + res.data.items[i].url).css('display', 'block')
                     }
                 }

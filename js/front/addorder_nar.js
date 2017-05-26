@@ -27,9 +27,21 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         return picPathName;
     }
     $scope.push = function () {
-        var input = document.getElementById("photo");
-        pic.push(input.files[0]);
-        console.log(pic)
+        if (a.length < 10) {
+            var input = document.getElementById("photo");
+            $scope.length = input.files.length;
+            if ($scope.length + a.length > 10) {
+                alert('最多只能添加10张照片');
+                $scope.length = 10 - a.length;
+            }
+            for (var i = 0; i < $scope.length; i++) {
+                pic.push(input.files[i]);
+            }
+        }else{
+            layer.msg('最多只能添加10张照片');
+            closeloading();
+        }
+
     }
     $scope.readFile = function () {
         loading();
@@ -41,14 +53,19 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
         var bucket = '';
         var f = document.getElementById("photo").value;
-        if (f == "")
-        { alert("请上传图片"); return false; }
+        if (f == "") {
+            alert("请上传图片");
+            closeloading();
+            return false;
+        }
         else {
             if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(f)) {
                 alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
                 document.getElementById("photo").value = '';
+                closeloading();
                 return false;
             } else {
+                $scope.pic_counts = pic.length;
                 for (var i = 0; i < pic.length; i++) {
                     (function (i) {
                         APIService.get(host + '/v1/aliyun/oss/sts/get-put').then(function (res) {
@@ -66,7 +83,10 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                                 throw res;
                             }
                         }).then(function (result) {
-                            closeloading();
+                            if (i == parseInt($scope.length - 1)) {
+                                closeloading();
+                            }
+
                             length++;
                             a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
                             b.push(result.name);
@@ -76,16 +96,23 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                         }).catch(function (err) {
                         });
 
+
                     })(i);
                 }
+
             }
         }
+    }
+    $scope.del = function (index) {
+        b.splice(index, 1);
+        a.splice(index, 1);
+        $scope.localPic = a;
     }
     $scope.initData = function () {
         $scope.rescueType = {
             type: 'tuoche'
         };
-
+        $scope.localPic = a;
         APIService.get_team_list(200).then(function (res) {
             for (var i = 0; i < res.data.count; i++) {
                 res.data.items[i].fleetName = res.data.items[i].fleetName + '-' + res.data.items[i].bossPhone
@@ -112,14 +139,14 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                 type: data.rescueType
             };
         }
-
-        console.log(fleet_list)
     }
     $scope.$watch('rescueType.type', function (newValue) {
         if (newValue == 'tuoche') {
-            $scope.fix = show
+            $scope.fix = show;
+            $scope.counts4 = 0;
         } else {
-            $scope.fix = hide
+            $scope.fixAddress = '';
+            $scope.fix = hide;
         }
     })
     $scope.$watch('accident', function (newValue, oldValue) {
@@ -147,7 +174,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
     });
     $scope.$watch('counts1 + counts2  + counts4', function (newValue, oldValue) {
-        if ($scope.fix == show) {
+        if ($scope.fix != show) {
             $scope.counts4 = 1;
         }
         if (newValue == 3) {
@@ -215,7 +242,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
         switch ($scope.rescueType.type) {
             case 'tuoche':
-                order.rescueType = 1;
+                order.rescueType = 32;
                 break;
             case 'songyou':
                 order.rescueType = 2;
@@ -232,12 +259,20 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             default:
                 break;
         }
+        if (order.designateGrabUserId == 1) {
+            order.designateGrabUserId = ''
+        }
         if (!isPhone.test($scope.accidentDriverPhone)) {
             layer.msg('手机号码格式不正确');
         } else {
             APIService.add_order(order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
+                    $scope.localPic = [];
+                    a = [];
+                    b = [];
+                    sessionStorage.clear('nar_address');
+                    sessionStorage.clear('nar_address_fixaddress');
                     setTimeout(function () {
                         goto_view('main/orderlist');
 

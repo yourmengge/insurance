@@ -7,7 +7,7 @@
             <td>订单状态：</td>
             <td>{{detail.status | OrderStatus}}</td>
             <td>订单类型：</td>
-            <td>{{detail.orderType | OrderType}}</td>
+            <td>{{detail.orderTypeDesc}}&emsp;{{detail.rescueTypeDesc}}</td>
             <td>下单时间：</td>
             <td>{{detail.createTime | ToLocal}}</td>
         </tr>
@@ -144,12 +144,13 @@
         </p>-->
         <h4>事故地点照片</h4>
         <div class="img_div">
-            <img ng-repeat="a in accident_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+            <img ng-repeat="a in accident_pic" ng-hide="driver.driverUserId != a.userId" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
         </div>
         <h4>拖送地点照片</h4>
         <div class="img_div">
-            <img ng-repeat="a in fix_pic" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+            <img ng-repeat="a in fix_pic" ng-hide="driver.driverUserId != a.userId" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
         </div>
+        <div style="width: 80%;height: 2px;background: #333;"></div>
     </div>
     <div class="detail_map">
         <div id="allmap" style="width:100%"></div>

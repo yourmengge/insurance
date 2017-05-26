@@ -27,7 +27,12 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
             } else {
-                map.centerAndZoom("厦门", 12);
+                var geolocation = new BMap.Geolocation();
+                geolocation.getCurrentPosition(function (r) {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+                    }
+                }, { enableHighAccuracy: true })
             }
 
         }, 1000);
