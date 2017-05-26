@@ -48,7 +48,7 @@
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()"  placeholder="请选择指派司机" readonly="true">
                     <div class="fixaddress_div" id="driver_div">
-                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.id)">
+                        <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.driverUserId)">
                             {{a.driverName}} - {{a.driverMobile}}
                         </p>
                     </div>
@@ -65,7 +65,8 @@
                 <td>拖车</td>
             </tr>
         </table>
-        <button class="button" style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
+        <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()">返回</button>-->
+        <button class="button addorder_btn" style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
 
         <div class="closeBg" ng-click="closeBG()">
             <img src="img/close.png" ng-click="closeBG()" alt="" class="close_img">

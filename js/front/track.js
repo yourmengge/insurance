@@ -25,18 +25,22 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
     }
     //获取当前定位
     $scope.get_location = function () {
+        $('.distance_div').css('display', 'none')
         map = new BMap.Map("allmap");//实例化地图
         map.enableScrollWheelZoom(true);
-        APIService.get_track($scope.nowTime, $scope.nowTime, $scope.driverUserId).then(function (res) {
+        APIService.get_track(parseInt($scope.departureTime), parseInt($scope.nowTime), $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
                 $scope.error();
-            } else {
+            } else if (res.data.points != '') {
                 pnt = res.data.points;
                 map.centerAndZoom(new BMap.Point(pnt[0], pnt[1]), 15);//展示地图中心位置，中心位置是最后位置的坐标
                 marker = new BMap.Marker(new BMap.Point(pnt[0], pnt[1]));  // 创建标注
                 map.addOverlay(marker);               // 将标注添加到地图中
                 var label = new BMap.Label("当前位置", { offset: new BMap.Size(20, -10) });
                 marker.setLabel(label);
+            } else {
+                layer.msg('该司机当前未上传位置')
+                $scope.error();
             }
         })
     }
@@ -68,6 +72,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         map.enableScrollWheelZoom(true);
         APIService.get_track($scope.departureTime, $scope.taskEndTime, $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
+                alert('该司机未创建entityname');
                 $scope.error();
             } else {
                 pnt = res.data.points;
@@ -80,8 +85,8 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     var polyline = new BMap.Polyline(points, { strokeColor: color, strokeWeight: 3, strokeOpacity: 0.5 });   //创建折线
                     map.addOverlay(polyline);   //增加折线
                 }
-                myIcon = new BMap.Icon("../img/start.png", new BMap.Size(40, 40), { imageOffset: new BMap.Size(6, 0), imageSize: new BMap.Size(40, 40) });//自定义图标
-                myIcon2 = new BMap.Icon("../img/end.png", new BMap.Size(50, 50), { imageOffset: new BMap.Size(12, -5), imageSize: new BMap.Size(35, 45) });//自定义图标
+                myIcon = new BMap.Icon("img/start.png", new BMap.Size(40, 40), { imageOffset: new BMap.Size(6, 0), imageSize: new BMap.Size(40, 40) });//自定义图标
+                myIcon2 = new BMap.Icon("img/end.png", new BMap.Size(50, 50), { imageOffset: new BMap.Size(12, -5), imageSize: new BMap.Size(35, 45) });//自定义图标
                 startMarker = new BMap.Marker(new BMap.Point(res.data.start_point.longitude, res.data.start_point.latitude), { icon: myIcon });  // 创建标注
                 map.addOverlay(startMarker);//添加起点图标
                 marker = new BMap.Marker(new BMap.Point(res.data.end_point.longitude, res.data.end_point.latitude), { icon: myIcon2 });  // 创建标注
@@ -91,7 +96,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         })
     }
     $scope.error = function () {
-        alert('该司机未创建entityname');
+        
         var point = new BMap.Point(119.25139470108, 26.10503783703435);
         map.centerAndZoom(point, 16);  // 初始化地图,设置中心点坐标和地图级别
         map.addControl(new BMap.MapTypeControl());   //添加地图类型控件

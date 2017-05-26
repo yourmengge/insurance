@@ -1,21 +1,24 @@
-var selectlocation = angular.module('selectlocation', ['Road167']);
+var nar_location = angular.module('nar_location', ['Road167']);
 var map, localSearch;
-selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
+nar_location.controller('nar_locationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         map = new BMap.Map("allmap");
         var geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
             if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-               map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
-            }
-            else {
-                alert('failed' + this.getStatus());
+            map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
             }
         }, { enableHighAccuracy: true })
+        
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
         map.addEventListener("click", showInfo);
         localSearch = new BMap.LocalSearch(map);
-        $scope.type = sessionStorage.getItem('location_type')
+        $scope.type = sessionStorage.getItem('addorder_nar_type')
+        if ($scope.type == '事故') {
+            $scope.sessionStorageName = 'nar_address'
+        } else {
+            $scope.sessionStorageName = 'nar_address_fixaddress'
+        }
     }
     $scope.change = function (text) {
         if (text != null && text != '') {
@@ -66,9 +69,9 @@ selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', functio
 
     }
     $scope.add = function () {
-        sessionStorage.setItem('location_address', $scope.searchName);
-        sessionStorage.setItem('location_lat', $scope.lat);
-        sessionStorage.setItem('location_lng', $scope.lng);
+        sessionStorage.setItem($scope.sessionStorageName, $scope.searchName);
+        sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.lat);
+        sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.lng);
         window.history.back();
     }
 }])

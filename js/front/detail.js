@@ -12,7 +12,7 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
                 $scope.assignDriverses = res.data.assignDriverses;
                 $scope.pictures = $scope.detail.pictures;
                 if ($scope.pictures.length != 0) {
-                    for (let i = 0; i < $scope.pictures.length; i++) {
+                    for (var i = 0; i < $scope.pictures.length; i++) {
                         if ($scope.pictures[i].type == 1) {
                             orderPic.push($scope.pictures[i]);
                             $scope.order_pic = orderPic;
@@ -26,9 +26,9 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
                     }
                     console.log($scope.accident_pic)
 
-                } else {
-                    isError(res);
                 }
+            } else {
+                isError(res);
             }
         })
     }
