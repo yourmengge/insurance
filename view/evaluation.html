@@ -15,7 +15,7 @@
             <td class="noExl">具体服务信息</td>
             <td class="hide">车牌号</td>
             <td class="hide">报案号</td>
-            <td class="hide">服务项目</td>
+            <td class="hide ">服务项目</td>
             <td class="hide ">服务受理时间</td>
             <td class="hide ">服务完成时间</td>
             <td class="hide">满意度</td>
@@ -33,7 +33,7 @@
             <td class="noExl"><button class="button" ng-click="detail(a.orderNo)">订单详情</button></td>
             <td class="hide">{{a.accidentCarNoDesc}}</td>
             <td class="hide">[{{a.caseNo}}]</td>
-            <td class="hide" ng-repeat="b in a.serviceItems">{{b}}</td>
+            <td class="hide ">{{a.serviceItems | ServiceItems}}</td>
             <td class="hide">{{a.createTime | ToLocal}}</td>
             <td class="hide">{{a.orderEndTime | ToLocal}}</td>
             <td class="hide">{{a.evalStar}}</td>

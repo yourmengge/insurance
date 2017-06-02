@@ -5,7 +5,7 @@
     <table class="detail_table">
         <tr>
             <td>订单状态：</td>
-            <td>{{detail.status | OrderStatus}}</td>
+            <td>{{detail.statusDesc}}</td>
             <td>订单类型：</td>
             <td>{{detail.orderTypeDesc}}&emsp;{{detail.rescueTypeDesc}}</td>
             <td>下单时间：</td>
@@ -13,11 +13,11 @@
         </tr>
         <tr>
             <td>订单来源：</td>
-            <td>{{detail.createRoleId | CreateRole}} {{detail.createName}}</td>
+            <td>{{detail.createRoleDesc}} {{detail.createName}}</td>
             <td>标的/三者：</td>
-            <td>{{detail.insuranceType | InsuranceType}}</td>
+            <td>{{detail.insuranceTypeDesc}}</td>
             <td>施救车类型：</td>
-            <td>{{detail.carType | CarType}}</td>
+            <td>{{detail.carTypeDesc}}</td>
         </tr>
         <tr>
             <td>车主姓名：</td>
@@ -25,7 +25,7 @@
             <td>车主电话：</td>
             <td>{{detail.accidentDriverPhone}}</td>
             <td>车牌号：</td>
-            <td>{{detail.accidentCarNo}} {{detail.accidentCarNoType | AccidentCarNoType}}</td>
+            <td>{{detail.accidentCarNoDesc}}</td>
         </tr>
         <tr>
             <td>订单费用：</td>
@@ -104,10 +104,9 @@
     <div class="car_div" ng-repeat="driver in assignDriverses">
         <p>
             <span class="car_div_title">任务状态：</span>
-            <span ng-hide="driver.taskFlag == 5">{{driver.taskFlag | TaskFlag}}</span>
-            <span ng-hide="driver.taskFlag != 5">{{driver.status | TaskStatus}}</span>
+            <span ng-hide="driver.taskFlag == 5">{{driver.taskFlagDesc}}</span>
             <span class="car_div_title">车辆类型：</span>
-            <span>{{driver.carType | CarType}}</span>
+            <span>{{driver.carTypeDesc}}</span>
             <span class="car_div_title">派遣备注：</span>
             <span>{{driver.remark}}</span>
         </p>

@@ -32,25 +32,27 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $scope.length = input.files.length;
             if ($scope.length + a.length > 10) {
                 alert('最多只能添加10张照片');
+                closeloading();
                 $scope.length = 10 - a.length;
             }
             for (var i = 0; i < $scope.length; i++) {
                 pic.push(input.files[i]);
             }
-        }else{
+        } else {
             layer.msg('最多只能添加10张照片');
             closeloading();
         }
 
     }
     $scope.readFile = function () {
-        loading();
+
         $scope.push();
         var length = 0;
         var picPath = {
             type: 1,
             path: ''
         }
+
         var bucket = '';
         var f = document.getElementById("photo").value;
         if (f == "") {
@@ -64,42 +66,42 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                 document.getElementById("photo").value = '';
                 closeloading();
                 return false;
+
             } else {
+                loading();
                 $scope.pic_counts = pic.length;
-                for (var i = 0; i < pic.length; i++) {
-                    (function (i) {
-                        APIService.get(host + '/v1/aliyun/oss/sts/get-put').then(function (res) {
-                            if (res.data.http_status == 200) {
+                APIService.get_oss().then(function (res) {
+                    if (res.data.http_status == 200) {
+                        $scope.ossRes = res.data;
+                        for (let i = 0; i < pic.length; i++) {
+                            (function (i) {
                                 var client = new OSS.Wrapper({
                                     region: 'oss-cn-hangzhou',
-                                    accessKeyId: res.data.accessKeyId,
-                                    accessKeySecret: res.data.accessKeySecret,
-                                    bucket: res.data.bucketName,
-                                    stsToken: res.data.securityToken
+                                    accessKeyId: $scope.ossRes.accessKeyId,
+                                    accessKeySecret: $scope.ossRes.accessKeySecret,
+                                    bucket: $scope.ossRes.bucketName,
+                                    stsToken: $scope.ossRes.securityToken
                                 });
-                                bucket = res.data.bucketName;
-                                return client.multipartUpload($scope.getPicPathName(32), pic[i]);
-                            } else {
-                                throw res;
-                            }
-                        }).then(function (result) {
-                            if (i == parseInt($scope.length - 1)) {
-                                closeloading();
-                            }
+                                bucket = $scope.ossRes.bucketName;
+                                client.multipartUpload($scope.getPicPathName(32), pic[i]).then(function (result) {
+                                    a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
+                                    b.push(result.name);
+                                    length++;
+                                    pic = [];
+                                    if (length == $scope.length) {
+                                        layer.msg('上传成功')
+                                        closeloading();
+                                        $scope.selectPic();
+                                        $scope.initData();
+                                        $scope.localPic = a;
+                                        console.log($scope.localPic)
+                                    }
 
-                            length++;
-                            a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
-                            b.push(result.name);
-                            pic = [];
-                            $scope.localPic = a;
-
-                        }).catch(function (err) {
-                        });
-
-
-                    })(i);
-                }
-
+                                })
+                            })(i);
+                        }
+                    }
+                });
             }
         }
     }
@@ -109,19 +111,34 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         $scope.localPic = a;
     }
     $scope.initData = function () {
+        var data = JSON.parse(sessionStorage.getItem('nar_addorder_order'));
         $scope.rescueType = {
             type: 'tuoche'
         };
         $scope.localPic = a;
         APIService.get_team_list(200).then(function (res) {
+            fleet_list = [
+                {
+                    bossName: "不指派调度",
+                    bossPhone: "",
+                    bossUserId: 1,
+                    companyNo: "",
+                    fleetId: '不指派调度',
+                    fleetName: "不指派调度",
+                    id: '1'
+                }
+            ]
             for (var i = 0; i < res.data.count; i++) {
                 res.data.items[i].fleetName = res.data.items[i].fleetName + '-' + res.data.items[i].bossPhone
                 fleet_list.push(res.data.items[i]);
             }
             $scope.driver_list = fleet_list;
-            $scope.GrabUserId = 1;
+            if (data == null) {
+                $scope.GrabUserId = 1;
+            }
+
         })
-        var data = JSON.parse(sessionStorage.getItem('nar_addorder_order'));
+
         if (data != null) {
             $scope.accident = sessionStorage.getItem('nar_address');
             $scope.caseNo = data.caseNo;
@@ -183,6 +200,26 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
         }
     });
+    $scope.selectPic = function (type) {
+        order = {
+            accidentCarNo: $scope.accidentCarNo,
+            accidentAddress: $scope.accident,
+            fixAddress: $scope.fixAddress,
+            accidentDriverName: $scope.accidentDriverName,
+            accidentDriverPhone: $scope.accidentDriverPhone,
+            caseNo: $scope.caseNo,
+            accidentCarNo: $scope.accidentCarNo,
+            accidentCarNoType: $scope.accidentCarNoType,
+            accidentLongitude: $scope.accidentlng,
+            accidentLatitude: $scope.accidentlat,
+            fixLatitude: $scope.fixLatitude,
+            fixLongitude: $scope.fixLongitude,
+            designateGrabUserId: $scope.GrabUserId,
+            orderType: 2,
+            rescueType: $scope.rescueType.type
+        }
+        sessionStorage.setItem('nar_addorder_order', JSON.stringify(order));
+    }
     $scope.selectMap = function (type) {
         order = {
             accidentCarNo: $scope.accidentCarNo,
