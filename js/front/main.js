@@ -3,12 +3,17 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
     $('.left_menu p').click(function () {
         $(this).addClass('left_menu_click').siblings().removeClass('left_menu_click');
         sessionStorage.setItem('lmId', $(this).attr('id'));
-        sessionStorage.setItem('jiexi_success','');
+        sessionStorage.setItem('jiexi_success', '');
+        sessionStorage.clear('nar_address');
+        sessionStorage.clear('nar_address_fixaddress');
     })
     $scope.logout = function () {
         APIService.user_logout().then(function (res) {
             if (res.data.result_status == 0) {
                 layer.msg('退出成功');
+                sessionStorage.clear('nar_address');
+                sessionStorage.clear('nar_address_fixaddress');
+                a = [];
                 setTimeout(function () {
                     goto_view('login')
                 }, 2000);

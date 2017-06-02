@@ -10,8 +10,8 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/main',
             templateUrl: 'view/main.html'
         })
-        
-        
+
+
         .state('main.addorder', {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
@@ -191,7 +191,7 @@ insurance.filter('Drivers', function () {
             for (var i = 0; i < array.length; i++) {
                 a = array[i].driverName + ' - ' + array[i].driverPhone;
                 drivers = drivers + a + ';';
-                
+
             }
 
             return drivers;
@@ -397,6 +397,25 @@ insurance.filter('AccidentCarNoType', function () {
     }
     return Price;
 });
+insurance.filter('ServiceItems', function () {
+    var a = '';
+    function ServiceItems(array) {
+        a = '';
+        if (array != null) {
+            for (var i = 0; i < array.length; i++) {
+                if(i == array.length - 1){
+                    a = a +  array[i];
+                }else{
+                    a = a +  array[i] + '+';
+                }
+            }
+            return a;
+        } else {
+            return '';
+        }
+    }
+    return ServiceItems;
+})
 insurance.filter('Distance', function () {
     function Price(text) {
         if (text == null) {

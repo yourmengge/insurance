@@ -120,6 +120,11 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + urlOrder + "/" + orderNo + '?bVerifyAddress=true');
     }
 
+    //上传图片,获取oss权限
+    service.get_oss = function(){
+        return service.get(host + '/v1/aliyun/oss/sts/get-put');
+    }
+
     //同步距离
     service.reflash_distance = function (id) {
         return service.post(host + urlV1 + urlAssigndrivers + '/' + id + '/acitons' + '/chargedistance', { '': '' });
