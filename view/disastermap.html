@@ -1,0 +1,22 @@
+<div class="map" ng-controller="disastermapCtrl" ng-init="initData()">
+    <h2>
+        {{text}}保全场地
+    </h2>
+    <p>
+        {{title}}
+    </p>
+     <button class="goback" ng-click="back()">返回</button>
+    <p></p>
+    <div id="allmap" style="    height: 85%;"></div>
+    <div class="map_right">
+        <h3>保全场地：</h3>
+        <p><input class="input" type="text" placeholder="请输入目的地点" ng-model="searchName" id="searchName"></p>
+        <p style="color: #555555;font-size: 13px;padding-right: 20px;">输入目的地请点击查询获取地图上的位置，也可直接点击地图获取位置</p>
+        <p><button class="button" ng-click="findPlace()">查询</button></p>
+
+        <h3>简称：（必填）</h3>
+        <p><input class="input" type="text" placeholder="20字以内" maxlength="20" ng-model="remark"></p>
+        <button class="button button_disabled" disabled ng-click="add()" id="add">{{text}}</button>
+        <button class="button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
+    </div>
+</div>

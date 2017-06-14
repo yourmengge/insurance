@@ -104,9 +104,9 @@
     <div class="car_div" ng-repeat="driver in assignDriverses">
         <p>
             <span class="car_div_title">任务状态：</span>
-            <span ng-hide="driver.taskFlag == 5">{{driver.taskFlagDesc}}</span>
-            <span class="car_div_title">车辆类型：</span>
-            <span>{{driver.carTypeDesc}}</span>
+            <span >{{driver.taskFlagDesc}}</span>
+            <span class="car_div_title" ng-hide="detail.orderType == 2">车辆类型：</span>
+            <span ng-hide="detail.orderType == 2">{{driver.carTypeDesc}}</span>
             <span class="car_div_title">派遣备注：</span>
             <span>{{driver.remark}}</span>
         </p>

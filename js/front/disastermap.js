@@ -1,19 +1,14 @@
-var map_div = angular.module('map', ['Road167']);
+var map_disaster = angular.module('disastermap', ['Road167']);
 var map, localSearch;
 
-map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIService) {
+map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
-        $scope.map_type = sessionStorage.getItem('map_type');
-        if ($scope.map_type == 'update') {//判断是修改界面还是新增界面
-            $scope.text = '修改';
-            $scope.searchName = sessionStorage.getItem('map_address');
-            $scope.remark = sessionStorage.getItem('map_remark');
-            $scope.lng = sessionStorage.getItem('map_lng');
-            $scope.lat = sessionStorage.getItem('map_lat');
-            $('#add').removeClass('button_disabled').removeAttr("disabled");
-        } else {
-            $scope.text = '添加'
-        }
+        $scope.title = sessionStorage.getItem('disaster_title')
+        $scope.panduan();
+        $scope.initMap();
+    }
+    //初始化地图
+    $scope.initMap = function () {
         map = new BMap.Map("allmap");
         map.addEventListener("click", showInfo);//监听点击事件，在地图上展示标记
         localSearch = new BMap.LocalSearch(map);
@@ -34,6 +29,22 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
         }, 1000);
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
     }
+    //判断是修改还是添加
+    $scope.panduan = function () {
+        $scope.map_type = sessionStorage.getItem('map_type');
+        if ($scope.map_type == 'update') {//判断是修改界面还是新增界面
+            $scope.text = '修改';
+            $scope.searchName = sessionStorage.getItem('map_address');
+            $scope.remark = sessionStorage.getItem('map_remark');
+            $scope.lng = sessionStorage.getItem('map_lng');
+            $scope.lat = sessionStorage.getItem('map_lat');
+            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        } else {
+            $scope.text = '添加'
+        }
+    }
+
+
     //监听地点名输入框是否为空
     $scope.$watch('searchName', function (newValue) {
         if (newValue != null && newValue != '') {
@@ -58,13 +69,6 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
             $('#add').addClass('button_disabled').attr("disabled", 'true');
         }
     })
-    $scope.change = function (text) {
-        if (text != null && text != '') {
-            $('#add').removeClass('button_disabled').removeAttr("disabled");
-        } else {
-            $('#add').addClass('button_disabled').attr("disabled", 'true');
-        }
-    }
     /**
      * 在地图上展示搜索的地点
      */
@@ -90,6 +94,7 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
      */
     $scope.add = function () {
         var data = {
+            disasterId:sessionStorage.getItem('disasterId_site'),
             address: $scope.searchName,
             addressAbbr: $scope.remark,
             longitude: $scope.lng,
@@ -103,23 +108,21 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
             loading();
             if ($scope.map_type == 'update') {
                 data.id = sessionStorage.getItem('map_id');
-                APIService.update_fix_address(data).then(function (res) {
+                APIService.update_disaster_address(data).then(function (res) {
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('修改成功');
-                        goto_view('main/fixaddress');
+                        goto_view('main/site');
                     } else {
                         isError(res);
                     }
                 })
             } else {
-                APIService.add_fix_address(data).then(function (res) {
+                APIService.add_disaster_address(data).then(function (res) {
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('添加成功');
-                        if ($scope.map_type == 'add') {
-                            goto_view('main/fixaddress')
-                        }
+                        goto_view('main/site')
                     } else {
                         isError(res);
                     }

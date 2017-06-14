@@ -3,6 +3,9 @@ html,body{
     margin:0;
     font-family: '微软雅黑'
 }
+ul li{
+    list-style: none;
+}
 .login_div{
       background: url('../img/bg2.jpg');
       height: 100vh;
@@ -102,10 +105,10 @@ html,body{
     width: 100%
 }
 .green{
-    background: #36b304;
+    background: #36b304 !important;
 }
 .red{
-    background: #f00
+    background: #f00 !important;
 }
 .left_menu p img{
     width: 28px;
@@ -136,9 +139,10 @@ html,body{
     padding: 30px;
     overflow-y: auto;
     right: 50px;
+    overflow-x: hidden;
 }
 .button{
-    padding: 4px 20px;
+    padding: 7px 20px;
     background: #21b6ff;
     border: #21b6ff;
     color: #fff;
@@ -453,4 +457,253 @@ input[type=number]::-webkit-outer-spin-button {
     width: 244px;
     height: 40px;
     background: #c31f20;
+}
+.date{
+    padding: 8px 5px !important;
+}
+.disaster_area{
+    cursor: pointer;
+}
+.textarea_disaster{
+    width: 340px;
+    height: 150px;
+}
+.span_disaster{
+    margin-top: -75px;
+    float: right;
+}
+.tips{
+    float: left;
+    color: #f00;
+    font-size: 18px;
+}
+.disaster_select{
+    width: 90px !important;
+    margin-right: 30px
+}
+
+.find-div-body{
+    display: none;
+    width: 350px;
+    min-height: 130px;
+    background: #fff;
+    float: right;
+    position: absolute;
+    margin-left: 242px;
+    margin-top: 6px;
+    border: #cccccc solid 1px;
+    border-radius: 3px;
+    padding-bottom: 17px;
+
+}
+.find-div-body:before{
+    box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -16px;
+    padding: 0;
+    left: 26px;
+    border-bottom: 8px solid #fff;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    display: block;
+    content: '';
+    z-index: 12;
+}
+.find-div-body:after{
+    box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -18px;
+    left: 25px;
+    padding: 0;
+    border-bottom: 9px solid #ccc;
+    border-top: 9px solid transparent;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    display: block;
+    content: '';
+    z-index: 10;
+}
+.addinspector_div{
+    display: none;
+    width: 500px;
+    background: #fff;
+    float: right;
+    position: absolute;
+    margin-left: 5px;
+    margin-top: 11px;
+    border: #cccccc solid 1px;
+    border-radius: 3px;
+}
+.addinspector_div:before{
+        box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -20px;
+    padding: 0;
+    left: 43px;
+    border-bottom: 10px solid #fff;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    display: block;
+    content: '';
+    z-index: 12;
+}
+.addinspector_div:after{
+    box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -22px;
+    left: 42px;
+    padding: 0;
+    border-bottom: 11px solid #ccc;
+    border-top: 11px solid transparent;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    display: block;
+    content: '';
+    z-index: 10;
+}
+.addinspector_div p{
+    text-align: center;
+}
+
+/*开关样式*/
+.mui-switch {
+	width: 52px;
+	height: 31px;
+	position: relative;
+	border: 1px solid #dfdfdf;
+	background-color: #fdfdfd;
+	box-shadow: #dfdfdf 0 0 0 0 inset;
+	border-radius: 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	background-clip: content-box;
+	display: inline-block;
+	-webkit-appearance: none;
+	user-select: none;
+	outline: none; }
+.mui-switch:before {
+    content: '';
+    width: 29px;
+    height: 29px;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); 
+}
+.mui-switch:checked {
+    border-color: #64bd63;
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63; }
+.mui-switch:checked:before {
+    left: 21px; 
+}
+.mui-switch.mui-switch-animbg {
+    transition: background-color ease 0.4s; 
+}
+.mui-switch.mui-switch-animbg:before {
+    transition: left 0.3s; 
+}
+.mui-switch.mui-switch-animbg:checked {
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #64bd63;
+    transition: border-color 0.4s, background-color ease 0.4s; 
+}
+.mui-switch.mui-switch-animbg:checked:before {
+    transition: left 0.3s; 
+}
+.mui-switch.mui-switch-anim {
+    transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s; 
+}
+.mui-switch.mui-switch-anim:before {
+    transition: left 0.3s; 
+}
+.mui-switch.mui-switch-anim:checked {
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63;
+    transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s; 
+}
+.mui-switch.mui-switch-anim:checked:before {
+    transition: left 0.3s; 
+}
+.table_hover{
+	width: 113px;
+    height: 110px;
+    background: #fff;
+    position: absolute;
+	border: 1px solid #ccc;
+    float: right;
+    margin-left: -10px;
+    margin-top: 10px;
+	display: none;
+}
+.table_td:hover .table_hover{
+	display: block;
+}
+.table_hover p{
+	color: #008cff
+}
+.areaList{
+    width: 285px;
+    padding: 13px;
+    padding-top: 30px;
+}
+.areaList button{
+    background: #fff;
+    padding: 5px;
+    margin: 5px;
+    border: solid 1px #008cff;
+    min-width: 61px;
+    color: #008cff;
+}
+.areaList button:hover{
+    border: solid 1px #008cff;
+    color: #fff;
+    background: #008cff;
+}
+.submit_alert{
+    display: none;
+    width: 29%;
+    /* min-width: 300px; */
+    border: solid 1px #ccc;
+    padding: 20px;
+    position: fixed;
+    top: 20vh;
+    background: #fff;
+    left: 38vw;
+    z-index: 10;
+}
+.alert_bg{
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+.disadter_location{
+    position: fixed;
+    width: 100vw;
+    height: 70vh;
+    top: 10vh;
+    display: none;
 }

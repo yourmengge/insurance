@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['nar_location', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['nar_location','disastermap','driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -32,6 +32,54 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/team',
             templateUrl: 'view/team.html'
         })
+        .state('main.disastermap', {
+            url: '/disastermap',
+            templateUrl: 'view/disastermap.html'
+        })
+        .state('main.createdisaster', {
+            url: '/createdisaster',
+            templateUrl: 'view/createdisaster.html'
+        })
+        .state('main.disasterdetail', {
+            url: '/disasterdetail',
+            templateUrl: 'view/disasterdetail.html'
+        })
+        .state('main.site', {
+            url: '/site',
+            templateUrl: 'view/site.html'
+        })
+        .state('main.disasterinspector', {
+            url: '/disasterinspector',
+            templateUrl: 'view/disasterinspector.html'
+        })
+        .state('main.disasterdriver', {
+            url: '/disasterdriver',
+            templateUrl: 'view/disasterdriver.html'
+        })
+        .state('main.driverlocation', {
+            url: '/driverlocation',
+            templateUrl: 'view/driverlocation.html'
+        })
+        .state('main.review', {
+            url: '/review',
+            templateUrl: 'view/review.html'
+        })
+        .state('main.batchaddorder', {
+            url: '/batchaddorder',
+            templateUrl: 'view/batchaddorder.html'
+        })
+        .state('main.totleorder', {
+            url: '/totleorder',
+            templateUrl: 'view/totleorder.html'
+        })
+        .state('main.disasterorderlist', {
+            url: '/disasterorderlist',
+            templateUrl: 'view/disasterorderlist.html'
+        })
+        .state('main.driverordertotle', {
+            url: '/driverordertotle',
+            templateUrl: 'view/driverordertotle.html'
+        })
         .state('main.evaluation', {
             url: '/evaluation',
             templateUrl: 'view/evaluation.html'
@@ -55,6 +103,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.map', {
             url: '/map',
             templateUrl: 'view/map.html'
+        })
+        .state('main.disaster', {
+            url: '/disaster',
+            templateUrl: 'view/disaster.html'
         })
         .state('main.orderlist', {
             url: '/orderlist',
@@ -133,7 +185,16 @@ insurance.filter('ToDay', function () {
     }
     return ToLocal;
 });
-
+insurance.filter('Arrive', function () {
+    function ToLocal(shijianchuo) {
+        if (shijianchuo != null) {
+            return '未到达'
+        } else {
+            return '已到达';
+        }
+    }
+    return ToLocal;
+});
 insurance.filter('ToTime', function () {
     function ToLocal(shijianchuo) {
         if (shijianchuo != null) {
@@ -174,6 +235,54 @@ insurance.filter('Driver', function () {
             return '';
         } else {
             return array[0].driverName + ' - ' + array[0].driverPhone;
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('DisasterShi', function () {
+    function ToLocal(string) {
+        if (string == null) {
+            return '';
+        } else {
+            return string.split('#')[0] + string.split('#')[1];
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('DisasterQu', function () {
+    function ToLocal(string) {
+        if (string == null) {
+            return '';
+        } else {
+            return string.split('#')[2];
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('DisasterProvince', function () {
+    function ToLocal(string) {
+        if (string == null) {
+            return '';
+        } else {
+            return string.split('#')[0];
+        }
+
+
+    }
+    return ToLocal;
+});
+insurance.filter('DisasterCity', function () {
+    function ToLocal(string) {
+        if (string == null) {
+            return '';
+        } else {
+            return string.split('#')[1];
         }
 
 
@@ -403,10 +512,10 @@ insurance.filter('ServiceItems', function () {
         a = '';
         if (array != null) {
             for (var i = 0; i < array.length; i++) {
-                if(i == array.length - 1){
-                    a = a +  array[i];
-                }else{
-                    a = a +  array[i] + '+';
+                if (i == array.length - 1) {
+                    a = a + array[i];
+                } else {
+                    a = a + array[i] + '+';
                 }
             }
             return a;

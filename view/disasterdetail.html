@@ -1,0 +1,71 @@
+<div class="fixaddress" ng-controller="disasterdetailCtrl" ng-init="initData()">
+    <button class="goback" ng-click="back()">返回</button>
+    <h2>大灾详情</h2>
+    <h4 class="detail_title">{{disasterName}}
+        <button ng-hide="detail.status == 2 || detail.status == 1" class="button" ng-click="start(detail)">开启大灾</button>
+        <button ng-hide="detail.status == 2" class="button" ng-click="start(detail)">关闭大灾</button>
+        </h4>
+    <table class="detail_table">
+        <tr>
+            <td>大灾状态：</td>
+            <td>{{detail.statusDesc}}</td>
+            <td>大灾来源：</td>
+            <td>{{detail.createFromDesc}}</td>
+            <td>开始日期：</td>
+            <td>{{detail.startDate}}</td>
+        </tr>
+        <tr>
+            <td>大灾省份：</td>
+            <td>{{detail.areaDesc | DisasterProvince}} </td>
+            <td>大灾城市：</td>
+            <td>{{detail.areaDesc | DisasterCity}}</td>
+            <td>大灾区域：</td>
+            <td>{{detail.areaDesc | DisasterQu}}</td>
+        </tr>
+        <tr>
+            <td>创建时间：</td>
+            <td>{{detail.createTime | ToLocal}}</td>
+            <td>开启时间：</td>
+            <td>{{detail.openTime | ToLocal}}</td>
+            <td>关闭时间：</td>
+            <td>{{detail.closeTime | ToLocal}}</td>
+        </tr>
+        <tr>
+            <td>司机需求量：</td>
+            <td>
+                <input type="number" ng-model="driver_need_conut" class="input" style="width:100px" ng-readonly="detail.status == 2">
+                <button ng-hide="detail.status == 2" class="button" id="submit" ng-click="updatenum()">修改</button>
+            </td>
+
+        </tr>
+        <tr>
+            <td>费用说明：</td>
+            <td>{{detail.feeDesc}}</td>
+        </tr>
+        <tr>
+            <td>备注：</td>
+            <td>{{detail.remark}}</td>
+        </tr>
+    </table>
+    <h4 class="detail_title">保全场地&emsp;&emsp;<button class="button" ui-sref='main.site'>{{message}}保全场地（{{site_counts}}个）</button></h4>
+    <ul>
+        <li ng-repeat="a in siteList">
+            <p>{{a.addressAbbr}}</p>
+            <p>{{a.address}}</p>
+            
+        </li>
+    </ul>
+    <h4 class="detail_title">查勘员&emsp;&emsp;&emsp;<button class="button" ui-sref='main.disasterinspector'>{{message}}查勘员（{{inspector_counts}}位）</button></h4>
+    <ul>
+        <li ng-repeat="a in inspectorList">
+            <p>{{a.userName}}&emsp;&emsp;{{a.userMobile}}&emsp;&emsp;{{a.responsibleArea}}</p>
+        </li>
+    </ul>
+    <h4 class="detail_title">司机&emsp;&emsp;&emsp;&emsp;<button class="button" ui-sref='main.disasterdriver'>{{message}}司机（{{driver_counts}}位）</button></h4>
+    <ul>
+        <li ng-repeat="a in driverList">
+            <p>{{a.userName}}&emsp;&emsp;{{a.userPhone}}&emsp;&emsp;{{a.arriveTime | Arrive}}</p>
+        </li>
+    </ul>
+
+</div>

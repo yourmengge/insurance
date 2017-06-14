@@ -1,0 +1,27 @@
+<div class="adddriver" ng-controller="driverlocationCtrl" ng-init="initData()">
+    <h2>查看司机位置</h2>
+    <button class="goback" ng-click="back()">返回</button>
+    <h4 class="detail_title">
+        
+    </h4>
+    <p class="search_div">
+        司机搜索：<input  type="text" ng-model="key" style="width: 213px;" class="input" placeholder="支持司机名称和电话号码模糊查询"><button class="button" ng-click="get_driver_track_list(1007,key,'ALL')">查询</button>
+        <select ng-change="get_driver_track_list(1007,'',status)" class="input" name="" id="" ng-model="status" ng-options="a.id as a.name for a in statusTexts"></select>
+    </p>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table" style="width: 33%;float:left">
+        <tr class="table_1_tr">
+            <td>姓名</td>
+            <td>手机号码</td>
+            <td>状态</td>
+        </tr>
+        <tr ng-repeat="a in list" >
+            <td ng-click="selectdriver(a)">{{a.userName}}</td>
+            <td ng-click="selectdriver(a)">{{a.userPhone}}</td>
+            <td ng-click="selectdriver(a)">{{a.trackDesc}}</td>
+        </tr>
+    </table>
+    <div id="allmap" style=" float: right;width: 64%;height: 67vh;margin-top: -48px;">
+
+    </div>
+
+</div>

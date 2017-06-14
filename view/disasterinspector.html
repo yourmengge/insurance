@@ -1,0 +1,42 @@
+<div class="adddriver" ng-controller="disasterinspectorCtrl" ng-init="initData()">
+    <h2>查勘员管理</h2>
+    <button class="goback" ng-click="back()">返回</button>
+    <h4 class="detail_title"></h4>
+    <button class="button"id="addinspector">
+        添加查勘员
+    </button>
+    <div class="addinspector_div">
+        <h2>添加查勘员</h2>
+        <p>&emsp;选择查勘员：<input type="text" class="input" placeholder="支持名字或手机号模糊查询"></p>
+        <p ng-repeat="a in inspectorName">
+            {{a}}
+        </p>
+        <p>选择负责区域：<select name="" id="" class="input"></select></p>
+        <p><button class="button">添加</button><button class="button red" id="cancle">取消</button></p>
+    </div>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td></td>
+            <td>姓名</td>
+            <td>电话</td>
+            <td>负责区域</td>
+            <td>操作</td>
+        </tr>
+        <tr ng-repeat="a in orderList">
+            <td>{{a.caseNo}}</td>
+            <td>{{a.accidentAddressPicture|Shi}}</td>
+            <td>{{a.accidentAddressPicture|Qu}}</td>
+            <td>
+                <button class="button green" ng-click="editOrder(a)" style="width: 70px;background: #36b304;">修改</button>
+                <button class="button red" ng-click="cancel(a.orderNo)" style="width: 70px;background: #f00;">移除</button>
+            </td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

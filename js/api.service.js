@@ -13,7 +13,7 @@ Road167.factory('APIService', function ($http) {
                 "user-id": service.userId
             }
         })
-        
+
     };
     service.post = function (url, data) {
         return $http({
@@ -121,7 +121,7 @@ Road167.factory('APIService', function ($http) {
     }
 
     //上传图片,获取oss权限
-    service.get_oss = function(){
+    service.get_oss = function () {
         return service.get(host + '/v1/aliyun/oss/sts/get-put');
     }
 
@@ -138,6 +138,11 @@ Road167.factory('APIService', function ($http) {
     //获取订单列表
     service.get_order_list = function (limit, startDay, endDay, status, caseno) {
         return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&caseNo=' + caseno);
+    }
+
+    //获取司机轨迹列表
+    service.get_driver_track_list = function (disasterId, key, status) {
+        return service.get(host + urlV1 + urlTrack5 + disasterId + urlKey + key + urlTaskStatus + status)
     }
 
     //获取已配置施救车队列表
@@ -173,6 +178,54 @@ Road167.factory('APIService', function ($http) {
     //获取菜单
     service.get_menu = function () {
         return service.get(host + urlV1 + '/menu');
+    }
+
+    //创建大灾
+    service.create_disaster = function (data) {
+        return service.post(host + urlV1 + '/disaster', data)
+    }
+
+    //获取大灾列表
+    service.get_disaster_list = function () {
+        return service.get(host + urlV1 + urlDisaster)
+    }
+
+    //获取大灾详情
+    service.get_disaster_detail = function (disasterId) {
+        return service.get(host + urlV1 + '/disaster/' + disasterId)
+    }
+
+    //修改司机需求量
+    service.update_driver_need = function (disasterId, num) {
+        return service.patch(host + urlV1 + '/disaster/' + disasterId + '/driverNeedCnt/' + num, { '': '' })
+    }
+
+    //开启或关闭大灾
+    service.start_disaster = function (url, disasterId) {
+        return service.patch(host + urlV1 + "/disaster" + url + disasterId, { '': '' })
+    }
+
+    //获取省份，城市，区域列表
+    service.get_province_list = function (id) {
+        return service.get(host + urlV1 + '/region/parentid/' + id + '/list?is_district=0')
+    }
+
+    //新增保全场地
+    service.add_disaster_address = function (data) {
+        return service.post(host + urlV1 + urlDisasterAddress, data)
+    }
+
+    //查询保全场地列表
+    service.get_disaster_address_list = function (disasterId, limit) {
+        return service.get(host + urlV1 + urlDisasterAddress + '/page?disasterId=' + disasterId + '&$offset=0&$limit=' + limit)
+    }
+    //修改保全场地
+    service.update_disaster_address = function (data) {
+        return service.patch(host + urlV1 + urlDisasterAddress, data)
+    }
+    //删除保全场地
+    service.delete_disaster_address = function (id) {
+        return service.delete(host + urlV1 + urlDisasterAddress + '/' + id)
     }
     //分页
     service.paging = function (url, limit, type, pagecount) {
@@ -210,6 +263,7 @@ Road167.factory('APIService', function ($http) {
                 service.userId = res.data.userId;
                 service.token = res.data.token;
                 sessionStorage.setItem('companyName', res.data.companyName);
+                sessionStorage.setItem('companyNo', res.data.companyNo);
                 sessionStorage.setItem('adminName', res.data.name);
                 sessionStorage.setItem('token', res.data.token);
                 sessionStorage.setItem('userId', res.data.userId);

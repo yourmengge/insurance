@@ -1,0 +1,61 @@
+<div class="adddriver" ng-controller="disasterCtrl" ng-init="initData()">
+    <h2>查看大灾</h2>
+    <p class="search_div">
+        <button class="button" ui-sref='main.createdisaster'>创建大灾</button>
+        <button class="button" ui-sref='main.disasterdriver'>统计订单</button>
+
+    </p>
+    <p class="search_div">
+        <input class="input" type="text" ng-model="caseNo" style="width:220px;" placeholder="支持编号和区域名称模糊查询"> 开始日期：
+        <input type="date" id="startDay" class="input"> 状态： <select class="input" name="" style="width:100px;" ng-model="status"
+            ng-options="a.id as a.name for a in statusTexts" id=""></select>
+
+        <button class="button" ng-click="search()">查询</button>
+        <button class="button" ng-click="initData()">显示全部</button>
+        <!--<button class="button" ng-click="toexcel()">
+            导出当前页到excel
+        </button>-->
+    </p>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td>状态</td>
+            <td>编号</td>
+            <td>城市</td>
+            <td>区域</td>
+            <td>开始日期</td>
+            <td>查勘员数量</td>
+            <td>司机配置</td>
+            <td>是否启用</td>
+            <td>操作</td>
+            <td>设置</td>
+        </tr>
+        <tr ng-repeat="a in list">
+            <td>{{a.statusDesc}}</td>
+            <td>{{a.disasterId}}</td>
+            <td>{{a.areaDesc|DisasterShi}}</td>
+            <td>{{a.areaDesc|DisasterQu}}</td>
+            <td>{{a.startDate}}</td>
+            <td>{{a.inspectorCount}}</td>
+            <td>{{a.driverCount}}/{{a.driverNeedCnt}}</td>
+            <td>
+                <label ng-hide="a.status == 2"><input ng-click="start(a)" ng-model="status" class="mui-switch mui-switch-animbg" type="checkbox" ng-checked="isChecked(a.status)"></label>
+            </td>
+            <td><a ng-click="viewdetail(a.disasterId)">查看</a>&emsp;<a ui-sref='main.batchaddorder' ng-hide="a.status == 2">下单</a></td>
+            <td class="table_td">
+                <a>管理</a>
+                <div class="table_hover">
+                    <p ui-sref='main.disasterdriver'>管理司机</p>
+                    <p ui-sref='main.disasterinspector'>管理查勘员</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status)">管理保全场地</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

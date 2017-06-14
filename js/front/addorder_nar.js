@@ -308,8 +308,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                     $scope.localPic = [];
                     a = [];
                     b = [];
-                    sessionStorage.clear('nar_address');
-                    sessionStorage.clear('nar_address_fixaddress');
+                    sessionStorage.removeItem('nar_address');
+                    sessionStorage.removeItem('nar_address_fixaddress');
                     setTimeout(function () {
                         goto_view('main/orderlist');
 
