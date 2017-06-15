@@ -8,8 +8,9 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         window.history.back();
     }
     $scope.initData = function () {
+        $scope.disasterId = sessionStorage.getItem('disasterId_site');
         $scope.initMap();
-        $scope.get_driver_track_list(1007, '', 'ALL');
+        $scope.get_driver_track_list($scope.disasterId, '', 'ALL');
         $scope.status = 'ALL'
     }
     $scope.selectdriver = function (a) {

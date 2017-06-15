@@ -12,6 +12,27 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
 
     }
 
+    $scope.forEach = function (data) {
+        var array = [];
+        for (var i = 0; i < data.length; i++) {
+            if (data.length > 3) {
+                array.push(data[i])
+                if (i == 2) {
+                    return array;
+                }
+            } else {
+                return data;
+            }
+        }
+    }
+    $scope.site = function (id, area, status, url) {
+        sessionStorage.setItem('disasterId_site', id);
+        sessionStorage.setItem('disasterstatus_site', status);
+        var title = id + '-' + area.split('#')[1] + area.split('#')[2];
+        sessionStorage.setItem('disaster_title', title)
+        sessionStorage.setItem('disaster_area', area.split('#')[2])
+        goto_view('main/' + url)
+    }
     //获取大灾详情
     $scope.get_disaster_detail = function () {
         APIService.get_disaster_detail(sessionStorage.getItem('disasterId')).then(function (res) {
@@ -27,13 +48,13 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
                 $scope.disasterName = res.data.disasterId + '-' + res.data.areaDesc.split('#')[2];
 
                 $scope.site_counts = res.data.addressList.length;
-                $scope.siteList = res.data.addressList
+                $scope.siteList = $scope.forEach(res.data.addressList)
 
                 $scope.inspector_counts = res.data.inspectorList.length;
-                $scope.inspectorList = res.data.inspectorList
+                $scope.inspectorList = $scope.forEach(res.data.inspectorList)
 
                 $scope.driver_counts = res.data.driverList.length;
-                $scope.driverList = res.data.driverList
+                $scope.driverList = $scope.forEach(res.data.driverList)
             } else {
                 isError(res)
             }

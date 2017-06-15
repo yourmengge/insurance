@@ -699,11 +699,40 @@ input[type=number]::-webkit-outer-spin-button {
     top: 0;
     left: 0;
     opacity: 0.3;
+    z-index: 9
 }
 .disadter_location{
     position: fixed;
     width: 100vw;
     height: 70vh;
     top: 10vh;
+    display: none;
+}
+.alert_add_h2{
+    padding-left: 20px;
+}
+.inspector_search_div{
+    border: solid 1px #ccc;
+    width: 266px;
+    margin-left: 172px;
+    margin-top: -20px;
+    font-size: 14px;
+}
+.inspector_search_div p{
+    border-bottom: solid 1px #ccc;
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+}
+.update_inspector{
+    width: 532px;
+    height: 171px;
+    background: #fff;
+    padding: 20px;
+    top: 28vh;
+    left: 38vw;
+    z-index: 10;
+    position: fixed;
     display: none;
 }

@@ -6,11 +6,11 @@
 
     </p>
     <p class="search_div">
-        <input class="input" type="text" ng-model="caseNo" style="width:220px;" placeholder="支持编号和区域名称模糊查询"> 开始日期：
+        <input class="input" type="text" ng-model="disasterNo" style="width:220px;" placeholder="支持编号和区域名称模糊查询"> 开始日期：
         <input type="date" id="startDay" class="input"> 状态： <select class="input" name="" style="width:100px;" ng-model="status"
             ng-options="a.id as a.name for a in statusTexts" id=""></select>
 
-        <button class="button" ng-click="search()">查询</button>
+        <button class="button" ng-click="search_disaster()" >查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
         <!--<button class="button" ng-click="toexcel()">
             导出当前页到excel
@@ -45,8 +45,8 @@
                 <a>管理</a>
                 <div class="table_hover">
                     <p ui-sref='main.disasterdriver'>管理司机</p>
-                    <p ui-sref='main.disasterinspector'>管理查勘员</p>
-                    <p ng-click="site(a.disasterId,a.areaDesc,a.status)">管理保全场地</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterinspector')">管理查勘员</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'site')">管理保全场地</p>
                 </div>
             </td>
         </tr>

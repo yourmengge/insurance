@@ -186,8 +186,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取大灾列表
-    service.get_disaster_list = function () {
-        return service.get(host + urlV1 + urlDisaster)
+    service.get_disaster_list = function (startDate, area, status,disasterId, limt, offset) {
+        return service.get(host + urlV1 + urlDisaster + '?startDate=' + startDate + '&areaDesc=' + area + '&disasterId=' + disasterId +'&status=' + status + '&$limit=' + limit + '&$offset=' + offset)
     }
 
     //获取大灾详情
@@ -226,6 +226,32 @@ Road167.factory('APIService', function ($http) {
     //删除保全场地
     service.delete_disaster_address = function (id) {
         return service.delete(host + urlV1 + urlDisasterAddress + '/' + id)
+    }
+
+    //查询查勘员
+    service.get_disaster_inspector = function (companyNo, keyName, key) {
+        return service.get(host + urlV1 + urlUser + '/list?roleId=3&$limit=3&companyNo=' + companyNo + "&" + keyName + '=' + key)
+    }
+    //查询大灾查勘员列表
+    service.get_disaster_inspector_list = function (disasterId, limit) {
+        return service.get(host + urlV1 + '/disaster-inspector/page?disasterId=' + disasterId + '&$offset=0&$limit=' + limit)
+    }
+    //移除大灾查勘员
+    service.delete_disaster_inspector = function (id) {
+        return service.delete(host + urlV1 + '/disaster-inspector/' + id)
+    }
+    //新增大灾查勘员
+    service.add_disaster_inspector = function (data) {
+        return service.post(host + urlV1 + '/disaster-inspector', data)
+    }
+    //修改查勘员
+    service.update_disaster_inspector = function (data) {
+        return service.patch(host + urlV1 + '/disaster-inspector', data)
+    }
+
+    //查询大灾司机
+    service.get_disaster_driver = function(type,key,limit,status,disasterId){
+        return service.get(host + urlV1 + '/disaster-driver/' + type + '?&key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId)
     }
     //分页
     service.paging = function (url, limit, type, pagecount) {

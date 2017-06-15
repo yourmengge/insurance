@@ -47,7 +47,7 @@
             <td>{{detail.remark}}</td>
         </tr>
     </table>
-    <h4 class="detail_title">保全场地&emsp;&emsp;<button class="button" ui-sref='main.site'>{{message}}保全场地（{{site_counts}}个）</button></h4>
+    <h4 class="detail_title">保全场地&emsp;&emsp;<button class="button" ng-click="site(detail.disasterId,detail.areaDesc,detail.status,'site')">{{message}}保全场地（{{site_counts}}个）</button></h4>
     <ul>
         <li ng-repeat="a in siteList">
             <p>{{a.addressAbbr}}</p>
@@ -55,7 +55,7 @@
             
         </li>
     </ul>
-    <h4 class="detail_title">查勘员&emsp;&emsp;&emsp;<button class="button" ui-sref='main.disasterinspector'>{{message}}查勘员（{{inspector_counts}}位）</button></h4>
+    <h4 class="detail_title">查勘员&emsp;&emsp;&emsp;<button class="button" ng-click="site(detail.disasterId,detail.areaDesc,detail.status,'disasterinspector')">{{message}}查勘员（{{inspector_counts}}位）</button></h4>
     <ul>
         <li ng-repeat="a in inspectorList">
             <p>{{a.userName}}&emsp;&emsp;{{a.userMobile}}&emsp;&emsp;{{a.responsibleArea}}</p>
