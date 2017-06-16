@@ -251,7 +251,7 @@ Road167.factory('APIService', function ($http) {
 
     //查询大灾司机
     service.get_disaster_driver = function(type,key,limit,status,disasterId){
-        return service.get(host + urlV1 + '/disaster-driver/' + type + '?&key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId)
+        return service.get(host + urlV1 + '/disaster-driver/' + type + '?key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId)
     }
     //分页
     service.paging = function (url, limit, type, pagecount) {

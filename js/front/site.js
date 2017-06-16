@@ -19,9 +19,19 @@ site.controller('siteCtrl', ['$scope', 'APIService', function ($scope, APIServic
 
     //获取保全场地列表
     $scope.get_disaster_address_list = function () {
-        APIService.get_disaster_address_list($scope.disasterId, 10).then(function (res) {
+        APIService.get_disaster_address_list($scope.disasterId, limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.list = res.data.items;
+                //分页部分
+                $scope.current = 1;
+                $scope.pageCount = Math.ceil(res.data.count / limit);
+                if (res.data.count <= limit) {
+                    $scope.page_p = hide;
+                }else{
+                    $scope.page_p = show;
+                }
+                $scope.up = hide;
+                //分页结束
             } else {
                 isError(res)
             }
@@ -66,5 +76,41 @@ site.controller('siteCtrl', ['$scope', 'APIService', function ($scope, APIServic
     $scope.close = function(){
         $('.alert_bg').css('display','none');
         $('.disadter_location').css('display','none');
+    }
+        $scope.Page = function (type) {
+        if (type == 'home') {
+            $scope.current = 1;
+            $scope.up = hide;
+            $scope.down = show;
+        }
+        if (type == 'end') {
+            $scope.current = $scope.pageCount;
+            $scope.up = show;
+            $scope.down = hide;
+        }
+        if (type == 'down') {
+            $scope.up = show;
+            $scope.current = $scope.current + 1;
+            if ($scope.current == $scope.pageCount) {
+                $scope.down = hide;
+            }
+        }
+        if (type == 'up') {
+            $scope.down = show;
+            $scope.current = $scope.current - 1;
+            if ($scope.current == 1) {
+                $scope.up = hide;
+            }
+        }
+        loading();
+        APIService.paging(urlV1 +  urlDisasterAddress + '/page?disasterId=' + $scope.disasterId, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            if (res.data.http_status == 200) {
+                closeloading();
+                $scope.list = res.data.items
+            } else {
+                isError(res)
+            }
+
+        })
     }
 }])

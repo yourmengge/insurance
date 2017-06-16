@@ -6,7 +6,7 @@
     </h4>
     <p class="search_div">
         司机搜索：<input  type="text" ng-model="key" style="width: 213px;" class="input" placeholder="支持司机名称和电话号码模糊查询"><button class="button" ng-click="get_driver_track_list(1007,key,'ALL')">查询</button>
-        <select ng-change="get_driver_track_list(1007,'',status)" class="input" name="" id="" ng-model="status" ng-options="a.id as a.name for a in statusTexts"></select>
+        <select ng-change="get_driver_track_list(disasterId,'',status)" class="input" name="" id="" ng-model="status" ng-options="a.id as a.name for a in statusTexts"></select>
     </p>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table" style="width: 33%;float:left">
         <tr class="table_1_tr">

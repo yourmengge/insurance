@@ -5,12 +5,12 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
      *返回上页 
      */
     $scope.back = function () {
-        window.history.back();
+        goto_view('main/disaster')
     }
     $('.disaster_area').click(function () {
         $('.find-div-body').toggle();
     })
-    $('.close_btn').click(function () {
+    $('.area_btn_close').click(function () {
         $('.find-div-body').toggle();
     })
 
@@ -147,7 +147,7 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
                 $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name;
             } else {
                 data.county = data.county + $scope.selectList[i].id + ','
-                $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name + '、';
+                $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name + ';';
             }
         }
 

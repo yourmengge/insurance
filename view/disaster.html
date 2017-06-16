@@ -18,7 +18,6 @@
     </p>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
-            <td>状态</td>
             <td>编号</td>
             <td>城市</td>
             <td>区域</td>
@@ -30,7 +29,6 @@
             <td>设置</td>
         </tr>
         <tr ng-repeat="a in list">
-            <td>{{a.statusDesc}}</td>
             <td>{{a.disasterId}}</td>
             <td>{{a.areaDesc|DisasterShi}}</td>
             <td>{{a.areaDesc|DisasterQu}}</td>
@@ -44,9 +42,9 @@
             <td class="table_td">
                 <a>管理</a>
                 <div class="table_hover">
-                    <p ui-sref='main.disasterdriver'>管理司机</p>
-                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterinspector')">管理查勘员</p>
-                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'site')">管理保全场地</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterdriver',a.driverNeedCnt)">管理司机</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterinspector','')">管理查勘员</p>
+                    <p ng-click="site(a.disasterId,a.areaDesc,a.status,'site','')">管理保全场地</p>
                 </div>
             </td>
         </tr>

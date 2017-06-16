@@ -24,8 +24,8 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
         $scope.disasterId = sessionStorage.getItem('disasterId_site');
         $scope.status = sessionStorage.getItem('disasterstatus_site');
         $scope.areaList = sessionStorage.getItem('disaster_area')
-        $scope.area = $scope.areaList.split('、')[0];
-        $scope.arealist = $scope.areaList.split('、');
+        $scope.area = $scope.areaList.split(';')[0];
+        $scope.arealist = $scope.areaList.split(';');
         $scope.key = '';
         $scope.get_disaster_inspector_list();
     }
@@ -63,9 +63,19 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
     }
     //查询大灾查勘员列表
     $scope.get_disaster_inspector_list = function () {
-        APIService.get_disaster_inspector_list($scope.disasterId, 10).then(function (res) {
+        APIService.get_disaster_inspector_list($scope.disasterId, limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.list = res.data.items;
+                //分页部分
+                $scope.current = 1;
+                $scope.pageCount = Math.ceil(res.data.count / limit);
+                if (res.data.count <= limit) {
+                    $scope.page_p = hide;
+                } else {
+                    $scope.page_p = show;
+                }
+                $scope.up = hide;
+                //分页结束
             } else {
                 isError(res)
             }
@@ -112,6 +122,7 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
         APIService.add_disaster_inspector(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('添加成功')
+                $scope.key = '';
                 $('.addinspector_div').toggle();
                 $scope.get_disaster_inspector_list();
             } else {
@@ -152,6 +163,43 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
             } else {
                 isError(res)
             }
+        })
+    }
+    $scope.Page = function (type) {
+        if (type == 'home') {
+            $scope.current = 1;
+            $scope.up = hide;
+            $scope.down = show;
+        }
+        if (type == 'end') {
+            $scope.current = $scope.pageCount;
+            $scope.up = show;
+            $scope.down = hide;
+        }
+        if (type == 'down') {
+            $scope.up = show;
+            $scope.current = $scope.current + 1;
+            if ($scope.current == $scope.pageCount) {
+                $scope.down = hide;
+            }
+        }
+        if (type == 'up') {
+            $scope.down = show;
+            $scope.current = $scope.current - 1;
+            if ($scope.current == 1) {
+                $scope.up = hide;
+            }
+        }
+        loading();
+
+        APIService.paging(urlV1 + '/disaster-inspector/page?disasterId=' + $scope.disasterId, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            if (res.data.http_status == 200) {
+                closeloading();
+                $scope.list = res.data.items
+            } else {
+                isError(res)
+            }
+
         })
     }
 

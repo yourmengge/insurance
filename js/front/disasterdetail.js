@@ -4,7 +4,7 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
      *返回上页 
      */
     $scope.back = function () {
-        window.history.back();
+        goto_view('main/disaster')
     }
 
     $scope.initData = function () {
@@ -47,14 +47,14 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
                 $scope.driver_need_conut = $scope.detail.driverNeedCnt;
                 $scope.disasterName = res.data.disasterId + '-' + res.data.areaDesc.split('#')[2];
 
-                $scope.site_counts = res.data.addressList.length;
-                $scope.siteList = $scope.forEach(res.data.addressList)
+                $scope.site_counts = res.data.addressCount;
+                $scope.siteList = res.data.addressList
 
-                $scope.inspector_counts = res.data.inspectorList.length;
-                $scope.inspectorList = $scope.forEach(res.data.inspectorList)
+                $scope.inspector_counts = res.data.inspectorCount;
+                $scope.inspectorList = res.data.inspectorList
 
-                $scope.driver_counts = res.data.driverList.length;
-                $scope.driverList = $scope.forEach(res.data.driverList)
+                $scope.driver_counts = res.data.driverCount;
+                $scope.driverList = res.data.driverList
             } else {
                 isError(res)
             }

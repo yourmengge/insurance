@@ -43,8 +43,9 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.get_disaster_list($('#startDay').val(), '', $scope.status, '')
         }
     }
-    $scope.site = function (id, area, status, url) {
+    $scope.site = function (id, area, status, url,need) {
         sessionStorage.setItem('disasterId_site', id);
+        sessionStorage.setItem('driver_need_site', need);
         sessionStorage.setItem('disasterstatus_site', status);
         var title = id + '-' + area.split('#')[1] + area.split('#')[2];
         sessionStorage.setItem('disaster_title', title)

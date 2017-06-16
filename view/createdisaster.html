@@ -8,14 +8,14 @@
                 <td>
                     <select class="input disaster_select" ng-change="selectCity()" name="" id="" ng-model="province" ng-options="a.regionId as a.regionName for a in provinceList" ></select>
                     <select class="input disaster_select" ng-change="selectArea()"  name="" id=""ng-model="city" ng-options="a.regionId as a.regionName for a in cityList"></select>
-                    <span class="disaster_area">大灾区域></span>
+                    <span class="disaster_area">大灾区域 ></span>
                     <div class="find-div-body">
-                        <button class="close_btn" style="margin-right: 4px;margin-top: 4px;">X</button>
+                        <button class="area_btn_close" style="margin-right: 4px;margin-top: 4px;">X</button>
                         <div class="areaList">
                             <button ng-repeat="a in areaList" ng-click="select(a)" ng-disabled="isSelect(a)">{{a.regionName}}</button>
                         </div>
                     </div>
-                    <button ng-repeat="a in selectList track by $index" ng-click="delArea($index)" >{{a.name}}X</button>
+                    <button class="area_btn" ng-repeat="a in selectList track by $index" ng-click="delArea($index)" >{{a.name}}&emsp;X</button>
                 </td>
             </tr>
             <tr>
