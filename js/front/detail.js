@@ -2,6 +2,16 @@ var detail = angular.module('detail', ['Road167']);
 var map, orderPic = [], accidentPic = [], fixPic = [];
 detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+
+        $scope.disaster = sessionStorage.getItem('isDisaster')
+        if ($scope.disaster == 'yes') {
+            $scope.title = sessionStorage.getItem('disaster_title')
+            $scope.text = '接单司机';
+            $scope.driverText = '接单'
+        } else {
+            $scope.text = '施救车队'
+            $scope.driverText = '派遣'
+        }
         loading();
         orderPic = []; accidentPic = []; fixPic = [];
         var order = sessionStorage.getItem('orderNo');

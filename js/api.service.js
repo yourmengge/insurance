@@ -141,8 +141,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取司机轨迹列表
-    service.get_driver_track_list = function (disasterId, key, status) {
-        return service.get(host + urlV1 + urlTrack5 + disasterId + urlKey + key + urlTaskStatus + status)
+    service.get_driver_track_list = function (disasterId, key, status, limit) {
+        return service.get(host + urlV1 + urlTrack5 + disasterId + urlKey + key + urlTaskStatus + status + '&$limit=' + limit)
     }
 
     //获取已配置施救车队列表
@@ -186,9 +186,20 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取大灾列表
-    service.get_disaster_list = function (startDate, area, status,disasterId, limt, offset) {
-        return service.get(host + urlV1 + urlDisaster + '?startDate=' + startDate + '&areaDesc=' + area + '&disasterId=' + disasterId +'&status=' + status + '&$limit=' + limit + '&$offset=' + offset)
+    service.get_disaster_list = function (startDate, area, status, disasterId, limt, offset) {
+        return service.get(host + urlV1 + urlDisaster + '?statisUser=true&startDate=' + startDate + '&areaDesc=' + area + '&disasterId=' + disasterId + '&status=' + status + '&$limit=' + limit + '&$offset=' + offset)
     }
+
+    //获取大灾订单统计列表
+    service.get_disaster_totle_list = function (startDate, area, status, disasterId, limt, offset) {
+        return service.get(host + urlV1 + urlDisaster + '?statisOrder=true&startDate=' + startDate + '&areaDesc=' + area + '&disasterId=' + disasterId + '&status=' + status + '&$limit=' + limit + '&$offset=' + offset)
+    }
+
+    //查看大灾订单列表
+    service.get_disaster_order_list = function (disasterId, status, startDay, endDay, caseNo, limit) {
+        return service.get(host + urlV1 + '/order/disaster/list?disasterId=' + disasterId + '&OrderStatus2=' + status + '&caseNo=' + caseNo + '&startDay=' + startDay + '&endDay=' + endDay + '&$limit=' + limit)
+    }
+
 
     //获取大灾详情
     service.get_disaster_detail = function (disasterId) {
@@ -250,11 +261,44 @@ Road167.factory('APIService', function ($http) {
     }
 
     //查询大灾司机
-    service.get_disaster_driver = function(type,key,limit,status,disasterId){
-        return service.get(host + urlV1 + '/disaster-driver/' + type + '?key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId)
+    service.get_disaster_driver = function (type, key, limit, status, disasterId) {
+        return service.get(host + urlV1 + '/disaster-driver/list?key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId + type)
+    }
+
+    //查询大灾司机（订单统计）
+    service.get_disaster_driver_order = function (key, limit, status, disasterId, grabData) {
+        return service.get(host + urlV1 + '/disaster-driver/list?key=' + key + '&$limit=' + limit + '&DisasterDriverStatus=' + status + '&disasterId=' + disasterId + '&grabDate=' + grabData + '&statisOrder=true')
+    }
+
+    //查询司机的订单列表
+    service.get_disaster_driver_order_list = function (disasterId, userId, status, grabDate, limit) {
+        return service.get(host + urlV1 + urlOrder + '/disaster/list-driver?disasterId=' + disasterId + '&driverUserId=' + userId + '&OrderStatus2=' + status + '&grabDate=' + grabDate + '&$limit=' + limit)
+    }
+
+    //查询司机退出列表
+    service.get_disaster_driver_review = function (disasterId, limit) {
+        return service.get(host + urlV1 + '/disaster-driver/verify/list?disasterId=' + disasterId + '&applyStatus=APPLY&$limit=' + limit)
+    }
+    //审核退出司机;0不通过，1通过
+    service.reviw_disaster_driver = function (driverId, type) {
+        return service.patch(host + urlV1 + '/disaster-driver/verify/' + driverId + '/' + type);
+    }
+    //确认导入订单
+    service.submit_order_list = function (id) {
+        return service.post(host + urlV1 + urlOrder + '/disaster/import/confirm/' + id, { '': '' })
+    }
+
+    //获取保险公司省份
+    service.get_company_province = function (companyId) {
+        return service.get(host + urlV1 + '/company/' + companyId)
+    }
+
+    //获取在线司机的订单数
+    service.get_driver_order_list_line = function (disasterId, userId) {
+        return service.get(host + urlV1 + '/disaster-driver/' + disasterId + '/' + userId + '/order')
     }
     //分页
-    service.paging = function (url, limit, type, pagecount) {
+    service.paging = function (url, limit, type, pagecount, current) {
         if (type == 'home') {
             offset = 0;
         }
@@ -262,10 +306,10 @@ Road167.factory('APIService', function ($http) {
             offset = (pagecount - 1) * limit;
         }
         if (type == 'down') {
-            offset = limit + offset;
+            offset = limit * (current - 1);
         }
         if (type == 'up') {
-            offset = offset - limit;
+            offset = limit * (current - 1)
         }
         return service.get(host + url + '&$limit=' + limit + '&$offset=' + offset);
     }
@@ -290,6 +334,7 @@ Road167.factory('APIService', function ($http) {
                 service.token = res.data.token;
                 sessionStorage.setItem('companyName', res.data.companyName);
                 sessionStorage.setItem('companyNo', res.data.companyNo);
+                sessionStorage.setItem('companyId', res.data.companyId);
                 sessionStorage.setItem('adminName', res.data.name);
                 sessionStorage.setItem('token', res.data.token);
                 sessionStorage.setItem('userId', res.data.userId);

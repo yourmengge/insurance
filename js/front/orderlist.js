@@ -31,7 +31,8 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
         sessionStorage.setItem('editorder', JSON.stringify(data));
         sessionStorage.setItem('location_lat',data.accidentLatitude);
         sessionStorage.setItem('location_lng',data.accidentLongitude);
-        sessionStorage.setItem('location_address',data.accidentAddress)
+        sessionStorage.setItem('location_address',data.accidentAddress);
+        sessionStorage.setItem('isDisaster', 'not');
     }
     $scope.toexcel = function () {
         $("#table2excel").table2excel({
@@ -83,6 +84,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', function ($scope,
     }
     $scope.detail = function (orderNo) {
         sessionStorage.setItem('orderNo', orderNo);
+        sessionStorage.setItem('isDisaster', 'not');
         goto_view('main/detail');
     }
     $scope.Page = function (type) {

@@ -25,11 +25,12 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
             }
         }
     }
-    $scope.site = function (id, area, status, url) {
+    $scope.site = function (id, area, status, url,need) {
         sessionStorage.setItem('disasterId_site', id);
         sessionStorage.setItem('disasterstatus_site', status);
         var title = id + '-' + area.split('#')[1] + area.split('#')[2];
         sessionStorage.setItem('disaster_title', title)
+        sessionStorage.setItem('driver_need_site', need);
         sessionStorage.setItem('disaster_area', area.split('#')[2])
         goto_view('main/' + url)
     }
@@ -40,9 +41,9 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
             if (res.data.http_status == 200) {
                 $scope.detail = res.data;
                 if (res.data.status == 2) {
-                    $scope.message = '查看'
+                    $scope.message2 = '查看'
                 } else {
-                    $scope.message = '管理'
+                    $scope.message2 = '管理'
                 }
                 $scope.driver_need_conut = $scope.detail.driverNeedCnt;
                 $scope.disasterName = res.data.disasterId + '-' + res.data.areaDesc.split('#')[2];
@@ -102,6 +103,8 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
             APIService.start_disaster($scope.url, data.disasterId).then(function (res) {
                 if (res.data.http_status == 200) {
                     $scope.get_disaster_detail();
+                } else {
+                    isError(res)
                 }
             })
         }

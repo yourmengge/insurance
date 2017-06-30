@@ -1,10 +1,17 @@
 <div class="adddriver" ng-controller="editorderCtrl" ng-init="initData()">
     <h2>修改订单</h2>
+    <button class="goback" ng-click="goBack()">返回</button>
+    <h4 ng-hide="isDisaster == 'not'" class="detail_title">
+        订单：{{orderNo}}&emsp;&emsp;&emsp;{{title}}
+    </h4>
     <div class="addorder">
         <table>
             <tr>
                 <td>事故地点：</td>
-                <td>
+                <td ng-hide="second">
+                    {{editAddress}}
+                </td>
+                <td ng-hide="!second">
                     <input class="input" type="text" ng-model="editAddress" ui-sref='main.selectlocation'>
                 </td>
             </tr>
@@ -24,6 +31,6 @@
             </tr>
         </table>
         <button class="button" style="margin-left: 5vw;margin-top: 30px;" ng-click="addOrder()">提交</button>
-        <button class="button button_del" style="margin-left: 50px;;margin-top: 30px;"  ng-click="goBack()">返回</button>
+        <!--<button class="button button_del" style="margin-left: 50px;;margin-top: 30px;" ng-click="goBack()">返回</button>-->
     </div>
 </div>

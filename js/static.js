@@ -1,8 +1,8 @@
 var
-    host = 'http://dev.road167.com:8080/extrication';
-    url = 'http://localhost:8080';
-    // host = 'http://test.road167.com/extrication';
-    // url = 'http://test.road167.com';
+    // host = 'http://dev.road167.com:8080/extrication';
+    // url = 'http://localhost:8080';
+    host = 'http://test.road167.com/extrication';
+    url = 'http://test.road167.com';
     // host = 'http://www.road167.com/extrication';
     // url = 'http://www.road167.com';
 urlOrder = '/order';
@@ -33,7 +33,7 @@ isPhone = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
 urlSpecify_fleet = '/specify-fleet';
 token = '';
 userId = ''
-urlTrack5 = '/baidu/map/trace/entity/list?$limit=10&disasterId=';
+urlTrack5 = '/baidu/map/trace/entity/list?disasterId=';
 urlKey = '&key=';
 urlTaskStatus = '&TaskStatus=';
 urlDisaster = '/disaster/page';

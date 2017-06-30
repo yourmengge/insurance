@@ -94,7 +94,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
      */
     $scope.add = function () {
         var data = {
-            disasterId:sessionStorage.getItem('disasterId_site'),
+            disasterId: sessionStorage.getItem('disasterId_site'),
             address: $scope.searchName,
             addressAbbr: $scope.remark,
             longitude: $scope.lng,
@@ -112,7 +112,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('修改成功');
-                        goto_view('main/site');
+                        window.history.back();
                     } else {
                         isError(res);
                     }
@@ -122,7 +122,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('添加成功');
-                        goto_view('main/site')
+                        window.history.back();
                     } else {
                         isError(res);
                     }

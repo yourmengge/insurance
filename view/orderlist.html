@@ -7,7 +7,7 @@
         <input class="input" type="text" ng-model="caseNo" style="width:160px;" placeholder="请输入案件号">
         <button class="button" ng-click="search()">查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
-        <button class="button" ng-click="toexcel()">
+        <button class="button output_button" ng-click="toexcel()">
             导出当前页到excel
         </button>
     </p>
@@ -47,12 +47,12 @@
             <td ng-hide="1">{{a.accidentCarNoDesc}}</td>
             <td ng-hide="1">{{a.insuranceTypeDesc}}</td>
             <td>{{a.statusDesc}}</td>
-            <td class="noExl">{{a.accidentAddress}}</td>
-            <td ng-hide="1">{{a.accidentAddressPicture}}</td>
+            <td class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.accidentAddress}}</td>
+            <td class="{{a.accidentAddressPicture == null?'noExl':''}}" ng-hide="1">{{a.accidentAddressPicture}}</td>
             <td>{{a.accidentDriverPhone}}</td>
             <td ng-hide="1">{{a.fixAddressPicture|Shi}}</td>
-            <td class="noExl">{{a.fixAddress}}</td>
-            <td ng-hide="1">{{a.fixAddressPicture}}</td>
+            <td class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.fixAddress}}</td>
+            <td ng-hide="1" class="{{a.accidentAddressPicture == null?'noExl':''}}" >{{a.fixAddressPicture}}</td>
             <td ng-hide="1">{{a.departureTime|ToLocal}}</td>
             <td ng-hide="1">{{a.grabTime|ToLocal}}</td>
             <td ng-hide="1">{{a.accidentReachTime|ToLocal}}</td>
@@ -60,7 +60,7 @@
             <td class="noExl">
                 <button class="button" ng-click="detail(a.orderNo)" style="width: 70px;">查看</button>
                 <button class="button green" ng-hide="a.status >= 4" ng-click="editOrder(a)" style="width: 70px;    background: #36b304;">修改</button>
-                <button class="button red" ng-hide="a.status >= 4"  ng-click="cancel(a.orderNo)" style="width: 70px;    background: #f00;">取消</button>
+                <button class="button red" ng-hide="a.status >= 4" ng-click="cancel(a.orderNo)" style="width: 70px;    background: #f00;">取消</button>
             </td>
         </tr>
     </table>

@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['nar_location','disastermap','driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['nar_location','disasterdriverorderlist','disastermap','driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -23,6 +23,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.selectlocation', {
             url: '/selectlocation',
             templateUrl: 'view/selectlocation.html'
+        })
+        .state('main.disasterdriverorderlist', {
+            url: '/disasterdriverorderlist',
+            templateUrl: 'view/disasterdriverorderlist.html'
         })
         .state('main.editorder', {
             url: '/editorder',
@@ -181,6 +185,17 @@ insurance.filter('ToDay', function () {
             return nowtime;
         } else {
             return null;
+        }
+    }
+    return ToLocal;
+});
+insurance.filter('SecondOrder', function () {
+    function ToLocal(shijianchuo) {
+        if (shijianchuo != null) {
+            
+            return '是';
+        } else {
+            return '否';
         }
     }
     return ToLocal;

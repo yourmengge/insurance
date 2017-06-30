@@ -7,6 +7,13 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
         { id: 2, name: '已关闭' }
     ]
     $scope.initData = function () {
+        if (sessionStorage.getItem('createFirst') == 'yes') {
+            setTimeout(function () {
+                alert('请点击“管理”设置保全场地和大灾查勘员')
+                sessionStorage.removeItem('createFirst')
+            }, 1000);
+
+        }
         $scope.status = '';
         $scope.disasterNo = '';
         $('#startDay').val('')
@@ -21,7 +28,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
                 $scope.pageCount = Math.ceil(res.data.count / limit);
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
-                }else{
+                } else {
                     $scope.page_p = show;
                 }
                 $scope.up = hide;
@@ -43,7 +50,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.get_disaster_list($('#startDay').val(), '', $scope.status, '')
         }
     }
-    $scope.site = function (id, area, status, url,need) {
+    $scope.site = function (id, area, status, url, need) {
         sessionStorage.setItem('disasterId_site', id);
         sessionStorage.setItem('driver_need_site', need);
         sessionStorage.setItem('disasterstatus_site', status);
@@ -63,11 +70,14 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
         if (confirm('确定要' + $scope.message + '大灾(' + data.disasterId + '-' + data.areaDesc.split('#')[2] + ')吗？')) {
             APIService.start_disaster($scope.url, data.disasterId).then(function (res) {
                 if (res.data.http_status == 200) {
-                    $scope.get_disaster_list();
+                    $scope.initData();
+                } else {
+                    isError(res)
+                    $scope.initData();
                 }
             })
         } else {
-            $scope.isChecked(data.status);
+            $scope.initData();
         }
 
     }
@@ -115,7 +125,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
         } else {
             area = $scope.disasterNo
         }
-        APIService.paging(urlV1 + urlDisaster + '?startDate=' + $('#startDay').val() + '&areaDesc=' + area + '&disasterId=' + disasterId + '&status=' + $scope.status, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + urlDisaster + '?statisUser=true&startDate=' + $('#startDay').val() + '&areaDesc=' + area + '&disasterId=' + disasterId + '&status=' + $scope.status, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.list = res.data.items

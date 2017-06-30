@@ -2,7 +2,7 @@
     <h2>查看大灾</h2>
     <p class="search_div">
         <button class="button" ui-sref='main.createdisaster'>创建大灾</button>
-        <button class="button" ui-sref='main.disasterdriver'>统计订单</button>
+        <button class="button" ui-sref='main.totleorder'>统计订单</button>
 
     </p>
     <p class="search_div">
@@ -10,7 +10,7 @@
         <input type="date" id="startDay" class="input"> 状态： <select class="input" name="" style="width:100px;" ng-model="status"
             ng-options="a.id as a.name for a in statusTexts" id=""></select>
 
-        <button class="button" ng-click="search_disaster()" >查询</button>
+        <button class="button search_button" ng-click="search_disaster()">查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
         <!--<button class="button" ng-click="toexcel()">
             导出当前页到excel
@@ -19,28 +19,32 @@
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
             <td>编号</td>
-            <td>城市</td>
-            <td>区域</td>
+            <td style="width:8vw">城市</td>
+            <td style="width:15vw">区域</td>
             <td>开始日期</td>
-            <td>查勘员数量</td>
-            <td>司机配置</td>
-            <td>是否启用</td>
+            <td style="width:7vw">查勘员数量</td>
+            <td style="width:6vw">司机配置</td>
+            <td style="width:4vw">是否启用</td>
             <td>操作</td>
-            <td>设置</td>
+            <td style="width:6vw">设置</td>
         </tr>
         <tr ng-repeat="a in list">
             <td>{{a.disasterId}}</td>
-            <td>{{a.areaDesc|DisasterShi}}</td>
-            <td>{{a.areaDesc|DisasterQu}}</td>
+            <td style="width:8vw">{{a.areaDesc|DisasterShi}}</td>
+            <td style="width:15vw">{{a.areaDesc|DisasterQu}}</td>
             <td>{{a.startDate}}</td>
-            <td>{{a.inspectorCount}}</td>
-            <td>{{a.driverCount}}/{{a.driverNeedCnt}}</td>
-            <td>
+            <td style="width:7vw">{{a.inspectorCount}}</td>
+            <td style="width:6vw">{{a.driverCount}}/{{a.driverNeedCnt}}</td>
+            <td style="width:4vw">
                 <label ng-hide="a.status == 2"><input ng-click="start(a)" ng-model="status" class="mui-switch mui-switch-animbg" type="checkbox" ng-checked="isChecked(a.status)"></label>
             </td>
-            <td><a ng-click="viewdetail(a.disasterId)">查看</a>&emsp;<a ui-sref='main.batchaddorder' ng-hide="a.status == 2">下单</a></td>
-            <td class="table_td">
-                <a>管理</a>
+            <td>
+                <button class="button_small" ng-click="viewdetail(a.disasterId)">详情</button>&nbsp;
+                <button class="button_small" ng-click="site(a.disasterId,a.areaDesc,a.status,'batchaddorder','')" ng-hide="a.status != 1">下单</button>&nbsp;
+                <button class="button_small" ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterorderlist','')">统计</button>
+            </td>
+            <td class="table_td" style="width:6vw">
+                <a class="table_a">管理</a>
                 <div class="table_hover">
                     <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterdriver',a.driverNeedCnt)">管理司机</p>
                     <p ng-click="site(a.disasterId,a.areaDesc,a.status,'disasterinspector','')">管理查勘员</p>

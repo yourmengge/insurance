@@ -9,10 +9,10 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
     // $scope.addinspector = function(){
     //     $('.find-div-body').toggle();
     // }
-
-    $('#addinspector').click(function () {
-        $('.addinspector_div').toggle(500);
-    })
+    $scope.add = function () {
+        $('.alert_bg').css('display', 'block')
+        $('.addinspector_div').css('display', 'block')
+    }
 
     $scope.cancle = function () {
         $scope.key = '';
@@ -21,6 +21,8 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
     }
 
     $scope.initData = function () {
+
+        $scope.title = sessionStorage.getItem('disaster_title')
         $scope.disasterId = sessionStorage.getItem('disasterId_site');
         $scope.status = sessionStorage.getItem('disasterstatus_site');
         $scope.areaList = sessionStorage.getItem('disaster_area')
@@ -59,6 +61,7 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
     }
     $scope.close = function () {
         $('.alert_bg').css('display', 'none')
+        $('.addinspector_div').css('display', 'none')
         $('.update_inspector').css('display', 'none')
     }
     //查询大灾查勘员列表
@@ -123,7 +126,7 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
             if (res.data.http_status == 200) {
                 layer.msg('添加成功')
                 $scope.key = '';
-                $('.addinspector_div').toggle();
+                $scope.close();
                 $scope.get_disaster_inspector_list();
             } else {
                 isError(res);

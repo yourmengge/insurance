@@ -12,6 +12,7 @@ site.controller('siteCtrl', ['$scope', 'APIService', function ($scope, APIServic
     }
 
     $scope.initData = function () {
+        $scope.title = sessionStorage.getItem('disaster_title')
         $scope.disasterId = sessionStorage.getItem('disasterId_site');
         $scope.status = sessionStorage.getItem('disasterstatus_site');
         $scope.get_disaster_address_list();
