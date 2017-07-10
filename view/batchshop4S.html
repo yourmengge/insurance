@@ -1,0 +1,32 @@
+<div class="adddriver" ng-controller="batchaddorderCtrl" ng-init="initData()">
+    <h2>批量下单</h2>
+    <button class="goback" ng-click="back()"></button>
+    <h4 class="detail_title">
+        {{title}}
+    </h4>
+    <input class="input_file" name="input" type="file" ng-click="clear()" id="file" onchange="angular.element(this).scope().file()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+    
+    <button class="button_blank">选取文件</button>
+    <button id="add" class="button" ng-click="submit_order_list()" style="height:36px;">确认下单</button>
+    <a  href="{{url}}" class="download"></a>
+    <p>{{file_title}}</p>
+    <p ng-hide="table" style="text-align: center;font-size: 25px;">导入文件预览</p>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td></td>
+            <td>案件号</td>
+            <td>车牌</td>
+            <td>报案人</td>
+            <td>报案人电话</td>
+            <td>出险地点</td>
+        </tr>
+        <tr ng-repeat="a in list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.caseNo}}</td>
+            <td>{{a.accidentCarNoDesc }}</td>
+            <td>{{a.accidentDriverName}}</td>
+            <td>{{a.accidentDriverPhone}}</td>
+            <td>{{a.accidentAddress}}</td>
+        </tr>
+    </table>
+</div>

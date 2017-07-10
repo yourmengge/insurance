@@ -1,0 +1,83 @@
+<div class="adddriver" ng-controller="shop4SCtrl" ng-init="initData()">
+    <h2>推修厂管理</h2>
+    <p class="search_div">
+        <button class="button" ng-click="search()">添加</button>
+        <button class="button" ng-click="search()">删除</button>
+        <button class="button" ui-sref="main.batchshop4S">批量导入</button>
+
+        <input type="text" placeholder="请输入推修码或车行全称" class="input" style="width:200px;" ng-model="keyword">
+        <button class="button" ng-click="search()">查询</button>
+        <button class="button" ng-click="initData()">显示全部</button>
+    </p>
+    <table cellspacing="0" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td>
+                <input type="checkbox">
+            </td>
+            <td>
+                支公司
+            </td>
+            <td>
+                推修码
+            </td>
+            <td>
+                车行全称
+            </td>
+            <td>
+                车行简称
+            </td>
+            <td>
+                车行地址
+            </td>
+            <td>
+                售后经理
+            </td>
+            <td>
+                电话
+            </td>
+            <td>
+                售后经理2
+            </td>
+            <td>
+                电话2
+            </td>
+            <td>
+                操作
+            </td>
+        </tr>
+        <tr ng-repeat="a in shopList">
+            <td>
+                <input type="checkbox">
+            </td>
+            <td>
+                {{a.branchCompany}}
+            </td>
+            <td>
+                {{a.pushFixCode}}
+            </td>
+            <td>
+                {{a.fullName}}
+            </td>
+            <td>
+                {{a.simpleName}}
+            </td>
+            <td>
+                {{a.address}}
+            </td>
+            <td>
+                {{a.afterSaleMgr}}
+            </td>
+            <td>
+                {{a.afterSalePhone}}
+            </td>
+            <td>
+                {{a.afterSaleMgr2}}
+            </td>
+            <td>
+                {{a.afterSalePhone2}}
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+</div>
