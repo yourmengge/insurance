@@ -1,12 +1,14 @@
 <div class="adddriver" ng-controller="disasterorderlistCtrl" ng-init="initData()">
     <h2>订单列表</h2>
+    <button class="goback" ng-click="back()"></button>
     <h4 class="detail_title">    
         {{title}}
         <button class="button" ui-sref='main.driverordertotle'>司机订单统计</button>
-        <button class="button" ui-sref='main.batchaddorder'>下单</button>
-    
+        <button class="button" ng-hide="status != 1" ui-sref='main.batchaddorder'>下单</button>
+        <button class="refrash" ng-click="Page('home')" ><input ng-click="Page('home')" type="button" class="refreash_icon">刷新</button>
+        <span style="float:right;margin-right: 20px;line-height: 33px;">最后更新时间{{nowTime | ToLocal}}</span>
     </h4>
-    <button class="goback" ng-click="back()">返回</button>
+    
     
     <p class="search_div">
         开始时间：<input type="date" id="startDay" class="input"> 结束时间：

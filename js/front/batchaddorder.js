@@ -10,6 +10,13 @@ batchaddorder.controller('batchaddorderCtrl', ['$scope', 'APIService', "$http", 
     $scope.initData = function () {
         $scope.table = hide;
         $scope.list = '';
+        $scope.companyNo = sessionStorage.getItem('companyNo').split('-')[0]
+        if($scope.companyNo == 6){
+            $scope.url = 'http://test.road167.com/insurance/picctemplate.xls'
+        }else{
+            $scope.url = 'http://test.road167.com/insurance/template.xls'
+        }
+        $scope.title = sessionStorage.getItem('disaster_title')
         $scope.disasterId = sessionStorage.getItem('disasterId_site');
     }
     $scope.clear = function () {
@@ -18,8 +25,10 @@ batchaddorder.controller('batchaddorderCtrl', ['$scope', 'APIService', "$http", 
     $scope.file = function () {
         loading();
         var f = document.getElementById("file").value;
+        $scope.file_title = document.getElementById("file").files[0].name;
         if (!/\.(xls|xlsx)$/.test(f)) {
             alert("文件类型必须是.xls或者.xlsx");
+            $scope.file_title = '';
             document.getElementById("file").value = '';
             closeloading();
             return false;
@@ -43,6 +52,7 @@ batchaddorder.controller('batchaddorderCtrl', ['$scope', 'APIService', "$http", 
                     $scope.list = res.data.tmpOrderList
                     $scope.table = show;
                 } else if (res.data.http_status == 400) {
+                    $scope.file_title = '';
                     alert(res.data.message)
                     document.getElementById("file").value = '';
                     closeloading();
@@ -54,7 +64,7 @@ batchaddorder.controller('batchaddorderCtrl', ['$scope', 'APIService', "$http", 
         if (newValue != '') {
             $('#add').removeClass('button_disabled').removeAttr("disabled");
         } else {
-            $('#add').addClass('button_disabled').attr("disabled", 'true');
+            $('#add').addClass('button_disabled ').attr("disabled", 'true');
         }
     })
     $scope.submit_order_list = function () {

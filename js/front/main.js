@@ -20,6 +20,9 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
             }
         })
     }
+    $scope.goto = function(){
+        goto_view('main/disaster')
+    }
     $scope.initData = function () {
         $('.left_menu p').css('display', 'none')
         $scope.companyName = sessionStorage.getItem('companyName');

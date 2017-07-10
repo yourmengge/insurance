@@ -1,6 +1,6 @@
 <div class="adddriver" ng-controller="driverordertotleCtrl" ng-init="initData()">
     <h2>司机订单统计</h2>
-    <button class="goback" ng-click="back()">返回</button>
+    <button class="goback" ng-click="back()"></button>
     <h4 class="detail_title">
         {{title}}
     </h4>
@@ -30,7 +30,7 @@
             <td>{{a.userPhone}}</td>
             <td>{{a.joinTime | ToLocal}}</td>
             <td>{{a.arriveTime | ToLocal}}</td>
-            <td>{{a.applyLeaveTime | ToLocal}}</td>
+            <td>{{a.leaveTime | ToLocal}}</td>
             <td>{{a.orderCntDoing}}</td>
             <td>{{a.orderCntFinish}}</td>
             <td>{{a.orderCntCancel}}</td>

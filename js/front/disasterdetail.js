@@ -37,7 +37,6 @@ disasterdetail.controller('disasterdetailCtrl', ['$scope', 'APIService', functio
     //获取大灾详情
     $scope.get_disaster_detail = function () {
         APIService.get_disaster_detail(sessionStorage.getItem('disasterId')).then(function (res) {
-            console.log(res);
             if (res.data.http_status == 200) {
                 $scope.detail = res.data;
                 if (res.data.status == 2) {

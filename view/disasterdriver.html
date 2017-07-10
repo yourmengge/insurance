@@ -1,16 +1,22 @@
 <div class="adddriver" ng-controller="disasterdriverCtrl" ng-init="initData()">
     <h2 ng-hide="status == 2">大灾司机管理</h2>
     <h2 ng-hide="status != 2">查看大灾司机</h2>
-    <button class="goback" ng-click="back()">返回</button>
+    <button class="goback" ng-click="back()"></button>
     <h4 class="detail_title">
         {{title}}
-        <button ng-hide="status == 2" class="button" ui-sref='main.driverlocation'>查看司机位置</button><button class="button" ui-sref='main.review' ng-hide="status == 2">司机退出审核</button>
+        <button ng-hide="status == 2" class="button" ui-sref='main.driverlocation'>查看司机位置</button><button class="button"
+            ui-sref='main.review' ng-hide="status == 2">司机退出审核</button>
     </h4>
     <p ng-hide="status != 2">
         司机需求量：{{driverNeedcount}}
     </p>
-    <p id="selected"><button class="selected_button selected_button_click" ng-click="change_search('driver')">普通查询</button><button class="selected_button" ng-click="change_search('fleet')">车队查询</button><button class="selected_button" ng-click="initData()" >查看全部</button></p>
-    <p>{{type}}搜索：<input type="text" ng-model="key" class="input" style="width:250px" placeholder="{{message}}">&emsp;&emsp;&emsp;状态：<select  style="width:100px" class="input" name="" ng-model="searchStatus" id="" ng-options="a.id as a.name for a in statusTexts" ></select> <button class="button search_button" ng-click="search()">查询</button></p>
+    <p id="selected"><button class="selected_button selected_button_click" ng-click="change_search('driver')">普通查询</button><button class="selected_button"
+            ng-click="change_search('fleet')">车队查询</button></p>
+    <p>{{type}}搜索：<input type="text" ng-model="key" class="input" style="width:250px" placeholder="{{message}}">&emsp;&emsp;&emsp;状态：
+        <select style="width:100px" class="input" name="" ng-model="searchStatus" id="" ng-options="a.id as a.name for a in statusTexts"></select>
+        <button class="button search_button" ng-click="search()">查询</button>
+        <button class="button search_button" ng-click="initData()">查看全部</button>
+    </p>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
             <td style="width:60px;">状态</td>
@@ -25,7 +31,7 @@
             <td ng-hide="status == 2">操作</td>
         </tr>
         <tr ng-repeat="a in driverlist">
-            <td  style="width:60px;">{{a.statusDesc}}</td>
+            <td style="width:60px;">{{a.statusDesc}}</td>
             <td>{{a.userName}}</td>
             <td>{{a.userPhone}}</td>
             <td>{{a.fleetName}}</td>

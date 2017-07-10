@@ -4,6 +4,7 @@
         <img src="img/logo.png" alt="" class="logo">
         <span style="float:left;">{{companyName}}</span>
         <span>欢迎您，{{adminName}}</span>
+        
         <a style="cursor:pointer" ng-click="logout()">退出登录</a>
     </div>
     <div class="left_menu">
@@ -28,10 +29,13 @@
         <p id="lm6" ui-sref='main.team' class='team'>
             <img src="img/location1.png" alt="">施救车队管理
         </p>
-        <p id="lm7" ui-sref='main.disaster' class='disaster'>
+        <p id="lm8" ng-click="goto()" class='disaster'>
             <img src="img/location1.png" alt="">大灾管理
+            <a href="view/help.html" id="help" target="blank" title="大灾帮助文档"></a>
         </p>
-        
+        <p id="lm9" ui-sref='main.shop4S' class='disaster'>
+            <img src="img/location1.png" alt="">推修厂管理
+        </p>
     </div>
     <div ui-view class="right_content"></div>
 </div>

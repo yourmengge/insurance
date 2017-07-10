@@ -11,7 +11,7 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     sessionStorage.setItem('lmId', 1)
 
 
-                    if (contains(res.data.funcList, 1)) {
+                    if (contains(res.data.funcList, 1) || contains(res.data.funcList, 1001)) {
                         sessionStorage.setItem('zhipaidiaodu', 1);
                     } else {
                         sessionStorage.setItem('zhipaidiaodu', 0);

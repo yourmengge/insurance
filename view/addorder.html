@@ -43,7 +43,7 @@
                 <td>车牌号：</td>
                 <td><input class="input" type="text" ng-model="accidentCarNo" placeholder="请输入车牌号"></td>
             </tr>
-            <tr>
+            <tr ng-hide="!diaodu">
                 <td>指派司机：</td>
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()"  placeholder="请选择指派司机" readonly="true">
@@ -56,6 +56,12 @@
                     <span ng-hide="error != 0">当前没有司机 请<span style="color:blue;cursor:pointer" ui-sref="main.adddriver">添加指派司机</span></span>
                 </td>
             </tr>
+            <tr ng-hide="diaodu">
+                <td>指派调度：</td>
+                <td>
+                    <select class="input" ng-model="GrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
+                </td>
+            </tr>
             <tr>
                 <td>车保类型：</td>
                 <td><input type="checkbox" class="checkbox" ng-model="biaodi">标的车 <input ng-model="sanzhe" type="checkbox" class="checkbox">三者车</td>
@@ -65,8 +71,8 @@
                 <td>拖车</td>
             </tr>
         </table>
-        <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()">返回</button>-->
-        <button class="button addorder_btn" style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
+        <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->
+        <button class="button addorder_btn " style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
 
         <div class="closeBg" ng-click="closeBG()">
             <img src="img/close.png" ng-click="closeBG()" alt="" class="close_img">

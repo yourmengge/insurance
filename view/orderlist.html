@@ -58,9 +58,9 @@
             <td ng-hide="1">{{a.accidentReachTime|ToLocal}}</td>
             <td ng-hide="1">{{a.orderEndTime|ToLocal}}</td>
             <td class="noExl">
-                <button class="button" ng-click="detail(a.orderNo)" style="width: 70px;">查看</button>
-                <button class="button green" ng-hide="a.status >= 4" ng-click="editOrder(a)" style="width: 70px;    background: #36b304;">修改</button>
-                <button class="button red" ng-hide="a.status >= 4" ng-click="cancel(a.orderNo)" style="width: 70px;    background: #f00;">取消</button>
+                <button class="detail_button" title="查看订单" ng-click="detail(a.orderNo)"></button>
+                <button class="edit_button" ng-hide="a.status >= 4" title="修改订单"  ng-click="editOrder(a)" ></button>
+                <button class="cancel_button" ng-hide="a.status >= 4" title="取消订单"  ng-click="cancel(a.orderNo)"></button>
             </td>
         </tr>
     </table>

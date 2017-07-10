@@ -1,6 +1,6 @@
 var driverlocation = angular.module('driverlocation', ['Road167']);
 var map, map2;
-var t;var isInit;
+var t; var isInit;
 driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     /**
      *返回上页 
@@ -24,21 +24,21 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
     $scope.drawLocation = function () {
         t = setTimeout(function () {
             $scope.drawLocation();
-        }, 5000);
+        }, 2000);
         map2.clearOverlays();
         APIService.get_driver_track_list($scope.disasterId, '', 'ALL', limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.list_line = [];
-                for (var i = 0; i < $scope.list.length; i++) {
-                    if ($scope.list[i].trackDesc == '离线') {
-                        $scope.list_line.push($scope.list[i]);
-                        $scope.showLoaction($scope.list[i].latest_location.longitude, $scope.list[i].latest_location.latitude, $scope.list[i].userName, $scope.list[i].userPhone)
+                for (let i = 0; i < res.data.entities.length; i++) {
+                    if (res.data.entities[i].trackDesc == '离线') {
+                        $scope.list_line.push(res.data.entities[i]);
+                        $scope.showLoaction(res.data.entities[i].latest_location.longitude, res.data.entities[i].latest_location.latitude, res.data.entities[i].userName, res.data.entities[i].userPhone)
                     }
                 }
-                if(isInit == false){
+                if (isInit == false) {
                     $scope.inteMap2();
                 }
-                
+
             } else {
                 isError(res)
             }
@@ -68,6 +68,8 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
     }
     //在地图上显示司机的位置
     $scope.showLoaction = function (lng, lat, name, phone) {
+        // var myIcon = new BMap.Icon("img/car.png", new BMap.Size(50, 50), { imageOffset: new BMap.Size(0, 0), imageSize: new BMap.Size(50, 50) });
+        // var marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: myIcon }); // 创建标注，为要查询的地方对应的经纬度
         var marker = new BMap.Marker(new BMap.Point(lng, lat)); // 创建标注，为要查询的地方对应的经纬度
         map2.addOverlay(marker);
         if (name != '' && name != null) {
@@ -104,6 +106,7 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         $scope.disasterId = sessionStorage.getItem('disasterId_site');
         $scope.initMap('allmap');
         $scope.get_driver_track_list($scope.disasterId, '', 'ALL', limit);
+        $scope.title = sessionStorage.getItem('disaster_title')
         $scope.status = 'ALL'
         $scope.key = ''
         $scope.driverName = '';

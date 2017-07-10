@@ -9,7 +9,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
     $scope.initData = function () {
         if (sessionStorage.getItem('createFirst') == 'yes') {
             setTimeout(function () {
-                alert('请点击“管理”设置保全场地和大灾查勘员')
+                alert('请点击“场地”，“查勘”设置保全场地和大灾查勘员')
                 sessionStorage.removeItem('createFirst')
             }, 1000);
 

@@ -27,6 +27,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', f
         goto_view('main/detail');
     }
     $scope.initData = function () {
+        $scope.nowTime = new Date().getTime();
         var today = time.getTime();
         $('#startDay').val(ToLocalTime(today - 2678400000));
         $('#endDay').val(ToLocalTime(today));

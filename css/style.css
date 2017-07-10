@@ -219,7 +219,7 @@ textarea{
 }
 .input_p{
     border: solid 1px #dedede;
-    height: 40px;
+    min-height: 40px;
     line-height: 40px;
     padding-left: 10px;
     background: #fff;
@@ -284,7 +284,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: #f00;
 }
 .button_disabled{
-    background: #dedede;
+    background: #dedede !important;
 }
 .add_driver_div_p{
     display: none;
@@ -325,7 +325,7 @@ input[type=number]::-webkit-outer-spin-button {
 .table tr td{
     border: solid 1px #c8f0ff;
     cursor: pointer;
-        padding: 5px 15px;
+    padding: 3px 10px;
 }
 .table tr:hover{
     background: #f7f7f7;
@@ -390,7 +390,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 90px;
 }
 .detail_table{
-    width: 60vw;
+    width: 72vw;
     text-align: right;
 }
 .detail_table tr{
@@ -401,9 +401,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .detail_table tr td:nth-child(odd){
     color:#d42626;
+    width: 100px;
 }
 .detail_table tr td:nth-child(even){
     text-align: left;
+        min-width: 200px;
 }
 .detail_table tr:hover{
     background: none;
@@ -449,22 +451,17 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .goback{
     float: right;
-    width: 50px;
-    border: solid 1px #0d8fde;
-    background: #fff;
-    color: #0d8fde;
-    border-radius: 2px;
+    width: 63px;
+    background: url(../img/fanhui-moren.png) no-repeat;
     height: 25px;
     cursor: pointer;
-    position: fixed;
-    right: 100px;
+    position: relative;
+    border: none;
     z-index: 0;
-    top: 94px;
+    top: -69px;
 }
-.goback:hover{
-    border: solid 1px #0d8fde;
-    color: #fff;
-    background: #0d8fde;
+.goback:active{
+    background: url(../img/fanhui-dianji.png) no-repeat;
 }
 .search_div{
     padding: 5px;
@@ -863,22 +860,30 @@ input[type=number]::-webkit-outer-spin-button {
     margin-top: 0;
 }
 .selected_button{
-    border-radius: 4px;
-    border: 1px solid #21b6ff;
-    background: #fff;
-    color: #21b6ff;
-    height: 40px;
-    min-width: 120px;
-    margin-right: 20px;
-}
-.selected_button_click{
-    border-radius: 4px;
-    border: 1px solid #21b6ff;
-    background: #21b6ff;
+    float: left;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #e8a649;
+    background: #e8a649;
     color: #fff;
     height: 40px;
     min-width: 120px;
-    margin-right: 20px;
+    margin-left: 20px;
+}
+.selected_button_click{
+    float: left;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #e8a649;
+    background: #fff;
+    color: #e8a649;
+    height: 40px;
+    min-width: 120px;
+    border-bottom: solid 1px #fff;
+    margin-top: 1px;
+    margin-left: 20px;
+}
+#selected{
+    border-bottom: solid 1px #e8a649;
+    height: 40px;
 }
 .green_font{
     color: #39aa49
@@ -894,9 +899,118 @@ input[type=number]::-webkit-outer-spin-button {
 
 }
 .button_small{
-    background: #3e99ff;
-    color: #fff;
-    border: none;
+    background: none;
+    color: #3e99ff;
     padding: 4px 10px;
     border-radius: 3px;
+    border: solid 1px #3e99ff;
+    cursor: pointer;
 }
+.button_small_green{
+    border: solid 1px #52b73a;
+    color: #52b73a;
+}
+.button_small_orange{
+    background: #ff9321;
+    color: #fff;
+    border: solid 1px #ff9321;
+}
+.button_small_blue{
+    background: #3e99ff;
+    color: #fff;
+    border: solid 1px #3e99ff;
+}
+.button_small:active{
+    background: #3e99ff;
+    color: #fff;
+}
+.button_small_green:active{
+    background: #52b73a;
+    color: #fff;
+}
+.button_small_orange:active{
+    background: #ff9321;
+    color: #fff;
+}
+.button_small_orange:active{
+    background: #3e99ff;
+    color: #fff;
+}
+.button_small_font{
+    border: none;
+    text-decoration: underline;
+    background: none;
+    color: #3e99ff;
+    cursor: pointer;
+    height: 30px;
+    width: 50px;
+    font-size: 16px;
+}
+.button_small_font:hover{
+    background: rgba(232, 232, 232, 1);;
+
+}
+.button_blank{
+    width: 133px;
+    height: 36px;
+    color: #21b6ff;
+    background: #fff;
+    border: solid 1px #21b6ff;
+    border-radius: 4px;
+}
+.button_blank:active{
+    color: #fff;
+    background: #21b6ff;
+}
+.input_file{
+        float: left;
+    position: absolute;
+    height: 36px;
+    width: 133px;
+    opacity: 0;
+}
+.download{
+    float: right;
+    width: 133px;
+    height: 43px;
+    text-decoration: none;
+    background: url(../img/xiazai-muban-anniu.png) no-repeat;
+    background-size: 100%;
+}
+.download:active{
+    background: url(../img/xiazai-dianjitai-anniu-.png) no-repeat;
+    background-size: 100%;
+}
+.refreash_icon{
+    width: 19px;
+    border: none;
+    height: 19px;
+    background: url(../img/refresh.png);
+    float: left;
+    margin-left: 20px;
+    margin-right: -14px;
+}
+.refrash{
+    float: right;
+    width: 120px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #ff4546;
+    background: none;
+    color: #ff4546;
+}
+.refrash:active{
+    background: #ff4546;
+    color: #fff;
+}
+.refrash:active .refreash_icon{
+    background: url(../img/refresh_pre.png);
+}
+        #help {
+            background: url(../img/help.png);
+            width: 30px;
+            height: 30px;
+            display: block;
+            float: right;
+            margin-top: -3px;
+        }

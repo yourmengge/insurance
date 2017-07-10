@@ -1,8 +1,20 @@
 var addorder = angular.module('addorder', ['Road167']);
+var fleet_list;
 addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     // $('.addorder_div').click(function () {
     //     $('.fixaddress_div').css('display', 'none');
     // })
+    fleet_list = [
+        {
+            bossName: "不指派调度",
+            bossPhone: "",
+            bossUserId: '',
+            companyNo: "",
+            fleetId: '不指派调度',
+            fleetName: "不指派调度",
+            id: '1'
+        }
+    ]
     $scope.change = function () {
         if ($scope.message != null && $scope.message != '') {
             $('#button').removeAttr("disabled").removeClass('button_disabled');
@@ -18,7 +30,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 if (res.data.http_status == 200) {
                     layer.msg('解析成功');
                     // history.pushState({}, "", url + "insurance/#!/main/addorder?type=success");
-                    sessionStorage.setItem('jiexi_success','success');
+                    sessionStorage.setItem('jiexi_success', 'success');
                     $scope.jiexi = hide;
                     $scope.accident = res.data.accidentAddress;
                     $scope.caseNo = res.data.caseNo;
@@ -47,7 +59,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             caseNo: $scope.caseNo,
             accidentCarNo: $scope.accidentCarNo,
             accidentCarNoType: $scope.accidentCarNoType,
-            designateGrabDriverId: $scope.driverId,
+            designateGrabUserId: $scope.GrabUserId,
+            designateGrabDriverId: $scope.Driver,
             insuranceType: '',
             carType: 2,
             accidentLongitude: 0,
@@ -92,7 +105,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             APIService.add_order(order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
-                    sessionStorage.setItem('jiexi_success','');
+                    sessionStorage.setItem('jiexi_success', '');
                     setTimeout(function () {
                         goto_view('main/orderlist');
 
@@ -115,6 +128,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             accidentCarNo: $scope.accidentCarNo,
             accidentCarNoType: $scope.accidentCarNoType,
             designateGrabDriverId: $scope.Driver,
+            designateGrabUserId: $scope.GrabUserId,
             insuranceType: '',
             carType: 2,
             accidentLongitude: 0,
@@ -161,8 +175,14 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         if (newValue == '' || newValue == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts2 = 0;
+
         } else {
-            $scope.counts2 = 1;
+            if (isPhone.test(newValue)) {
+                $scope.counts2 = 1;
+            }else{
+                $scope.counts2 = 0;
+            }
+
         }
     });
     $scope.$watch('fixAddress', function (newValue, oldValue) {
@@ -173,16 +193,16 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.counts4 = 1;
         }
     });
-    $scope.$watch('Driver', function (newValue, oldValue) {
-        if (newValue == '' || newValue == null) {
-            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
-            $scope.counts3 = 0;
-        } else {
-            $scope.counts3 = 1;
-        }
-    });
-    $scope.$watch('counts1 + counts2 + counts3 + counts4', function (newValue, oldValue) {
-        if (newValue == 4) {
+    // $scope.$watch('Driver', function (newValue, oldValue) {
+    //     if (newValue == '' || newValue == null) {
+    //         $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+    //         $scope.counts3 = 0;
+    //     } else {
+    //         $scope.counts3 = 1;
+    //     }
+    // });
+    $scope.$watch('counts1 + counts2  + counts4', function (newValue, oldValue) {
+        if (newValue == 3) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -205,16 +225,19 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.addressId = id
         $('.fixaddress_div').css('display', 'none');
     }
-    $scope.clickDriver = function (name, phone,id) {
+    $scope.clickDriver = function (name, phone, id) {
         $scope.Driver = name + '-' + phone;
         $scope.driverId = id;
         $('.fixaddress_div').css('display', 'none');
     }
-    $scope.back = function(){
-        sessionStorage.setItem('jiexi_success','');
+    $scope.back = function () {
+        sessionStorage.setItem('jiexi_success', '');
         $scope.initData();
     }
     $scope.initData = function () {
+        if (sessionStorage.getItem('zhipaidiaodu') == 1) {
+            $scope.diaodu = 0;
+        }
         $scope.biaodi = false;
         $scope.sanzhe = false;
         $scope.counts = 0;
@@ -229,6 +252,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 $scope.accidentCarNoType = data.accidentCarNoType;
                 $scope.accidentCarNo = data.accidentCarNo;
                 $scope.Driver = data.designateGrabDriverId;
+                $scope.GrabUserId = data.designateGrabUserId;
                 $scope.accidentDriverPhone = data.accidentDriverPhone;
                 if (data.insuranceType == 1) {
                     $scope.biaodi = true;
@@ -262,6 +286,28 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             } else {
                 $scope.error = 0;
             }
+        })
+        APIService.get_team_list(200).then(function (res) {
+            fleet_list = [
+                {
+                    bossName: "不指派调度",
+                    bossPhone: "",
+                    bossUserId: '',
+                    companyNo: "",
+                    fleetId: '不指派调度',
+                    fleetName: "不指派调度",
+                    id: '1'
+                }
+            ]
+            for (var i = 0; i < res.data.count; i++) {
+                res.data.items[i].fleetName = res.data.items[i].fleetName + '-' + res.data.items[i].bossPhone
+                fleet_list.push(res.data.items[i]);
+            }
+            $scope.driver_list = fleet_list;
+            if (data == null) {
+                $scope.GrabUserId = '';
+            }
+
         })
     }
 

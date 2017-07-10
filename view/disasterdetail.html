@@ -1,10 +1,11 @@
 <div class="fixaddress" ng-controller="disasterdetailCtrl" ng-init="initData()">
-    <button class="goback" ui-sref='main.disaster'>返回</button>
+
     <h2>大灾详情</h2>
+    <button class="goback" ui-sref='main.disaster'></button>
     <h4 class="detail_title">{{disasterName}}
-        <button ng-hide="detail.status == 2 || detail.status == 1" class="button" ng-click="start(detail)">开启大灾</button>
-        <button ng-hide="detail.status == 2 || detail.status == 0" class="button" ng-click="start(detail)">关闭大灾</button>
-        </h4>
+        <button ng-hide="detail.status == 2 || detail.status == 1" class="button red" ng-click="start(detail)">开启大灾</button>
+        <button ng-hide="detail.status == 2 || detail.status == 0" class="button red" ng-click="start(detail)">关闭大灾</button>
+    </h4>
     <table class="detail_table">
         <tr>
             <td>大灾状态：</td>
@@ -40,32 +41,54 @@
         </tr>
         <tr>
             <td>费用说明：</td>
-            <td style="max-width: 30px;">{{detail.feeDesc}}</td>
+            <td style="max-width: 231px;word-wrap: break-word;">{{detail.feeDesc}}</td>
         </tr>
         <tr>
             <td>备注：</td>
-            <td style="max-width: 30px;">{{detail.remark}}</td>
+            <td style="max-width: 231px;word-wrap: break-word;">{{detail.remark}}</td>
         </tr>
     </table>
     <h4 class="detail_title">保全场地&emsp;&emsp;<button class="button" ng-click="site(detail.disasterId,detail.areaDesc,detail.status,'site','')">{{message2}}保全场地（{{site_counts}}个）</button></h4>
-    <ul>
-        <li ng-repeat="a in siteList">
-            <p>{{a.addressAbbr}}</p>
-            <p>{{a.address}}</p>
-            
-        </li>
-    </ul>
+    <table id="table2excel" cellspacing="0" ng-hide="siteList == ''" cellpadding='10' class="table" style="width:40vw;">
+        <tr class="table_1_tr">
+            <td width='20px;'></td>
+            <td>简称</td>
+            <td>地址</td>
+        </tr>
+        <tr ng-repeat="a in siteList">
+            <td width='20px;'>{{$index + 1}}</td>
+            <td>{{a.addressAbbr}}</td>
+            <td>{{a.address}}</td>
+        </tr>
+    </table>
     <h4 class="detail_title">查勘员&emsp;&emsp;&emsp;<button class="button" ng-click="site(detail.disasterId,detail.areaDesc,detail.status,'disasterinspector','')">{{message2}}查勘员（{{inspector_counts}}位）</button></h4>
-    <ul>
-        <li ng-repeat="a in inspectorList">
-            <p>{{a.userName}}&emsp;&emsp;{{a.userMobile}}&emsp;&emsp;{{a.responsibleArea}}</p>
-        </li>
-    </ul>
+    <table id="table2excel" cellspacing="0" ng-hide="inspectorList == ''" cellpadding='10' class="table" style="width:40vw;">
+        <tr class="table_1_tr">
+            <td width='20px;'></td>
+            <td>查勘姓名</td>
+            <td>联系方式</td>
+            <td>负责区域</td>
+        </tr>
+        <tr ng-repeat="a in inspectorList">
+            <td width='20px;'>{{$index + 1}}</td>
+            <td>{{a.userName}}</td>
+            <td>{{a.userMobile}}</td>
+            <td>{{a.responsibleArea}}</td>
+        </tr>
+    </table>
     <h4 class="detail_title">司机&emsp;&emsp;&emsp;&emsp;<button class="button" ng-click="site(detail.disasterId,detail.areaDesc,detail.status,'disasterdriver',detail.driverNeedCnt)">{{message2}}司机（{{driver_counts}}位）</button></h4>
-    <ul>
-        <li ng-repeat="a in driverList">
-            <p>{{a.userName}}&emsp;&emsp;{{a.userPhone}}&emsp;&emsp;{{a.statusDesc}}</p>
-        </li>
-    </ul>
-
+    <table id="table2excel" cellspacing="0" ng-hide="driverList == ''" cellpadding='10' class="table" style="width:40vw;">
+        <tr class="table_1_tr">
+            <td width='20px;'></td>
+            <td>司机姓名</td>
+            <td>联系方式</td>
+            <td>状态</td>
+        </tr>
+        <tr ng-repeat="a in driverList">
+            <td width='20px;'>{{$index + 1}}</td>
+            <td>{{a.userName}}</td>
+            <td>{{a.userPhone}}</td>
+            <td>{{a.statusDesc}}</td>
+        </tr>
+    </table>
 </div>

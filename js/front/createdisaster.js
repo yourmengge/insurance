@@ -1,5 +1,5 @@
 var createdisaster = angular.module('createdisaster', ['Road167']);
-var data;
+var data; var array ;
 createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     /**
      *返回上页 
@@ -162,14 +162,14 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
         }
         $scope.startDate = $('#disaster_date').val()
         $scope.selectAreaName = '';
+        array = new Array();
         for (var i = 0; i < $scope.selectList.length; i++) {
             if (i == $scope.selectList.length - 1 || $scope.selectList.length == 1) {
-                data.county = data.county + $scope.selectList[i].id
                 $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name;
             } else {
-                data.county = data.county + $scope.selectList[i].id + ','
                 $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name + ';';
             }
+            array[i] = $scope.selectList[i].id;
         }
 
         // for (var i = 0; i < $scope.provinceList.length; i++) {
@@ -193,6 +193,7 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
 
     //确认创建大灾
     $scope.submit_disaster = function () {
+        data.county = array.sort().join(',');
         APIService.create_disaster(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('创建成功！');

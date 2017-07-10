@@ -10,7 +10,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         {
             bossName: "不指派调度",
             bossPhone: "",
-            bossUserId: 1,
+            bossUserId: '',
             companyNo: "",
             fleetId: '不指派调度',
             fleetName: "不指派调度",
@@ -91,10 +91,10 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                                     if (length == $scope.length) {
                                         layer.msg('上传成功')
                                         closeloading();
+                                        document.getElementById("photo").value = '';
                                         $scope.selectPic();
                                         $scope.initData();
                                         $scope.localPic = a;
-                                        console.log($scope.localPic)
                                     }
 
                                 })
@@ -121,7 +121,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                 {
                     bossName: "不指派调度",
                     bossPhone: "",
-                    bossUserId: 1,
+                    bossUserId: '',
                     companyNo: "",
                     fleetId: '不指派调度',
                     fleetName: "不指派调度",
@@ -134,7 +134,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             }
             $scope.driver_list = fleet_list;
             if (data == null) {
-                $scope.GrabUserId = 1;
+                $scope.GrabUserId = '';
             }
 
         })
@@ -179,7 +179,12 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts2 = 0;
         } else {
-            $scope.counts2 = 1;
+             if (isPhone.test(newValue)) {
+                $scope.counts2 = 1;
+            }else{
+                $scope.counts2 = 0;
+            }
+
         }
     });
     $scope.$watch('fixAddress', function (newValue, oldValue) {

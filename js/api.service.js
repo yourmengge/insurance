@@ -297,6 +297,13 @@ Road167.factory('APIService', function ($http) {
     service.get_driver_order_list_line = function (disasterId, userId) {
         return service.get(host + urlV1 + '/disaster-driver/' + disasterId + '/' + userId + '/order')
     }
+
+    //获取4S店列表
+    service.get_shop4S_list = function (keyword, limit) {
+        return service.get(host + urlV1 + '/shop4s/page?$limit=' + limit + '&keyword=' + keyword)
+    }
+
+
     //分页
     service.paging = function (url, limit, type, pagecount, current) {
         if (type == 'home') {
