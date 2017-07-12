@@ -1,0 +1,51 @@
+<div class="addorder_div" ng-controller="addshop4SCtrl" ng-init="initData()">
+    <h2>{{title}}</h2>
+    <button class="goback" ng-click="back()"></button>
+    <div class="addorder">
+        <table>
+            <tr>
+                <td>支公司：</td>
+                <td><input class="input" type="text" ng-model="data.branchCompany"></td>
+            </tr>
+            <tr>
+                <td><span class="tips">*</span>推修码：</td>
+                <td><input class="input" type="text" maxlength="25" ng-model="data.pushFixCode"> <span style="color:#dedede">{{data.pushFixCode.length + 0}}/25</span></td>
+            </tr>
+            <tr>
+                <td><span class="tips">*</span>车行全称：</td>
+                <td><input class="input" type="text" maxlength="50" ng-model="data.fullName"> <span style="color:#dedede">{{data.fullName.length + 0}}/50</span></td>
+            </tr>
+            <tr>
+                <td>车行简称：</td>
+                <td><input class="input" type="text" ng-model="data.simpleName"></td>
+            </tr>
+            <tr>
+                <td><span class="tips">*</span>车行地址：</td>
+                <td><input class="input" type="text" ng-model="data.address" placeholder="请从地图上选择" readonly ng-click="selectMap('车行')"></td>
+            </tr>
+            <tr>
+                <td>售后经理：</td>
+                <td><input class="input" type="text" ng-model="data.afterSaleMgr"></td>
+            </tr>
+            <tr>
+                <td><span class="tips">*</span>电话：</td>
+                <td><input class="input" type="text" ng-model="data.afterSalePhone"></td>
+            </tr>
+            <tr>
+                <td>售后经理2：</td>
+                <td><input class="input" type="text" ng-model="data.afterSaleMgr2"></td>
+            </tr>
+            <tr>
+                <td>电话2：</td>
+                <td><input class="input" type="text" ng-model="data.afterSalePhone2"></td>
+            </tr>
+        </table>
+        <br>
+        <span style="color:#f00;margin:0 10px 0 30px;">*</span>为必填项
+        <br>
+        <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->
+        <button class="button addorder_btn " style="margin-left: 5vw;margin-top: 30px;" id="submit" ng-click="submit_button()">确定</button>
+
+    </div>
+
+</div>

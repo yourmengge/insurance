@@ -10,8 +10,8 @@ batchshop4S.controller('batchshop4SCtrl', ['$scope', 'APIService', "$http", func
     $scope.initData = function () {
         $scope.table = hide;
         $scope.list = '';
-        $scope.url = ''
-        
+        $scope.url = 'http://test.road167.com/insurance/shop4Stemplate.xlsx'
+
     }
     $scope.clear = function () {
         document.getElementById("file").value = '';
@@ -32,7 +32,7 @@ batchshop4S.controller('batchshop4SCtrl', ['$scope', 'APIService', "$http", func
             formData.append('file', input.files[0])
             $http({
                 method: 'POST',
-                url: host + urlV1 + urlOrder + '/disaster/import/' + $scope.disasterId,
+                url: host + urlV1 + '/shop4s/import',
                 data: formData,
                 headers: {
                     "Content-Type": undefined,
@@ -43,7 +43,7 @@ batchshop4S.controller('batchshop4SCtrl', ['$scope', 'APIService', "$http", func
                 if (res.data.http_status == 200) {
                     closeloading();
                     $scope.remarkId = res.data.tmpKey
-                    $scope.list = res.data.tmpOrderList
+                    $scope.list = res.data.tmpList
                     $scope.table = show;
                 } else if (res.data.http_status == 400) {
                     $scope.file_title = '';
@@ -62,15 +62,20 @@ batchshop4S.controller('batchshop4SCtrl', ['$scope', 'APIService', "$http", func
         }
     })
     $scope.submit_order_list = function () {
-        APIService.submit_order_list($scope.remarkId).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('批量下单成功');
-                setTimeout(function() {
-                    location.reload();
-                }, 2000);
-            } else {
-                isError(res);
-            }
-        })
+        if (confirm('确定导入页面信息')) {
+            APIService.submit_shop4S_list($scope.remarkId).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('批量导入成功');
+                    setTimeout(function () {
+                        goto_view('main/shop4S')
+                    }, 2000);
+                } else {
+                    isError(res);
+                }
+            })
+        } else {
+            isError(res)
+        }
+
     }
 }])

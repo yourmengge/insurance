@@ -6,18 +6,20 @@ nar_location.controller('nar_locationCtrl', ['$scope', 'APIService', function ($
         var geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
             if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-            map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+                map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
             }
         }, { enableHighAccuracy: true })
-        
+
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
         map.addEventListener("click", showInfo);
         localSearch = new BMap.LocalSearch(map);
         $scope.type = sessionStorage.getItem('addorder_nar_type')
         if ($scope.type == '事故') {
             $scope.sessionStorageName = 'nar_address'
-        } else {
+        } else if ($scope.type == '目的') {
             $scope.sessionStorageName = 'nar_address_fixaddress'
+        }else if($scope.type == '车行'){
+            $scope.sessionStorageName = 'shop4S'
         }
     }
     $scope.change = function (text) {

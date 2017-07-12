@@ -303,6 +303,25 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + '/shop4s/page?$limit=' + limit + '&keyword=' + keyword)
     }
 
+    //确认批量导入
+    service.submit_shop4S_list = function (id) {
+        return service.post(host + urlV1 + '/shop4s/import/confirm/' + id);
+    }
+
+    //添加推修厂
+    service.add_shop4S = function (data) {
+        return service.post(host + urlV1 + '/shop4s', data);
+    }
+
+    //修改推修厂
+    service.update_shop4S = function (data) {
+        return service.put(host + urlV1 + '/shop4s', data);
+    }
+
+    //删除推修厂
+    service.delete_shop4S = function(data){
+        return service.delete(host + urlV1 + '/shop4s?' + data)
+    }
 
     //分页
     service.paging = function (url, limit, type, pagecount, current) {

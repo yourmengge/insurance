@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -11,7 +11,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'view/main.html'
         })
 
-
+        .state('main.addshop4S', {
+            url: '/addshop4S',
+            templateUrl: 'view/addshop4S.html'
+        })
         .state('main.addorder', {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
@@ -625,4 +628,11 @@ function loading() {
 }
 function closeloading() {
     layer.close(index);
+}
+function contains(e, d) {
+    for (var i = 0; i < e.length; i++) {
+        if (d == e[i]) {
+            return true;
+        }
+    }
 }

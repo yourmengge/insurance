@@ -36,6 +36,7 @@
             <td width="15%">事故地点</td>
             <td class="noExl" ng-hide="1">施救地点</td>
             <td width="120">车主手机号</td>
+            <td ng-hide="1">车主</td>
             <td ng-hide="1">施救终点区域</td>
             <td width="15%">目的地点</td>
             <td class="noExl" ng-hide="1">施救终点地点</td>
@@ -58,6 +59,7 @@
             <td class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.accidentAddress}}</td>
             <td ng-hide="1" class="{{a.accidentAddressPicture == null?'noExl':''}}">{{a.accidentAddressPicture}}</td>
             <td>{{a.accidentDriverPhone}}</td>
+            <td ng-hide="1">{{a.accidentDriverName}}</td>
             <td ng-hide="1">{{a.fixAddressPicture|Shi}}</td>
             <td  class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.fixAddress}}</td>
             <td ng-hide="1" class="{{a.accidentAddressPicture == null?'noExl':''}}">{{a.fixAddressPicture}}</td>

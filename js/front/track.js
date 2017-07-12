@@ -1,5 +1,5 @@
 var track = angular.module('track', ['Road167']);
-var map, pnt = [], points = [], color = "red";//轨迹颜色;
+pnt = [], points = [], color = "red";//轨迹颜色;
 track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         $scope.driver = JSON.parse(sessionStorage.getItem('driver_detail'));
@@ -21,12 +21,16 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         }
     }
     $scope.back = function () {
-        window.history.go(-1);
+        setTimeout(function() {
+            location.reload();
+        }, 100);
+        window.history.back();
+
     }
     //获取当前定位
     $scope.get_location = function () {
         $('.distance_div').css('display', 'none')
-        map = new BMap.Map("allmap");//实例化地图
+        var map = new BMap.Map("allmap");//实例化地图
         map.enableScrollWheelZoom(true);
         APIService.get_track(parseInt($scope.departureTime), parseInt($scope.nowTime), $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
@@ -68,7 +72,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
     }
     //获取历史轨迹
     $scope.track = function () {
-        map = new BMap.Map("allmap");//实例化地图
+        var map = new BMap.Map("allmap");//实例化地图
         map.enableScrollWheelZoom(true);
         APIService.get_track($scope.departureTime, $scope.taskEndTime, $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
