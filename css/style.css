@@ -50,7 +50,7 @@ ul li{
 .bg{
     width: 100vw;
     height: 100vh;
-
+    position: fixed;
 }
 .logo{
         width: 60px;
@@ -63,10 +63,38 @@ ul li{
     left: 1vw;
     top: 80px;
     color: #0079b5;
+    max-height: 70vh;
     width: 13vw;
     font-size: 13px;
     border-radius: 3px;
     background: #fff;
+    overflow-y: auto;
+}
+@media screen and (max-width:1300px){
+    .left_menu{
+        width: 200px;
+        position: absolute !important;
+    }
+    .right_content{
+        width: 1000px;
+        left: 223px !important;
+        overflow-x: auto !important;
+        position: absolute !important;
+    }
+}   
+.left_menu::-webkit-scrollbar-thumb{
+    background:#ababab;
+    border-radius:4px;
+}
+.left_menu::-webkit-scrollbar{
+    width:10px;
+}
+.left_menu::-webkit-scrollbar-corner{
+    border-radius:4px;
+}
+.left_menu::-webkit-scrollbar-track-piece{
+    background:rgba(134, 134, 134, 0.36);
+    border-radius:4px;
 }
 .pic_close_btn{
         margin-top: 0;
@@ -235,6 +263,13 @@ textarea{
     bottom: 0;
     background: rgba(47, 47, 47, 0.72);
 }
+.p_input{
+    height: 35px;
+    padding-left: 8px;
+    width: 100%;
+    border-radius: 3px;
+    border: solid 1px #b5b5b5;
+}
 .map_div{
     display: none;
     width: 70vw;
@@ -371,9 +406,27 @@ input[type=number]::-webkit-outer-spin-button {
     background: #008cff;
     color: #fff;
 }
+.fix_change{
+    width: 72vw;
+    margin-top: 30px;
+}
+.fix_change span{
+    color: #c31f20;
+}
+.fix_change tr{
+    height: 40px;
+}
 .map_right{
-    width: 15vw;
+    width: 18vw;
     float: right;
+}
+.fixaddress_p{
+    display:block;
+    width: 224px;
+    font-size: 13px;
+    margin-top: -20px;
+    border-top: none;
+    cursor: pointer;
 }
 .input{
     height: 35px;
@@ -1007,11 +1060,14 @@ input[type=number]::-webkit-outer-spin-button {
 .refrash:active .refreash_icon{
     background: url(../img/refresh_pre.png);
 }
-        #help {
-            background: url(../img/help.png);
-            width: 30px;
-            height: 30px;
-            display: block;
-            float: right;
-            margin-top: -3px;
-        }
+#help {
+    background: url(../img/help.png);
+    width: 30px;
+    height: 30px;
+    display: block;
+    float: right;
+    margin-top: -3px;
+}
+video{
+    width: 20vw;
+}

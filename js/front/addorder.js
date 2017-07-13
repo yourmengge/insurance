@@ -66,7 +66,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             accidentLongitude: 0,
             accidentLatitude: 0,
             fixLatitude: '',
-            fixLongitude: ''
+            fixLongitude: '',
+            chargeMode : $scope.mode
         }
         if ($scope.fixAddress.indexOf('-') < 0) {//判断文本框中的地址是通过地图选择还是选择框选择，选择框选择的地址包含‘-’；
             $scope.addressId = null;
@@ -105,6 +106,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             APIService.add_order(order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
+                    sessionStorage.setItem('chargeMode', 2);
                     sessionStorage.setItem('jiexi_success', '');
                     setTimeout(function () {
                         goto_view('main/orderlist');
@@ -179,7 +181,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         } else {
             if (isPhone.test(newValue)) {
                 $scope.counts2 = 1;
-            }else{
+            } else {
                 $scope.counts2 = 0;
             }
 
@@ -234,7 +236,25 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         sessionStorage.setItem('jiexi_success', '');
         $scope.initData();
     }
+    $scope.chargeMode = function (type) {
+        $scope.mode = type;
+        sessionStorage.setItem('chargeMode', type);
+    }
     $scope.initData = function () {
+        if (sessionStorage.getItem('chargeMode') == '' || sessionStorage.getItem('chargeMode') == null) {
+            $scope.mode = 2;
+        } else {
+
+            $scope.mode = sessionStorage.getItem('chargeMode');
+        }
+
+        if ($scope.mode == 2) {
+            $scope.mode2 = true;
+            $scope.mode1 = false;
+        } else {
+            $scope.mode1 = true;
+            $scope.mode2 = false;
+        }
         if (sessionStorage.getItem('zhipaidiaodu') == 1) {
             $scope.diaodu = 0;
         }

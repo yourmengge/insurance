@@ -31,8 +31,7 @@
             <tr>
                 <td>车主电话：</td>
                 <td><input class="input" type="text" ng-change="change2()" ng-model="accidentDriverPhone" placeholder="请输入车主电话">
-                    <span
-                        class="require">*</span>
+                    <span class="require">*</span>
                 </td>
             </tr>
             <tr>
@@ -46,7 +45,7 @@
             <tr ng-hide="!diaodu">
                 <td>指派司机：</td>
                 <td>
-                    <input class="input" ng-model="Driver" ng-click="openDriver()"  placeholder="请选择指派司机" readonly="true">
+                    <input class="input" ng-model="Driver" ng-click="openDriver()" placeholder="请选择指派司机" readonly="true">
                     <div class="fixaddress_div" id="driver_div">
                         <p style="width:288px" class="input_p" ng-repeat="a in driver_list" ng-click="clickDriver(a.driverName,a.driverMobile,a.driverUserId)">
                             {{a.driverName}} - {{a.driverMobile}}
@@ -69,6 +68,13 @@
             <tr>
                 <td>救援车类型：</td>
                 <td>拖车</td>
+            </tr>
+            <tr>
+                <td>收费方式：</td>
+                <td>
+                    <input type="radio" name="chargeMode" ng-click="chargeMode(1)" ng-checked="mode1">收取现金
+                    <input type="radio" name="chargeMode" ng-click="chargeMode(2)" ng-checked="mode2">免垫付
+                </td>
             </tr>
         </table>
         <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->

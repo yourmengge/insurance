@@ -110,7 +110,25 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         a.splice(index, 1);
         $scope.localPic = a;
     }
+    $scope.chargeMode = function (type) {
+        $scope.mode = type;
+        sessionStorage.setItem('chargeMode', type);
+    }
     $scope.initData = function () {
+        if (sessionStorage.getItem('chargeMode') == '' || sessionStorage.getItem('chargeMode') == null) {
+            $scope.mode = 2;
+        } else {
+
+            $scope.mode = sessionStorage.getItem('chargeMode');
+        }
+
+        if ($scope.mode == 2) {
+            $scope.mode2 = true;
+            $scope.mode1 = false;
+        } else {
+            $scope.mode1 = true;
+            $scope.mode2 = false;
+        }
         var data = JSON.parse(sessionStorage.getItem('nar_addorder_order'));
         $scope.rescueType = {
             type: 'tuoche'
@@ -179,9 +197,9 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts2 = 0;
         } else {
-             if (isPhone.test(newValue)) {
+            if (isPhone.test(newValue)) {
                 $scope.counts2 = 1;
-            }else{
+            } else {
                 $scope.counts2 = 0;
             }
 
@@ -269,7 +287,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             designateGrabUserId: $scope.GrabUserId,
             orderType: 2,
             rescueType: '',
-            picturePaths: b
+            picturePaths: b,
+            chargeMode: $scope.mode
         }
         if (order.accidentCarNo != null) {//判断是否是挂车
             if (order.accidentCarNo.indexOf('挂') > 0) {
@@ -313,6 +332,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                     $scope.localPic = [];
                     a = [];
                     b = [];
+                    sessionStorage.setItem('chargeMode', 2);
+                    sessionStorage.removeItem('nar_addorder_order');
                     sessionStorage.removeItem('nar_address');
                     sessionStorage.removeItem('nar_address_fixaddress');
                     setTimeout(function () {

@@ -70,7 +70,7 @@ batchaddorder.controller('batchaddorderCtrl', ['$scope', 'APIService', "$http", 
     $scope.submit_order_list = function () {
         APIService.submit_order_list($scope.remarkId).then(function (res) {
             if (res.data.http_status == 200) {
-                layer.msg('批量下单成功');
+                layer.msg('批量导入成功');
                 setTimeout(function() {
                     location.reload();
                 }, 2000);

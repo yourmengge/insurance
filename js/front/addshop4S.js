@@ -8,6 +8,11 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
         sessionStorage.removeItem('shop4S_data');
         sessionStorage.removeItem('shop4S');
     }
+    var address = {
+        address: '',
+        lat: '',
+        lng: ''
+    }
     $scope.initData = function () {
         $scope.data = {
             "branchCompany": '',
@@ -24,9 +29,18 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
         }
         if (JSON.parse(sessionStorage.getItem('shop4S_data') != '') && JSON.parse(sessionStorage.getItem('shop4S_data') != undefined)) {
             $scope.data = JSON.parse(sessionStorage.getItem('shop4S_data'))
-            $scope.data.address = sessionStorage.getItem('shop4S');
-            $scope.data.longitude = sessionStorage.getItem('shop4S_nar_lng');
-            $scope.data.latitude = sessionStorage.getItem('shop4S_nar_lat');
+            if (sessionStorage.getItem('shop4S') != null && sessionStorage.getItem('shop4S') != '') {
+                $scope.address = sessionStorage.getItem('shop4S');
+                address.address = $scope.address;
+                address.lat = sessionStorage.getItem('shop4S_nar_lat');
+                address.lng = sessionStorage.getItem('shop4S_nar_lng');
+            } else {
+                $scope.address = $scope.data.address;
+                address.address = $scope.address;
+                address.lat = $scope.data.latitude;
+                address.lng = $scope.data.longitude;
+            }
+
         }
 
         if (sessionStorage.getItem('shop4S_type') == 'add') {
@@ -43,7 +57,7 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
         if (sessionStorage.getItem('shop4S_type') == 'add') {
             $scope.add_shop4S($scope.data);
         } else {
-            $scope.update_shop4S($scope.data);
+            $scope.update_shop4S($scope.data, address);
         }
     }
 
@@ -64,7 +78,10 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
     }
 
     //修改推修厂
-    $scope.update_shop4S = function (data) {
+    $scope.update_shop4S = function (data, address) {
+        data.address = address.address;
+        data.latitude = address.lat;
+        data.longitude = address.lng
         APIService.update_shop4S(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('修改成功');

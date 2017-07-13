@@ -3,7 +3,9 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
     $scope.initData = function () {
         $scope.checked = [];
         $scope.select_one = false;
+        $scope.keyword = '';
         $scope.all = false;
+        $scope.page_p = show;
         $scope.get_shop4S_list('', limit)
     }
 
@@ -12,6 +14,14 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
         APIService.get_shop4S_list(keyword, limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.shopList = res.data.items;
+                //分页部分
+                $scope.current = 1;
+                $scope.pageCount = Math.ceil(res.data.count / limit);
+                if (res.data.count <= limit) {
+                    $scope.page_p = hide;
+                }
+                $scope.up = hide;
+                //分页结束
             } else {
                 isError(res);
             }
@@ -73,7 +83,7 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
         } else {
             angular.forEach($scope.checked, function (i, index) {
                 if (index != $scope.checked.length - 1) {
-                    data = data + i + '$id='
+                    data = data + i + '&id='
                 } else {
                     data = data + i;
                 }
@@ -89,6 +99,42 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
             } else {
                 isError(res);
             }
+        })
+    }
+    $scope.Page = function (type) {
+        if (type == 'home') {
+            $scope.current = 1;
+            $scope.up = hide;
+            $scope.down = show;
+        }
+        if (type == 'end') {
+            $scope.current = $scope.pageCount;
+            $scope.up = show;
+            $scope.down = hide;
+        }
+        if (type == 'down') {
+            $scope.up = show;
+            $scope.current = $scope.current + 1;
+            if ($scope.current == $scope.pageCount) {
+                $scope.down = hide;
+            }
+        }
+        if (type == 'up') {
+            $scope.down = show;
+            $scope.current = $scope.current - 1;
+            if ($scope.current == 1) {
+                $scope.up = hide;
+            }
+        }
+        loading();
+        APIService.paging(urlV1 + '/shop4s/page?keyword=' + $scope.keyword, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            if (res.data.http_status == 200) {
+                closeloading();
+                $scope.shopList = res.data.items;
+            } else {
+                isError(res)
+            }
+
         })
     }
 }])

@@ -1,5 +1,6 @@
 var track = angular.module('track', ['Road167']);
 pnt = [], points = [], color = "red";//轨迹颜色;
+var map;
 track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         $scope.driver = JSON.parse(sessionStorage.getItem('driver_detail'));
@@ -14,14 +15,14 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 $scope.taskEndTime = $scope.departureTime + 86400000;
             }
             $scope.track();
-            $scope.get_distance($scope.carType);
+            
         } else {
             $scope.nowTime = new Date().getTime();
             $scope.get_location();
         }
     }
     $scope.back = function () {
-        setTimeout(function() {
+        setTimeout(function () {
             location.reload();
         }, 100);
         window.history.back();
@@ -30,13 +31,13 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
     //获取当前定位
     $scope.get_location = function () {
         $('.distance_div').css('display', 'none')
-        var map = new BMap.Map("allmap");//实例化地图
+        map = new BMap.Map("allmap");//实例化地图
         map.enableScrollWheelZoom(true);
         APIService.get_track(parseInt($scope.departureTime), parseInt($scope.nowTime), $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
                 $scope.error();
             } else if (res.data.points != '') {
-                pnt = res.data.points;
+                pnt = res.data.points[0].location;
                 map.centerAndZoom(new BMap.Point(pnt[0], pnt[1]), 15);//展示地图中心位置，中心位置是最后位置的坐标
                 marker = new BMap.Marker(new BMap.Point(pnt[0], pnt[1]));  // 创建标注
                 map.addOverlay(marker);               // 将标注添加到地图中
@@ -53,7 +54,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         if (carType == 1 || carType == 5) {//吊车
             APIService.get_track($scope.departureTime, $scope.accidentReachTime, $scope.driverUserId).then(function (res) {
                 if (res.data.status != 0) {
-                    $scope.error();
+
                 } else {
                     console.log(res);
                     $scope.distance = res.data.distance;
@@ -62,17 +63,26 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         } else {
             APIService.get_track($scope.accidentReachTime, $scope.taskEndTime, $scope.driverUserId).then(function (res) {
                 if (res.data.status != 0) {
-                    $scope.error();
+
                 } else {
                     console.log(res);
                     $scope.distance = res.data.distance;
+                    pnt = res.data.start_point;
+                    map.centerAndZoom(new BMap.Point(pnt.longitude, pnt.latitude), 15);//展示地图中心位置，中心位置是最后位置的坐标
+                    marker = new BMap.Marker(new BMap.Point(pnt.longitude, pnt.latitude));  // 创建标注
+                    map.addOverlay(marker);               // 将标注添加到地图中
+                    var label = new BMap.Label("事故地点", { offset: new BMap.Size(20, -10) });
+                    marker.setLabel(label);
+
                 }
             })
         }
     }
     //获取历史轨迹
     $scope.track = function () {
-        var map = new BMap.Map("allmap");//实例化地图
+        map = new BMap.Map("allmap");//实例化地图
+        
+        $scope.get_distance($scope.carType);
         map.enableScrollWheelZoom(true);
         APIService.get_track($scope.departureTime, $scope.taskEndTime, $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
@@ -100,7 +110,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', function ($scope, APIServ
         })
     }
     $scope.error = function () {
-        
+
         var point = new BMap.Point(119.25139470108, 26.10503783703435);
         map.centerAndZoom(point, 16);  // 初始化地图,设置中心点坐标和地图级别
         map.addControl(new BMap.MapTypeControl());   //添加地图类型控件

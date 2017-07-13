@@ -117,7 +117,7 @@ Road167.factory('APIService', function ($http) {
 
     //获取订单详情
     service.get_order_detail = function (orderNo) {
-        return service.get(host + urlV1 + urlOrder + "/" + orderNo + '?bVerifyAddress=true');
+        return service.get(host + urlV1 + urlOrder + "/" + orderNo + '/detail?bVerifyAddress=true');
     }
 
     //上传图片,获取oss权限
@@ -319,10 +319,31 @@ Road167.factory('APIService', function ($http) {
     }
 
     //删除推修厂
-    service.delete_shop4S = function(data){
+    service.delete_shop4S = function (data) {
         return service.delete(host + urlV1 + '/shop4s?' + data)
     }
 
+    //添加抢单车队
+    service.add_company_fleet = function (data) {
+        return service.post(host + urlV1 + '/company-fleet', data);
+    }
+    //删除抢单车队
+    service.delete_company_fleet = function (id) {
+        return service.delete(host + urlV1 + '/company-fleet/' + id);
+    }
+    //查询抢单车队
+    service.get_company_fleet = function (keyword, limit) {
+        return service.get(host + urlV1 + '/company-fleet?$limit=' + limit + '&keyword=' + keyword)
+    }
+
+    //申请更改目的地
+    service.update_fixaddress = function (data) {
+        return service.post(host + urlV1 + '/verifyaddress', data);
+    }
+    //查询目的地点列表
+    service.get_fixaddress_list = function (keyword, limit) {
+        return service.get(host + urlV1 + '/shop4s/list?$limit=' + limit + '&keyword=' + keyword)
+    }
     //分页
     service.paging = function (url, limit, type, pagecount, current) {
         if (type == 'home') {
