@@ -55,14 +55,17 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
     //确定按钮
     $scope.submit_button = function () {
         if (sessionStorage.getItem('shop4S_type') == 'add') {
-            $scope.add_shop4S($scope.data);
+            $scope.add_shop4S($scope.data, address);
         } else {
             $scope.update_shop4S($scope.data, address);
         }
     }
 
     //添加推修厂
-    $scope.add_shop4S = function (data) {
+    $scope.add_shop4S = function (data, address) {
+        data.address = address.address;
+        data.latitude = address.lat;
+        data.longitude = address.lng;
         APIService.add_shop4S(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('添加成功');
@@ -81,7 +84,7 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
     $scope.update_shop4S = function (data, address) {
         data.address = address.address;
         data.latitude = address.lat;
-        data.longitude = address.lng
+        data.longitude = address.lng;
         APIService.update_shop4S(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('修改成功');
@@ -94,6 +97,9 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
                 isError(res);
             }
         })
+    }
+    $scope.change = function () {
+        sessionStorage.setItem('shop4S_data', JSON.stringify($scope.data));
     }
     $scope.selectMap = function (type) {
         sessionStorage.setItem('addorder_nar_type', '车行')
@@ -122,7 +128,19 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
 
         }
     });
-    $scope.$watch('data.address', function (newValue, oldValue) {
+    $scope.$watch('data.afterSalePhone2', function (newValue, oldValue) {
+        if (newValue == '' || newValue == null) {
+            $('#submit').removeAttr("disabled").removeClass('button_disabled');
+        } else {
+            if (isPhone.test(newValue)) {
+                $('#submit').removeAttr("disabled").removeClass('button_disabled');
+            } else {
+                $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            }
+
+        }
+    });
+    $scope.$watch('address', function (newValue, oldValue) {
         if (newValue == '' || newValue == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts4 = 0;
@@ -145,4 +163,9 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
         }
     });
+    $scope.reset = function () {   
+        sessionStorage.setItem('shop4S_data', '{}');
+        sessionStorage.setItem('shop4S','')
+        $scope.initData();
+    }
 }])

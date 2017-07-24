@@ -45,6 +45,56 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
             }
         })
     }
+    $scope.add_disaster_driver = function () {
+        var data = {
+            "phone": $scope.phone,
+            "name": $scope.name
+        }
+        APIService.add_disaster_driver($scope.disasterId, data).then(function (res) {
+            if (res.data.http_status == 200) {
+                layer.msg('添加司机成功');
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);
+            } else {
+                isError(res);
+            }
+        })
+    }
+    $scope.add = function () {
+        $('.alert_bg').css('display', 'block')
+        $('.addinspector_div').css('display', 'block')
+    }
+    $scope.close = function () {
+        $('.alert_bg').css('display', 'none')
+        $('.addinspector_div').css('display', 'none')
+        $('.update_inspector').css('display', 'none')
+    }
+    //退出大灾
+    $scope.out = function (a) {
+        if (a.userName == null || a.userName == '') {
+            $scope.info = a.userPhone;
+        } else {
+            $scope.info = a.userName + '-' + a.userPhone;
+        }
+        if (confirm('确定把' + $scope.info + '退出大灾吗？')) {
+            var data = {
+                "disasterId": $scope.disasterId,
+                "driverUserIdList": []
+            }
+            data.driverUserIdList.push(a.userId)
+            APIService.delete_disaster_driver(data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('退出成功');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    isError(res);
+                }
+            })
+        }
+    }
     $scope.Page = function (type) {
         if (type == 'home') {
             $scope.current = 1;
@@ -71,7 +121,7 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
             }
         }
         loading();
-        APIService.paging(urlV1 + '/disaster-driver/' + $scope.urlType + '?key=' + $scope.key + '&DisasterDriverStatus=' + $scope.searchStatus + '&disasterId=' + $scope.disasterId, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + '/disaster-driver/list?key=' + $scope.key + '&DisasterDriverStatus=' + $scope.searchStatus + '&disasterId=' + $scope.disasterId + $scope.urlType, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.driverlist = res.data.items

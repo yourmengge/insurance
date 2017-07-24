@@ -6,7 +6,9 @@
         {{title}}
         <button ng-hide="status == 2" class="button" ui-sref='main.driverlocation'>查看司机位置</button><button class="button"
             ui-sref='main.review' ng-hide="status == 2">司机退出审核</button>
+            <button class="button" ng-hide="status == 2" ng-click="add()">添加司机</button>
     </h4>
+        <div class="alert_bg" ng-click="close()"></div>
     <p ng-hide="status != 2">
         司机需求量：{{driverNeedcount}}
     </p>
@@ -42,9 +44,20 @@
             <td>{{a.leaveTime | ToLocal}}</td>
             <td ng-hide="status == 2">
                 <button class="button" ng-click="detail(a)">查看订单</button>
+                <button class="button" ng-click="out(a)" ng-hide="a.status == 2">退出大灾</button>
             </td>
         </tr>
     </table>
+    <div class="addinspector_div">
+        <h2 class="alert_add_h2">添加司机</h2>
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+        <p style="    text-align: left;    margin-left: 60px;"><span class="tips2">*</span>姓&emsp;&emsp;名：<input type="text" class="input" ng-model="name" maxlength="4"><span style="color: #dedede;margin-left: 20px;">{{name.length + 0}}/4</span>
+        <p style="    text-align: left;    margin-left: 60px;"><span class="tips2">*</span>司机电话：<input style="width: 268px;" type="text" ng-model="phone" class="input" ></p>
+
+
+
+        <p><button id="add" class="button" ng-click="add_disaster_driver()">添加</button></p>
+    </div>
     <div style='height:50px;'></div>
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>

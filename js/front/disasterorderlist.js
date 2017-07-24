@@ -1,5 +1,5 @@
 var disasterorderlist = angular.module('disasterorderlist', ['Road167']);
-disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', function ($scope, APIService) {
+disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '$http', function ($scope, APIService, $http) {
     /**
      *返回上页 
      */
@@ -64,10 +64,10 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', f
     }
     $scope.search = function () {
         $scope.get_date();
-        $scope.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo).then(function (res) {
+        APIService.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo,10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
-                if (res.data.orderCounts == 0) {
+                if (res.data.count == 0) {
                     $scope.tips = '未找到符合条件的订单';
                     $scope.table = hide;
                 } else {
@@ -76,7 +76,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', f
                     $scope.list = res.data.items;
                     //分页部分
                     $scope.current = 1;
-                    $scope.pageCount = Math.ceil(res.data.orderCounts / limit);
+                    $scope.pageCount = Math.ceil(res.data.count / limit);
                     if ($scope.pageCount <= 1) {
                         $scope.page_p = hide;
                     } else {
@@ -100,14 +100,36 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', f
         $scope.endDay = $scope.endDay[0].substr(2, 3) + '' + $scope.endDay[1] + '' + $scope.endDay[2];
     }
     $scope.toexcel = function () {
-        $("#table2excel").table2excel({
-            // 不被导出的表格行的CSS class类
-            exclude: ".noExl",
-            // 导出的Excel文档的名称
-            name: "Excel Document Name",
-            // Excel文件的名称
-            filename: "下载"
-        });
+        //window.open('http://dev.road167.com:8080/extrication/v1/order/export');
+        // APIService.export().then(function (res) {
+        //     console.log(res.data);
+        // })
+        $http({
+            method: 'GET',
+            url: host + urlV1 + '/order/export/disaster?disasterId=' + $scope.disasterId + '&OrderStatus2=' + $scope.status2 + '&$limit=99&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&caseNo=' + $scope.caseNo,
+            headers: {
+                "Content-Type": undefined,
+                "Authorization": APIService.token,
+                "user-id": APIService.userId
+            },
+            responseType: 'blob',
+        }).then(function (res) {
+            var blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            console.log(blob)
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.download = '订单.xls';
+            a.href = URL.createObjectURL(blob);
+            a.click();
+        })
+        // $("#table2excel").table2excel({
+        //     // 不被导出的表格行的CSS class类
+        //     exclude: ".noExl",
+        //     // 导出的Excel文档的名称
+        //     name: "Excel Document Name",
+        //     // Excel文件的名称
+        //     filename: "下载"
+        // });
     }
     $scope.Page = function (type) {
         if (type == 'home') {

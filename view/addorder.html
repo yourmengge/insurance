@@ -3,46 +3,47 @@
     <div class="addorder_jiexi" ng-hide="jiexi">
         <textarea ng-change="change()" ng-model="message" name="" id="" cols="30" rows="10" placeholder="将您的订单短信粘贴到此处进行解析"></textarea>
         <br>
-        <button class="button button_disabled" ng-click="analysis()" disabled id="button">解析订单</button>
+        <button class="button {{message == ''?'button_disabled':''}}" ng-click="analysis()" ng-disabled="message == ''?'true':''">解析订单</button>
     </div>
     <div class="addorder" ng-hide="!jiexi">
+        <button class="goback" ng-click="back()"></button>
         <table>
             <tr>
-                <td>事故地点：</td>
-                <td><input class="input" type="text" ng-model="accident" ng-change="change2()" placeholder="请输入事故地点"><span class="require">*</span></td>
+                <td><span class="require"></span>事故地点：</td>
+                <td><input class="input" type="text" ng-model="order.accidentAddress" ng-change="change2()" placeholder="请输入事故地点">
+
+                </td>
             </tr>
             <tr>
-                <td>目的地点：</td>
+                <td><span class="require"></span>目的地点：</td>
                 <td>
-                    <input class="input" ng-model="fixAddress" ng-click="openFix()" placeholder="请选择目的地点" readonly="true">
+                    <input ng-change="change2()" class="input" ng-model="fixAddress" ng-click="openFix()" placeholder="请选择目的地点" readonly="true">
                     <div class="fixaddress_div" id="fixaddress_div">
                         <p class="input_p" ng-repeat="a in address_list" ng-click="clickFix(a.address,a.addressAbbr,a.id)">
                             {{a.address}} - {{a.addressAbbr}}
                         </p>
                     </div>
                     <button ng-click="addFixAddress()" class="button">地图上选择</button>
-                    <span class="require">*</span>
                 </td>
             </tr>
             <tr>
                 <td>车主姓名：</td>
-                <td><input class="input" type="text" ng-model="accidentDriverName" placeholder="请输入车主姓名"></td>
+                <td><input ng-change="change2()" class="input" type="text" ng-model="order.accidentDriverName" placeholder="请输入车主姓名"></td>
             </tr>
             <tr>
-                <td>车主电话：</td>
-                <td><input class="input" type="text" ng-change="change2()" ng-model="accidentDriverPhone" placeholder="请输入车主电话">
-                    <span class="require">*</span>
+                <td><span class="require"></span>车主电话：</td>
+                <td><input ng-change="change2()" class="input" type="text" ng-model="order.accidentDriverPhone" placeholder="请输入车主电话">
                 </td>
             </tr>
             <tr>
                 <td>案件号：</td>
-                <td><input class="input" type="text" ng-model="caseNo" placeholder="请输入案件号"></td>
+                <td><input ng-change="change2()" class="input" type="text" ng-model="order.caseNo" placeholder="请输入案件号"></td>
             </tr>
             <tr>
                 <td>车牌号：</td>
-                <td><input class="input" type="text" ng-model="accidentCarNo" placeholder="请输入车牌号"></td>
+                <td><input ng-change="change2()" class="input" type="text" ng-model="order.accidentCarNo" placeholder="请输入车牌号"></td>
             </tr>
-            <tr ng-hide="!diaodu">
+            <!-- <tr ng-hide="!diaodu">
                 <td>指派司机：</td>
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()" placeholder="请选择指派司机" readonly="true">
@@ -54,16 +55,17 @@
                     <span class="require">*</span>
                     <span ng-hide="error != 0">当前没有司机 请<span style="color:blue;cursor:pointer" ui-sref="main.adddriver">添加指派司机</span></span>
                 </td>
-            </tr>
+            </tr> -->
             <tr ng-hide="diaodu">
                 <td>指派调度：</td>
                 <td>
-                    <select class="input" ng-model="GrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
+                    <select ng-click="change2()" class="input" ng-model="order.designateGrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
                 </td>
             </tr>
             <tr>
                 <td>车保类型：</td>
-                <td><input type="checkbox" class="checkbox" ng-model="biaodi">标的车 <input ng-model="sanzhe" type="checkbox" class="checkbox">三者车</td>
+                <td><input type="checkbox" ng-click="change3()" class="checkbox" ng-model="biaodi">标的车 <input ng-click="change3()"
+                        ng-model="sanzhe" type="checkbox" class="checkbox">三者车</td>
             </tr>
             <tr>
                 <td>救援车类型：</td>
@@ -78,8 +80,12 @@
             </tr>
         </table>
         <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->
-        <button class="button addorder_btn " style="margin-left: 10vw;margin-top: 30px;" id="submit" ng-click="addOrder()">提交订单</button>
-
+        <div style="width: 476px;margin-top:40px">
+            <button class="button " style="margin-left: 5vw;" id="submit" ng-click="addOrder()">提交订单</button>
+            <button class="button " style="margin-left: 20px;" id="submit" ng-click="reset()">重置</button>
+            <span style="float:right">为必填项</span>
+            <span class="require" style="float:right"></span>
+        </div>
         <div class="closeBg" ng-click="closeBG()">
             <img src="img/close.png" ng-click="closeBG()" alt="" class="close_img">
         </div>

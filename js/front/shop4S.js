@@ -6,12 +6,12 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
         $scope.keyword = '';
         $scope.all = false;
         $scope.page_p = show;
-        $scope.get_shop4S_list('', limit)
+        $scope.get_shop4S_page('', limit)
     }
 
     //获取4S店列表
-    $scope.get_shop4S_list = function (keyword, limit) {
-        APIService.get_shop4S_list(keyword, limit).then(function (res) {
+    $scope.get_shop4S_page = function (keyword, limit) {
+        APIService.get_shop4S_page(keyword, limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.shopList = res.data.items;
                 //分页部分
@@ -32,7 +32,7 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
     $scope.goto = function (type, a) {
         sessionStorage.setItem('shop4S_type', type)
         if (a == '') {
-
+            sessionStorage.removeItem('shop4S_data');
         } else {
             sessionStorage.setItem('shop4S_data', JSON.stringify(a));
         }
@@ -49,7 +49,7 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
             $scope.all = true;
             $scope.checked = [];
             angular.forEach($scope.shopList, function (i, index) {
-                $scope.checked.push(i.id);
+                $scope.checked.push(i.shop4sId);
             })
         } else {
             $scope.all = false;
@@ -77,29 +77,33 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
 
     //删除
     $scope.delete = function () {
-        var data = 'id=';
-        if ($scope.checked.length == 1) {
-            data = data + $scope.checked[0];
+        if ($scope.checked.length == 0) {
+            alert('未选中任何推修厂')
         } else {
-            angular.forEach($scope.checked, function (i, index) {
-                if (index != $scope.checked.length - 1) {
-                    data = data + i + '&id='
+            var data = 'id=';
+            if ($scope.checked.length == 1) {
+                data = data + $scope.checked[0];
+            } else {
+                angular.forEach($scope.checked, function (i, index) {
+                    if (index != $scope.checked.length - 1) {
+                        data = data + i + '&id='
+                    } else {
+                        data = data + i;
+                    }
+                })
+            }
+            APIService.delete_shop4S(data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('删除成功');
+                    setTimeout(function () {
+                        $scope.initData();
+                    }, 2000);
                 } else {
-                    data = data + i;
+                    isError(res);
                 }
             })
         }
-        console.log(data);
-        APIService.delete_shop4S(data).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('删除成功');
-                setTimeout(function () {
-                    $scope.initData();
-                }, 2000);
-            } else {
-                isError(res);
-            }
-        })
+
     }
     $scope.Page = function (type) {
         if (type == 'home') {

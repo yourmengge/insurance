@@ -9,7 +9,7 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     closeloading();
                     layer.msg('登录成功');
                     sessionStorage.setItem('lmId', 1)
-
+                    sessionStorage.setItem('funcList',res.data.funcList)
 
                     if (contains(res.data.funcList, 1) || contains(res.data.funcList, 1001)) {
                         sessionStorage.setItem('zhipaidiaodu', 1);

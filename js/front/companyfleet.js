@@ -52,12 +52,18 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $('#submit').removeAttr("disabled").removeClass('button_disabled');
     }
     $scope.addDriver = function () {
-        $('.add_driver_div').toggle(500);
+        $('.alert_bg').css('display', 'block')
+        $('.addinspector_div').toggle();
     }
     $scope.cencle = function () {
         $('.add_driver_div').toggle(500);
         $scope.phone = null;
         $('.add_driver_div_p').css('display', 'none');
+    }
+    $scope.close = function () {
+        $('.alert_bg').css('display', 'none')
+        $('.addinspector_div').css('display', 'none')
+        $('.update_inspector').css('display', 'none')
     }
     $scope.delete = function (data) {
 
@@ -67,7 +73,9 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                 closeloading();
                 if (res.data.http_status == 200) {
                     layer.msg(data.fleetName + '移除成功！');
-                    $scope.initData();
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 } else {
                     isError(res);
                 }
@@ -88,7 +96,10 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                     APIService.add_company_fleet(data).then(function (res) {
                         if (res.data.http_status == 200) {
                             layer.msg('添加成功');
-                            $scope.initData();
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+
                             $scope.cencle();
                         } else {
                             isError(res);

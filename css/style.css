@@ -116,10 +116,10 @@ ul li{
     cursor: pointer;
 }
 .photo_div{
-        margin-left: 113px;
+    margin-left: 113px;
     width: 700px;
     float: left;
-   
+    margin-bottom: 20px;
 }
 .photo_div .img{
         width: 118px;
@@ -192,7 +192,7 @@ ul li{
     color: #fff;
     font-size: 14px;
     border-radius: 3px;
-    margin: 0 2px;
+    margin: 2px;
 }
 .output_button{
     width: 150px;
@@ -279,7 +279,7 @@ textarea{
     background: #fff;
 }
 #allmap {
-    width: 75%;
+    width: 70%;
     height: 100%;
     overflow: hidden;
     margin:0;
@@ -417,8 +417,9 @@ input[type=number]::-webkit-outer-spin-button {
     height: 40px;
 }
 .map_right{
-    width: 18vw;
+    width: 23vw;
     float: right;
+    min-width: 290px;
 }
 .fixaddress_p{
     display:block;
@@ -436,8 +437,14 @@ input[type=number]::-webkit-outer-spin-button {
     border: solid 1px #b5b5b5;
 }
 .require{
-    color: #f00;
-    margin-left: 20px;
+    margin-right: 14px;
+    width: 6px;
+    height: 6px;
+    background: #f00;
+    border-radius: 50px;
+    display: block;
+    float: left;
+    margin-top: 5px;
 }
 .evalImg{
     width: 90px;
@@ -874,15 +881,13 @@ input[type=number]::-webkit-outer-spin-button {
     color: #f00;
 }
 .map_driver_detail{
-    display: none;
     width: 300px;
-    height: 263px;
     background: rgba(255, 255, 255, 0.91);
-    position: fixed;
     top: 393px;
     left: 6vw;
     z-index: 7000;
-    
+    float: left;
+    margin-left: 20px;
     box-shadow: 5px 2px 13px 2px rgba(0, 0, 0, 0.33);
 
 }
@@ -898,21 +903,60 @@ input[type=number]::-webkit-outer-spin-button {
     color: #fff
 }
 .all_driver_list{
+    float: left;
     display: none;
-    position: fixed;
-    left: 6vw;
+    left: 5vw;
     background: rgba(255, 255, 255, 0.91);
-    width: 300px;
-    height: 300px;
+    width: 450px;
+    height: 87vh;
     z-index: 120;
-    top: 93px;
+    top: 83px;
     overflow-y: auto;
-    
+    overflow-x: hidden;
     box-shadow: 5px 2px 13px 2px rgba(0, 0, 0, 0.33);
+}
+.driver_list_title{
+    height: 40px;
+    line-height: 40px;
+    background: #3889e5;
+    color: #fff;
+}
+.driver_all_div{
+        height: 87vh;
+    position: fixed;
+    z-index: 10000;
+    top: 83px;
+    left: 5vw;
+}
+.pick{
+    width: 200px !important;
+}
+.driver_list_p{
+    width: 100%;
+    padding-left: 30px;
+}
+.driver_list_title span{
+    text-align: center;
+    flex: 1;
+        float: right;
+    margin-right: 20px;
+    cursor: pointer;
 }
 .all_driver_list table{
     margin-top: 0;
 }
+.driver_list p{
+    display: flex;
+    text-align: center;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    font-size: 13px;
+}
+.driver_list p span{
+    flex: 1
+}
+
 .selected_button{
     float: left;
     border-radius: 4px 4px 0 0;
@@ -1012,7 +1056,7 @@ input[type=number]::-webkit-outer-spin-button {
     border: solid 1px #21b6ff;
     border-radius: 4px;
 }
-.button_blank:active{
+.input_file:active .button_blank{
     color: #fff;
     background: #21b6ff;
 }
@@ -1070,4 +1114,51 @@ input[type=number]::-webkit-outer-spin-button {
 }
 video{
     width: 20vw;
+}
+.search_shop4s_list{
+    border: solid 1px #dedede;
+    padding: 0 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+    background: #fff;
+}
+.search_shop4s_item{
+    border-bottom: solid 1px #dedede;
+}
+.hide{
+    display: none
+}
+.right_button_list{
+    display: flex;
+}
+.right_button_list button{
+    flex: 1;
+    height: 40px;
+    border: solid 1px #dedede;
+    background: #fff;
+}
+.tips_p{
+    float: left;
+    margin-top: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+.tips_p img{
+    margin-left: 10px;
+}
+.zhankai{
+    float: right;
+    margin-top: 15px;
+    margin-left: 5px;
+    height: 12px;
+}
+.delete_pic{
+    margin-top: 0;
+    position: absolute;
+    background: url('../img/shanchu.png');
+    margin-left: 92px; 
+    float: right;
+    border:none;
+    height: 25px;
+    width: 25px;
 }

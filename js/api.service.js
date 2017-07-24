@@ -96,8 +96,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取固定目的地点列表
-    service.get_fix_address = function (limit) {
-        return service.get(host + urlV1 + fav_address + '/all?$limit=' + limit);
+    service.get_fix_address = function (keyword, limit) {
+        return service.get(host + urlV1 + fav_address + '?$limit=' + limit + '&keyword=' + keyword);
     }
 
     //删除固定目的地点，传列表中的Id
@@ -298,11 +298,14 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + '/disaster-driver/' + disasterId + '/' + userId + '/order')
     }
 
-    //获取4S店列表
+    //获取4S店列表（修改目的地查询）
     service.get_shop4S_list = function (keyword, limit) {
+        return service.get(host + urlV1 + '/shop4s/list?$limit=' + limit + '&keyword=' + keyword)
+    }
+    //获取4S店列表(后台列表)
+    service.get_shop4S_page = function (keyword, limit) {
         return service.get(host + urlV1 + '/shop4s/page?$limit=' + limit + '&keyword=' + keyword)
     }
-
     //确认批量导入
     service.submit_shop4S_list = function (id) {
         return service.post(host + urlV1 + '/shop4s/import/confirm/' + id);
@@ -344,6 +347,30 @@ Road167.factory('APIService', function ($http) {
     service.get_fixaddress_list = function (keyword, limit) {
         return service.get(host + urlV1 + '/shop4s/list?$limit=' + limit + '&keyword=' + keyword)
     }
+
+    //删除大灾司机
+    service.delete_disaster_driver = function (data) {
+        return service.post(host + urlV1 + '/disaster-driver/leaveBatch', data)
+    }
+
+    //添加大灾司机
+    service.add_disaster_driver = function (disasterId, data) {
+        return service.post(host + urlV1 + '/disaster-driver/' + disasterId, data)
+    }
+
+    //提醒司机
+    service.warn_driver = function (phone) {
+        return service.post(host + urlV1 + '/disaster-driver/notify/' + phone);
+    }
+    //获取某一大灾订单量统计
+    service.get_all_disaster_orders = function (disasterId) {
+        return service.get(host + urlV1 + '/disaster/statis/' + disasterId);
+    }
+
+    // //导出订单
+    // service.export = function(){
+    //     return service.get(host + urlV1 + '/order/export')
+    // }
     //分页
     service.paging = function (url, limit, type, pagecount, current) {
         if (type == 'home') {

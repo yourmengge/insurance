@@ -3,13 +3,13 @@
     <div class="addorder">
         <table>
             <tr>
-                <td><span class="require">*</span>事故地点：</td>
-                <td><input class="input" type="text" ng-model="accident" ng-click="selectMap(1)" readonly="true" placeholder="请输入事故地点">
+                <td><span class="require"></span>事故地点：</td>
+                <td><input class="input" type="text" ng-model="order.accidentAddress" ng-click="selectMap(1)" readonly="true" placeholder="请选择事故地点">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <span class="require">*</span>救援类型：
+                    <span class="require"> </span>救援类型：
                 </td>
                 <td width='50px;'>
                     <input type="radio" name="type" value="tuoche" ng-model="rescueType.type">拖车
@@ -20,33 +20,33 @@
                 </td>
             </tr>
             <tr ng-hide="fix != 0">
-                <td> <span class="require">*</span>目的地点：</td>
+                <td> <span class="require"></span>目的地点：</td>
                 <td>
-                    <input class="input" ng-model="fixAddress" ng-click="selectMap(2)" placeholder="请选择目的地点" readonly="true">
+                    <input class="input" ng-model="order.fixAddress" ng-click="selectMap(2)" placeholder="请选择目的地点" readonly="true">
                 </td>
             </tr>
             <tr>
                 <td>车主姓名：</td>
-                <td><input class="input" type="text" ng-model="accidentDriverName" placeholder="请输入车主姓名"></td>
+                <td><input class="input" type="text" ng-change="input()" ng-model="order.accidentDriverName" placeholder="请输入车主姓名"></td>
             </tr>
             <tr>
-                <td><span class="require">*</span>车主电话：</td>
-                <td><input class="input" type="text" ng-change="change2()" ng-model="accidentDriverPhone" placeholder="请输入车主电话">
+                <td><span class="require"></span>车主电话：</td>
+                <td><input class="input" type="text" ng-change="input()" ng-model="order.accidentDriverPhone" placeholder="请输入车主电话">
 
                 </td>
             </tr>
             <tr>
                 <td>案件号：</td>
-                <td><input class="input" type="text" ng-model="caseNo" placeholder="请输入案件号"></td>
+                <td><input class="input" ng-change="input()" type="text" ng-model="order.caseNo" placeholder="请输入案件号"></td>
             </tr>
             <tr>
                 <td>车牌号：</td>
-                <td><input class="input" type="text" ng-model="accidentCarNo" placeholder="请输入车牌号"></td>
+                <td><input class="input" ng-change="input()" type="text" ng-model="order.accidentCarNo" placeholder="请输入车牌号"></td>
             </tr>
-            <tr>
+            <tr ng-hide="diaodu">
                 <td>指派调度：</td>
                 <td>
-                    <select class="input" ng-model="GrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
+                    <select class="input" ng-change="input()" ng-model="order.designateGrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
                 </td>
             </tr>
             <tr>
@@ -67,13 +67,17 @@
             </tr>
         </table>
         <div class="photo_div">
-            <div class="img" ng-repeat="a in localPic">
-                <button class="close_btn" style="margin-top: 0;position: absolute;background: #fff;margin-left: 92px; float: right;" ng-click="del($index)">X</button>
+            <div class="img" ng-repeat="a in order.localPic">
+                <button class="delete_pic" ng-click="del($index)"></button>
                 <img src="{{a}}" alt="">
             </div>
         </div>
-        <div style="    width: 700px;">
-            <button style="margin-left: 200px;" class="button" id="submit" ng-click="addOrder()">下单</button>
+        <div style="width: 476px;">
+            <button style="margin-left: 100px;" class="button" id="submit" ng-click="addOrder()">下单</button>
+            <button style="margin-left: 20px;" class="button" id="submit" ng-click="reset()">重置</button>
+            
+            <span style="float:right">为必填项</span>
+            <span class="require" style="float:right"></span>
         </div>
         <div class="closeBg" ng-click="closeBG()">
             <img src="img/close.png" ng-click="closeBG()" alt="" class="close_img">

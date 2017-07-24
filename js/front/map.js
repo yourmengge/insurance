@@ -23,12 +23,21 @@ map_div.controller('mapCtrl', ['$scope', 'APIService', function ($scope, APIServ
                 var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
             } else {
-                var geolocation = new BMap.Geolocation();
-                geolocation.getCurrentPosition(function (r) {
-                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                        map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
-                    }
-                }, { enableHighAccuracy: true })
+                // var geolocation = new BMap.Geolocation();
+                // geolocation.getCurrentPosition(function (r) {
+                //     if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                //         map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+                //     }
+                // }, { enableHighAccuracy: true })
+                function myFun(result) {
+                    var cityName = result.name;
+                    map.centerAndZoom(new BMap.Point(result.center.lng, result.center.lat), 13);
+                    // if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    //     
+                    // }
+                }
+                var myCity = new BMap.LocalCity();
+                myCity.get(myFun);
             }
 
         }, 1000);

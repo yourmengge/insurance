@@ -2,23 +2,31 @@
     <h2>抢单车队管理</h2>
 
     <p class="search_div">
-        <button class="button" ng-click="addDriver()">
-        添加抢单车队
-    </button>
+
 
         <input type="text" ng-model="keyword" placeholder="请输入车队或车队电话" class="input" style="width:200px;" ng-model="keyword">
         <button class="button" ng-click="get_company_fleet(keyword,10)">查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button" style="float:right" ng-click="addDriver()">
+            添加抢单车队
+        </button>
     </p>
-    <div class="add_driver_div">
-        <h2>添加抢单车队</h2>
-        <button class="close_btn" ng-click="cencle()">X</button>
-        <input type="text" placeholder="支持车队名或手机号码模糊查询" ng-change="search()" ng-model="searchName" ng-click="search()"><br>
-        <p class="add_driver_div_p" ng-click="select(a)" ng-repeat="a in searchlist" style="display:block">
-            {{a.name}} - {{a.bossPhone}}
+    <div class="addinspector_div">
+
+
+        <h2 class="alert_add_h2">添加抢单车队</h2>
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+        <p style="    text-align: left;    margin-left: 100px;width:300px">
+            <input type="text" class="input" style="    width: 100%;" placeholder="支持车队名或手机号码模糊查询" ng-change="search()" ng-model="searchName" ng-click="search()"><br>
+            <p class="add_driver_div_p" ng-click="select(a)" ng-repeat="a in searchlist" style="display:block;margin-top: -17px;width: 278px;margin-left: 100px;">
+                {{a.name}} - {{a.bossPhone}}
+            </p>
         </p>
-        <button id="submit" class="button button_disabled" ng-click="submit_add()" disabled>确定</button>
-        <button class="button button_del" ng-click="cencle()">取消</button>
+
+
+
+        <p><button id="submit" class="button button_disabled" ng-click="submit_add()" disabled>确定</button>
+            <button class="button button_del" ng-click="close()">取消</button></p>
     </div>
     <h2>{{tips}}</h2>
     <table ng-hide="table" cellspacing="0" class="table">
@@ -34,10 +42,11 @@
             <td>{{a.fleetName}}</td>
             <td>{{a.bossName}}</td>
             <td>{{a.bossPhone}}</td>
-            <td><button class="button button_del" ng-click="delete(a)">删除</button></td>
+            <td><button class="button" ng-click="delete(a)">删除</button></td>
         </tr>
     </table>
     <div style='height:50px;'></div>
+    <div class="alert_bg" ng-click="close()"></div>
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
         <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}

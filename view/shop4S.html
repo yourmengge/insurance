@@ -1,13 +1,16 @@
 <div class="adddriver" ng-controller="shop4SCtrl" ng-init="initData()">
     <h2>推修厂管理</h2>
     <p class="search_div">
-        <button class="button" ng-click="goto('add','')">添加</button>
+
         <button class="button" ng-click="delete()">删除</button>
-        <button class="button" ui-sref="main.batchshop4S">批量导入</button>
+
 
         <input type="text" ng-model="keyword" placeholder="请输入推修码、车行全称或车行地址" class="input" style="width:250px;" ng-model="keyword">
-        <button class="button" ng-click="get_shop4S_list(keyword,10)">查询</button>
+        <button class="button" ng-click="get_shop4S_page(keyword,10)">查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button" style="float:right" ui-sref="main.batchshop4S">批量导入</button>
+        <button class="button" style="float:right" ng-click="goto('add','')">添加</button>
+
     </p>
     <table cellspacing="0" cellpadding='10' class="table">
         <tr class="table_1_tr">
@@ -47,7 +50,7 @@
         </tr>
         <tr ng-repeat="a in shopList">
             <td>
-                <input type="checkbox" ng-checked="select_one" ng-click="selectOne(a.id)">
+                <input type="checkbox" ng-checked="select_one" ng-click="selectOne(a.shop4sId)">
             </td>
             <td>
                 {{a.branchCompany}}

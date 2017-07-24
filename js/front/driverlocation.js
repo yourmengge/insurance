@@ -9,6 +9,14 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         window.history.back();
     }
     $scope.location = function () {
+        APIService.get_all_disaster_orders($scope.disasterId).then(function (res) {
+            if (res.data.http_status == 200) {
+                $scope.pending = res.data.orderCntPending;
+                $scope.allCounts = res.data.orderCntAll
+            } else {
+                isError(res);
+            }
+        })
         isInit = false;
         $('.alert_bg').css('display', 'block');
         $('.disadter_location').css('display', 'block');
@@ -22,18 +30,17 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
 
     }
     $scope.drawLocation = function () {
-        t = setTimeout(function () {
-            $scope.drawLocation();
-        }, 2000);
+        // t = setTimeout(function () {
+        //     $scope.drawLocation();
+        // }, 2000);
         map2.clearOverlays();
         APIService.get_driver_track_list($scope.disasterId, '', 'ALL', limit).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.list_line = [];
                 for (let i = 0; i < res.data.entities.length; i++) {
-                    if (res.data.entities[i].trackDesc == '离线') {
-                        $scope.list_line.push(res.data.entities[i]);
-                        $scope.showLoaction(res.data.entities[i].latest_location.longitude, res.data.entities[i].latest_location.latitude, res.data.entities[i].userName, res.data.entities[i].userPhone)
-                    }
+                    $scope.list_line.push(res.data.entities[i]);
+                    $scope.showLoaction(res.data.entities[i].latest_location.longitude, res.data.entities[i].latest_location.latitude, res.data.entities[i].userName, res.data.entities[i].userPhone)
+
                 }
                 if (isInit == false) {
                     $scope.inteMap2();
@@ -59,12 +66,22 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         isInit = true;
     }
     $scope.close = function () {
+        $scope.detailDiv = hide;
         $('.alert_bg').css('display', 'none');
         $('.disadter_location').css('display', 'none');
         $('.all_driver_list').css('display', 'none');
-        $('.map_driver_detail').css('display', 'none');
         $('#allmap').css('display', 'block');
         clearTimeout(t)
+    }
+    //提醒司机
+    $scope.warn = function (phone) {
+        APIService.warn_driver(phone).then(function (res) {
+            if (res.data.http_status == 200) {
+                layer.msg('提醒成功')
+            } else {
+                isError(res)
+            }
+        })
     }
     //在地图上显示司机的位置
     $scope.showLoaction = function (lng, lat, name, phone) {
@@ -100,6 +117,8 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         })
     }
     $scope.initData = function () {
+        $scope.pick = hide;
+        $scope.detailDiv = hide;
         $scope.detail_doing = 0;
         $scope.detail_done = 0;
         $scope.detail_cancel = 0;
@@ -120,6 +139,14 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
                 $scope.detail_cancel = res.data.orderCntCancel;
                 $scope.detail_done = res.data.orderCntFinish;
                 $scope.detail_doing = res.data.orderCntDoing;
+                $scope.detail_fleetName = res.data.fleetName;
+                if (res.data.hasOwnProperty('orderDoing')) {
+                    $scope.address = res.data.orderDoing.accidentAddress;
+                    $scope.fixaddress = res.data.orderDoing.fixAddress;
+                } else {
+                    $scope.address = ''
+                    $scope.fixaddress = ''
+                }
             } else {
                 isError(res);
             }
@@ -127,7 +154,7 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
     }
     //查看在线司机位置，选择司机
     $scope.selectdriver2 = function (a) {
-        $('.map_driver_detail').css('display', 'block');
+        $scope.detailDiv = 0;
         if (a.userName != undefined) {
             $scope.detail_driverName = a.userName;
         } else {

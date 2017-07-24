@@ -3,8 +3,8 @@
     <div id="allmap" style="height:91%;"></div>
     <div class="map_right">
         <h3>{{type}}地点：</h3>
-        <p><input class="input" type="text" placeholder="请输入目的地点" ng-model="searchName" id="searchName" ng-change="change(searchName)"></p>
-        <p style="color: #555555;font-size: 13px;padding-right: 20px;">输入目的地请点击查询获取地图上的位置，也可直接点击地图获取位置</p>
+        <p><input class="input" type="text" placeholder="请输入{{type}}地点" ng-model="searchName" id="searchName" ng-change="change(searchName)"></p>
+        <p style="color: #555555;font-size: 13px;padding-right: 20px;">输入{{type}}地点，点击查询获取地图上的位置，也可直接点击地图获取位置</p>
         <p><button class="button search_button" ng-click="findPlace()">查询</button></p>
         <button class="button button_disabled" disabled ng-click="add()" id="add">确定</button>
         <button class="button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
