@@ -62,6 +62,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     // history.pushState({}, "", url + "insurance/#!/main/addorder?type=success");
                     sessionStorage.setItem('jiexi_success', 'success');
                     res.data.designateGrabUserId = '';
+                    sessionStorage.setItem('nar_address_fixaddress_nar_lat', res.data.fixLatitude);
+                    sessionStorage.setItem('nar_address_fixaddress_nar_lng', res.data.fixLongitude);
                     sessionStorage.setItem('addorder_order', JSON.stringify(res.data));
                     $scope.order = res.data;
                     $scope.order.designateGrabUserId = '';
@@ -69,6 +71,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     $scope.accident = res.data.accidentAddress;
                     $scope.caseNo = res.data.caseNo;
                     $scope.accidentDriverName = res.data.accidentDriverName;
+                    $scope.fixAddress = res.data.fixAddress;
                     if (res.data.accidentCarNoType == 1) {
                         $scope.accidentCarNo = res.data.accidentCarNo + '挂';
                     } else {
@@ -301,10 +304,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.driverId = id;
         $('.fixaddress_div').css('display', 'none');
     }
-    $scope.back = function () {
-        sessionStorage.setItem('jiexi_success', '');
-        $scope.initData();
-    }
+    // $scope.back = function () {
+    //     sessionStorage.setItem('jiexi_success', '');
+    //     $scope.initData();
+    // }
     $scope.chargeMode = function (type) {
         $scope.mode = type;
         sessionStorage.setItem('chargeMode', type);
@@ -313,6 +316,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.jiexi = 0;
         $scope.message = '';
         sessionStorage.setItem('jiexi_success', '')
+        sessionStorage.removeItem('nar_address_fixaddress');
+        sessionStorage.setItem('addorder_order', '{}');
+        sessionStorage.setItem('chargeMode', '');
+        sessionStorage.setItem('location_address', '');
+        location.reload();
     }
     $scope.reset = function () {
         if (confirm('重置后页面填写的信息将被清空')) {
@@ -380,8 +388,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 // $scope.caseNo = data.caseNo;
                 // $scope.fixAddress = sessionStorage.getItem('location_address');
 
-                if (sessionStorage.getItem('nar_address_fixaddress') != null) {
+                if (sessionStorage.getItem('nar_address_fixaddress') != undefined) {
                     $scope.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
+                } else {
+                    $scope.fixAddress = $scope.order.fixAddress;
                 }
                 // $scope.accidentDriverName = data.accidentDriverName;
                 // $scope.accidentCarNoType = data.accidentCarNoType;

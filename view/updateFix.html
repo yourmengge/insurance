@@ -1,5 +1,5 @@
 <div class="adddriver" ng-controller="updateFixCtrl" ng-init="initData()">
-    <h2>修改目的地点</h2>
+    <h2>{{selectTitle}}目的地点</h2>
     <div id="allmap" style="height:91%;width:70%"></div>
     <div class="map_right">
         <p id="selected" style="width:100%;    margin: 0;">
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <p>
-                <button class="button search_button button_disabled" disabled ng-click="update()" id="shop4s">修改</button>
+                <button class="button search_button button_disabled" disabled ng-click="update()" id="shop4s">{{selectTitle2}}</button>
                 <button class="button search_button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
             </p>
         </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <p>
-                <button class="button button_disabled" disabled ng-click="update2()" id="fixaddress">修改</button>
+                <button class="button button_disabled" disabled ng-click="update2()" id="fixaddress">{{selectTitle2}}</button>
                 <button class="button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
             </p>
         </div>
@@ -49,7 +49,7 @@
             <p style="width: 246px;"><input class="p_input" type="text" placeholder="请输入目的地点" ng-change="change(searchName)" id="searchName" ng-model="searchName"></p>
             <p style="color: #555555;font-size: 13px;padding-right: 20px;">输入目的地请点击查询获取地图上的位置，也可直接点击地图获取位置</p>
             <p><button class="button search_button" ng-click="findPlace()">查询</button></p>
-            <button class="button button_disabled" disabled ng-click="add()" id="add">修改</button>
+            <button class="button button_disabled" disabled ng-click="add()" id="add">{{selectTitle2}}</button>
             <button class="button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
         </div>
 

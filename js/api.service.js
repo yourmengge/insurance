@@ -137,7 +137,7 @@ Road167.factory('APIService', function ($http) {
 
     //获取订单列表
     service.get_order_list = function (limit, startDay, endDay, status, caseno) {
-        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&caseNo=' + caseno);
+        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&keyword=' + caseno);
     }
 
     //获取司机轨迹列表

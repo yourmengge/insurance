@@ -7,6 +7,13 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     $scope.initData = function () {
         map = new BMap.Map("allmap");
         $scope.select_type = sessionStorage.getItem('select_type')
+        if ($scope.select_type == 'update') {
+            $scope.selectTitle = '修改';
+            $scope.selectTitle2 = '修改'
+        } else {
+            $scope.selectTitle = '选择';
+            $scope.selectTitle2 = '确认'
+        }
         $scope.showDiv = 'shop'
         $scope.lat = '';
         $scope.shop4s_lat = '';
@@ -202,7 +209,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
 
     }
     $scope.update = function () {
-        if ($scope.select_type == 'update'){
+        if ($scope.select_type == 'update') {
             var data = {
                 "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
                 "applyAddress": $scope.shop4sFullName,
@@ -230,7 +237,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
 
     }
     $scope.update2 = function () {
-        if ($scope.select_type == 'update'){
+        if ($scope.select_type == 'update') {
             var data = {
                 "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
                 "applyAddress": $scope.fixaddress,

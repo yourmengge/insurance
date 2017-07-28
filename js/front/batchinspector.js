@@ -67,7 +67,7 @@ batchinspector.controller('batchinspectorCtrl', ['$scope', 'APIService', "$http"
                 if (res.data.http_status == 200) {
                     layer.msg('批量导入成功');
                     setTimeout(function () {
-                        goto_view('main/shop4S')
+                        goto_view('main/inspector')
                     }, 2000);
                 } else {
                     isError(res);
