@@ -128,18 +128,18 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
 
         }
     });
-    $scope.$watch('data.afterSalePhone2', function (newValue, oldValue) {
-        if (newValue == '' || newValue == null) {
-            $('#submit').removeAttr("disabled").removeClass('button_disabled');
-        } else {
-            if (isPhone.test(newValue)) {
-                $('#submit').removeAttr("disabled").removeClass('button_disabled');
-            } else {
-                $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
-            }
+    // $scope.$watch('data.afterSalePhone2', function (newValue, oldValue) {
+    //     if (newValue == '' || newValue == null) {
+    //         $('#submit').removeAttr("disabled").removeClass('button_disabled');
+    //     } else {
+    //         if (isPhone.test(newValue)) {
+    //             $('#submit').removeAttr("disabled").removeClass('button_disabled');
+    //         } else {
+    //             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+    //         }
 
-        }
-    });
+    //     }
+    // });
     $scope.$watch('address', function (newValue, oldValue) {
         if (newValue == '' || newValue == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -163,9 +163,11 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
         }
     });
-    $scope.reset = function () {   
-        sessionStorage.setItem('shop4S_data', '{}');
-        sessionStorage.setItem('shop4S','')
-        $scope.initData();
+    $scope.reset = function () {
+        if (confirm('重置后页面填写的信息将被清空')) {
+            sessionStorage.setItem('shop4S_data', '{}');
+            sessionStorage.setItem('shop4S', '')
+            $scope.initData();
+        }
     }
 }])

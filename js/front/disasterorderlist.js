@@ -53,6 +53,8 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
                 } else {
+                    $scope.table = show;
+                    $scope.tips = ''
                     $scope.page_p = show;
                 }
                 $scope.up = hide;
@@ -70,6 +72,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
                 if (res.data.count == 0) {
                     $scope.tips = '未找到符合条件的订单';
                     $scope.table = hide;
+                    $scope.page_p = hide;
                 } else {
                     $scope.table = show;
                     $scope.tips = '';

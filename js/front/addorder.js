@@ -38,6 +38,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $('#button').addClass('button_disabled').attr("disabled", 'disabled');
     //     }
     // }
+    $scope.selectMap = function () {
+        sessionStorage.setItem('select_type', 'addorder')
+        goto_view('main/updateFix');
+    }
     $scope.analysis = function () {
         sessionStorage.setItem('location_address', '')
         $scope.fixAddress = '';
@@ -47,6 +51,14 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             APIService.analysis($scope.message).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('解析成功');
+                    $scope.mode = 2;
+                    if ($scope.mode == 2) {
+                        $scope.mode2 = true;
+                        $scope.mode1 = false;
+                    } else {
+                        $scope.mode1 = true;
+                        $scope.mode2 = false;
+                    }
                     // history.pushState({}, "", url + "insurance/#!/main/addorder?type=success");
                     sessionStorage.setItem('jiexi_success', 'success');
                     res.data.designateGrabUserId = '';
@@ -92,11 +104,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         //     fixLongitude: '',
         //     chargeMode: $scope.mode
         // }
-        if ($scope.fixAddress.indexOf('-') < 0) {//判断文本框中的地址是通过地图选择还是选择框选择，选择框选择的地址包含‘-’；
-            $scope.addressId = null;
-            $scope.order.fixLatitude = sessionStorage.getItem('location_lat');
-            $scope.order.fixLongitude = sessionStorage.getItem('location_lng');
-        }
+        // if ($scope.fixAddress.indexOf('-') < 0) {//判断文本框中的地址是通过地图选择还是选择框选择，选择框选择的地址包含‘-’；
+        //     $scope.addressId = null;
+
+        // }
         // if ($scope.biaodi == true && $scope.sanzhe == true) {//标的车和三者车
         //     order.insuranceType = 3;
         // }
@@ -126,11 +137,16 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         if (!isPhone.test($scope.order.accidentDriverPhone)) {
             layer.msg('手机号码格式不正确');
         } else {
+            $scope.order.fixLatitude = sessionStorage.getItem('nar_address_fixaddress_nar_lat');
+            $scope.order.fixLongitude = sessionStorage.getItem('nar_address_fixaddress_nar_lng');
             $scope.order.fixAddress = $scope.fixAddress;
             $scope.order.chargeMode = sessionStorage.getItem('chargeMode')
             APIService.add_order($scope.order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
+                    sessionStorage.removeItem('nar_address_fixaddress');
+                    sessionStorage.removeItem('nar_address_fixaddress_nar_lat');
+                    sessionStorage.removeItem('nar_address_fixaddress_nar_lng');
                     sessionStorage.setItem('chargeMode', 2);
                     sessionStorage.setItem('jiexi_success', '');
                     sessionStorage.removeItem('addorder_order');
@@ -152,19 +168,26 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     $scope.change2 = function () {
         sessionStorage.setItem('addorder_order', JSON.stringify($scope.order));
     }
-    $scope.change3 = function () {
-        if ($scope.biaodi == true && $scope.sanzhe == true) {//标的车和三者车
-            $scope.order.insuranceType = 3;
-        }
-        if ($scope.biaodi == true && $scope.sanzhe == false) {//标的车
+    $scope.change3 = function (type) {
+        $scope.counts6 = 1;
+        // if ($scope.biaodi == true && $scope.sanzhe == true) {//标的车和三者车
+        //     $scope.order.insuranceType = 3;
+        // }
+        // if ($scope.biaodi == true && $scope.sanzhe == false) {//标的车
+        //     $scope.order.insuranceType = 1;
+        // }
+        // if ($scope.biaodi == false && $scope.sanzhe == true) {//三者车
+        //     $scope.order.insuranceType = 2;
+        // }
+        // if ($scope.biaodi == false && $scope.sanzhe == false) {//保险类型未知
+        //     $scope.order.insuranceType = 0;
+        // }
+        if (type == 1) {
             $scope.order.insuranceType = 1;
-        }
-        if ($scope.biaodi == false && $scope.sanzhe == true) {//三者车
+        } else {
             $scope.order.insuranceType = 2;
         }
-        if ($scope.biaodi == false && $scope.sanzhe == false) {//保险类型未知
-            $scope.order.insuranceType = 0;
-        }
+        $scope.insurance = type;
         sessionStorage.setItem('addorder_order', JSON.stringify($scope.order));
     }
     $scope.addFixAddress = function () {
@@ -185,23 +208,31 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         goto_view('main/selectlocation');
 
     }
-    $scope.closeBG = function () {
-        $('.closeBg').css('display', 'none');
-        $('.map_div').css('display', 'none');
-        APIService.get_fix_address('', 200).then(function (res) {
-            if (res.data.count != 0) {
-                $scope.address_list = res.data.items;
-                $scope.fixAddress = res.data.items[0].address;
-            }
+    // $scope.closeBG = function () {
+    //     $('.closeBg').css('display', 'none');
+    //     $('.map_div').css('display', 'none');
+    //     APIService.get_fix_address('', 200).then(function (res) {
+    //         if (res.data.count != 0) {
+    //             $scope.address_list = res.data.items;
+    //             $scope.fixAddress = res.data.items[0].address;
+    //         }
 
-        })
-    }
+    //     })
+    // }
     $scope.$watch('order.accidentAddress', function (accident) {
         if (accident == '' || accident == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts1 = 0;
         } else {
             $scope.counts1 = 1;
+        }
+    });
+    $scope.$watch('order.accidentCarNo', function (accident) {
+        if (accident == '' || accident == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts5 = 0;
+        } else {
+            $scope.counts5 = 1;
         }
     });
     $scope.$watch('order.accidentDriverPhone', function (accidentDriverPhone, oldValue) {
@@ -238,8 +269,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $scope.counts3 = 1;
     //     }
     // });
-    $scope.$watch('counts1 + counts2  + counts4', function (newValue, oldValue) {
-        if (newValue == 3) {
+    $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6', function (newValue, oldValue) {
+        if (newValue == 5) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -257,14 +288,14 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     $scope.closeDriver = function () {
         $('#driver_div').css('display', 'none')
     }
-    $scope.clickFix = function (address, abbr, id) {
-        $scope.fixAddress = address + '-' + abbr;
-        sessionStorage.setItem('location_address', $scope.fixAddress)
-        $scope.change2();
-        $scope.addressId = id
-        sessionStorage.setItem('addressId', id)
-        $('.fixaddress_div').css('display', 'none');
-    }
+    // $scope.clickFix = function (address, abbr, id) {
+    //     $scope.fixAddress = address + '-' + abbr;
+    //     sessionStorage.setItem('location_address', $scope.fixAddress)
+    //     $scope.change2();
+    //     $scope.addressId = id
+    //     sessionStorage.setItem('addressId', id)
+    //     $('.fixaddress_div').css('display', 'none');
+    // }
     $scope.clickDriver = function (name, phone, id) {
         $scope.Driver = name + '-' + phone;
         $scope.driverId = id;
@@ -283,11 +314,17 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.message = '';
         sessionStorage.setItem('jiexi_success', '')
     }
-    $scope.reset = function(){
-        sessionStorage.setItem('addorder_order','{}');
-        location.reload();
+    $scope.reset = function () {
+        if (confirm('重置后页面填写的信息将被清空')) {
+            sessionStorage.removeItem('nar_address_fixaddress');
+            sessionStorage.setItem('addorder_order', '{}');
+            sessionStorage.setItem('chargeMode', '');
+            sessionStorage.setItem('location_address', '');
+            location.reload();
+        }
     }
     $scope.initData = function () {
+
         $scope.message = ''
         var funcList = sessionStorage.getItem('funcList')
         if (contains(funcList, 1) || contains(funcList, 1001)) {
@@ -309,39 +346,57 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.mode1 = true;
             $scope.mode2 = false;
         }
-        $scope.biaodi = false;
-        $scope.sanzhe = false;
+
+        console.log(sessionStorage.getItem('addorder_order'))
+        if (sessionStorage.getItem('addorder_order') != null) {
+            if (JSON.parse(sessionStorage.getItem('addorder_order')).hasOwnProperty('insuranceType')) {
+                $scope.insurance = JSON.parse(sessionStorage.getItem('addorder_order')).insuranceType;
+            } else {
+                $scope.insurance = '';
+            }
+        }
+
+
+        // if ($scope.mode == 2) {
+        //     $scope.mode2 = true;
+        //     $scope.mode1 = false;
+        // } else {
+        //     $scope.mode1 = true;
+        //     $scope.mode2 = false;
+        // }
         $scope.counts = 0;
         if (sessionStorage.getItem('jiexi_success') == 'success') {//判断是否解析过短信
             $scope.jiexi = hide;
             var data = JSON.parse(sessionStorage.getItem('addorder_order'));
+            if (data.insuranceType != undefined) {
+                $scope.counts6 = 1;
+            } else {
+                $scope.counts6 = 0;
+            }
             if (data != null) {
+
                 $scope.order = data;
                 // $scope.accident = data.accidentAddress;
                 // $scope.caseNo = data.caseNo;
-                $scope.fixAddress = sessionStorage.getItem('location_address');
+                // $scope.fixAddress = sessionStorage.getItem('location_address');
 
-
+                if (sessionStorage.getItem('nar_address_fixaddress') != null) {
+                    $scope.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
+                }
                 // $scope.accidentDriverName = data.accidentDriverName;
                 // $scope.accidentCarNoType = data.accidentCarNoType;
                 // $scope.accidentCarNo = data.accidentCarNo;
                 // $scope.Driver = data.designateGrabDriverId;
                 // $scope.GrabUserId = data.designateGrabUserId;
                 // $scope.accidentDriverPhone = data.accidentDriverPhone;
+
                 if (data.insuranceType == 1) {
                     $scope.biaodi = true;
                 }
                 if (data.insuranceType == 2) {
                     $scope.sanzhe = true;
                 }
-                if (data.insuranceType == 3) {
-                    $scope.biaodi = true;
-                    $scope.sanzhe = true;
-                }
-                if (data.insuranceType == 0) {
-                    $scope.biaodi == false;
-                    $scope.sanzhe == false;
-                }
+
             }
         } else {
             $scope.jiexi = show;
@@ -370,7 +425,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     companyNo: "",
                     fleetId: '不指派调度',
                     fleetName: "不指派调度",
-                    id: '1'
+                    id: ''
                 }
             ]
             for (var i = 0; i < res.data.count; i++) {
@@ -378,8 +433,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 fleet_list.push(res.data.items[i]);
             }
             $scope.driver_list = fleet_list;
-            if (data == null) {
-                $scope.GrabUserId = '';
+            if (!$scope.order.hasOwnProperty('designateGrabUserId')) {
+                $scope.order.designateGrabUserId = '';
             }
 
         })

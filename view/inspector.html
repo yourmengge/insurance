@@ -1,0 +1,47 @@
+<div class="adddriver" ng-controller="inspectorCtrl" ng-init="initData()">
+    <h2>查勘员管理</h2>
+    <p class="search_div">
+        <button class="button" style="float:left" ng-click="addDriver()">
+            添加查勘员
+        </button>
+        <button class="button" ui-sref="main.batchinspector">批量导入</button>
+    </p>
+    <p>
+
+    </p>
+    <div class="addinspector_div">
+
+
+        <h2 class="alert_add_h2">添加查勘员</h2>
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+        <p style="    text-align: left;    margin-left: 100px;width:300px">
+            姓&emsp;名：&emsp;<input type="text" class="input" style="width: 70%;" ng-model="Name">
+        </p>
+        <p style="text-align: left;margin-left: 100px;width:300px">
+            手机号：&emsp;<input type="text" class="input" style="width: 70%;" ng-model="phone">
+        </p>
+        <p><button  class="button {{Name != '' && phone != '' ?'':'button_disabled'}}" ng-click="submit_add()" ng-disabled="Name != '' && phone != ''?'':'true'">确定</button>
+            <button class="button button_del" ng-click="close()">取消</button></p>
+    </div>
+    <h2>{{tips}}</h2>
+    <table ng-hide="table" cellspacing="0" class="table">
+        <tr>
+            <th>查勘员姓名</th>
+            <th>查勘员手机号</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="a in list">
+            <td>{{a.name}}</td>
+            <td>{{a.phone}}</td>
+            <td><span class="button_span" ng-click="delete(a)">离职</span></td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <div class="alert_bg" ng-click="close()"></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

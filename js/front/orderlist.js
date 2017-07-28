@@ -2,6 +2,7 @@ var orderlist = angular.module('orderlist', ['Road167']);
 var time = new Date();
 orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function ($scope, APIService, $http) {
     $scope.initData = function () {
+        $scope.openDetail = -1;
         loading();
         var today = time.getTime();
         $('#startDay').val(ToLocalTime(today - 2678400000));
@@ -25,6 +26,14 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                 isError(res);
             }
         })
+    }
+    $scope.openDiv = function(index){
+        if($scope.openDetail == index){
+            $scope.openDetail = -1;
+        }else{
+            $scope.openDetail = index;
+        }
+        
     }
     $scope.editOrder = function (data) {
         goto_view('main/editorder');
@@ -67,6 +76,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         // });
     }
     $scope.search = function () {
+        $scope.openDetail = -1;
         loading();
         $scope.get_date();
         APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
@@ -111,6 +121,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         goto_view('main/detail');
     }
     $scope.Page = function (type) {
+        $scope.openDetail = -1;
         if (type == 'home') {
             $scope.current = 1;
             $scope.up = hide;
@@ -155,7 +166,6 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         { id: 7, name: '后台取消' },
         { id: 8, name: '查勘取消' },
         { id: 81, name: '保险人员取消' },
-        { id: 82, name: '司机或调度取消订单' },
         { id: 9, name: '历史未完成' }
     ]
     $scope.cancel = function (orderNo) {

@@ -6,6 +6,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     })
     $scope.initData = function () {
         map = new BMap.Map("allmap");
+        $scope.select_type = sessionStorage.getItem('select_type')
         $scope.showDiv = 'shop'
         $scope.lat = '';
         $scope.shop4s_lat = '';
@@ -201,58 +202,85 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
 
     }
     $scope.update = function () {
-        var data = {
-            "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
-            "applyAddress": $scope.shop4sFullName,
-            "applyLongitude": $scope.shop4s_lng,
-            "applyLatitude": $scope.shop4s_lat,
-            'shop4sId': $scope.shop4sId
-        }
-        APIService.update_fixaddress(data).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('目的地修改成功！')
-                setTimeout(function () {
-                    window.history.back();
-                }, 2000);
-            } else {
-                isError(res)
+        if ($scope.select_type == 'update'){
+            var data = {
+                "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
+                "applyAddress": $scope.shop4sFullName,
+                "applyLongitude": $scope.shop4s_lng,
+                "applyLatitude": $scope.shop4s_lat,
+                'shop4sId': $scope.shop4sId
             }
-        })
+            APIService.update_fixaddress(data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('目的地修改成功！')
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 2000);
+                } else {
+                    isError(res)
+                }
+            })
+        } else {
+            $scope.sessionStorageName = 'nar_address_fixaddress'
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.shop4s_lat);
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.shop4s_lng);
+            sessionStorage.setItem($scope.sessionStorageName, $scope.shop4sFullName);
+            window.history.back();
+        }
+
     }
     $scope.update2 = function () {
-        var data = {
-            "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
-            "applyAddress": $scope.fixaddress,
-            "applyLongitude": $scope.fixaddress_lng,
-            "applyLatitude": $scope.fixaddress_lat
-        }
-        APIService.update_fixaddress(data).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('目的地修改成功！')
-                setTimeout(function () {
-                    window.history.back();
-                }, 2000);
-            } else {
-                isError(res)
+        if ($scope.select_type == 'update'){
+            var data = {
+                "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
+                "applyAddress": $scope.fixaddress,
+                "applyLongitude": $scope.fixaddress_lng,
+                "applyLatitude": $scope.fixaddress_lat
             }
-        })
+            APIService.update_fixaddress(data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('目的地修改成功！')
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 2000);
+                } else {
+                    isError(res)
+                }
+            })
+        } else {
+            $scope.sessionStorageName = 'nar_address_fixaddress'
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.fixaddress_lat);
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.fixaddress_lng);
+            sessionStorage.setItem($scope.sessionStorageName, $scope.fixaddress);
+            window.history.back();
+        }
+
     }
     $scope.add = function () {
-        var data = {
-            "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
-            "applyAddress": $scope.searchName,
-            "applyLongitude": $scope.selectFixLng,
-            "applyLatitude": $scope.selectFixLat
-        }
-        APIService.update_fixaddress(data).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('目的地修改成功！')
-                setTimeout(function () {
-                    window.history.back();
-                }, 2000);
-            } else {
-                isError(res)
+        if ($scope.select_type == 'update') {
+            var data = {
+                "orderNo": sessionStorage.getItem('fixaddress_orderNo'),
+                "applyAddress": $scope.searchName,
+                "applyLongitude": $scope.selectFixLng,
+                "applyLatitude": $scope.selectFixLat
             }
-        })
+            APIService.update_fixaddress(data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('目的地修改成功！')
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 2000);
+                } else {
+                    isError(res)
+                }
+            })
+        } else {
+            $scope.sessionStorageName = 'nar_address_fixaddress'
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.selectFixLat);
+            sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.selectFixLng);
+            sessionStorage.setItem($scope.sessionStorageName, $scope.searchName);
+            window.history.back();
+        }
+
     }
 }])

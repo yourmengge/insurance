@@ -3,15 +3,16 @@
     <h2 ng-hide="status != 2">查看大灾司机</h2>
     <button class="goback" ng-click="back()"></button>
     <h4 class="detail_title">
-        {{title}}
-        <button ng-hide="status == 2" class="button" ui-sref='main.driverlocation'>查看司机位置</button><button class="button"
-            ui-sref='main.review' ng-hide="status == 2">司机退出审核</button>
-            <button class="button" ng-hide="status == 2" ng-click="add()">添加司机</button>
+        {{title}} <span style="margin-left:40px;color:#f00" ng-hide="status != 2">
+        *司机需求量：{{driverNeedcount}}
+    </span>
+        <button ng-hide="status == 2" class="button" ui-sref='main.driverlocation'>查看司机位置</button>
+        <button class="button" ng-hide="status == 2" ng-click="add()">添加司机</button>
+        <button class="refrash" style="float:none;" ui-sref='main.review' ng-hide="status == 2">司机退出审核</button>
+
     </h4>
-        <div class="alert_bg" ng-click="close()"></div>
-    <p ng-hide="status != 2">
-        司机需求量：{{driverNeedcount}}
-    </p>
+    <div class="alert_bg" ng-click="close()"></div>
+
     <p id="selected"><button class="selected_button selected_button_click" ng-click="change_search('driver')">普通查询</button><button class="selected_button"
             ng-click="change_search('fleet')">车队查询</button></p>
     <p>{{type}}搜索：<input type="text" ng-model="key" class="input" style="width:250px" placeholder="{{message}}">&emsp;&emsp;&emsp;状态：
@@ -52,11 +53,11 @@
         <h2 class="alert_add_h2">添加司机</h2>
         <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
         <p style="    text-align: left;    margin-left: 60px;"><span class="tips2">*</span>姓&emsp;&emsp;名：<input type="text" class="input" ng-model="name" maxlength="4"><span style="color: #dedede;margin-left: 20px;">{{name.length + 0}}/4</span>
-        <p style="    text-align: left;    margin-left: 60px;"><span class="tips2">*</span>司机电话：<input style="width: 268px;" type="text" ng-model="phone" class="input" ></p>
+            <p style="    text-align: left;    margin-left: 60px;"><span class="tips2">*</span>司机电话：<input style="width: 268px;" type="text" ng-model="phone" class="input"></p>
 
 
 
-        <p><button id="add" class="button" ng-click="add_disaster_driver()">添加</button></p>
+            <p><button id="add" class="button" ng-click="add_disaster_driver()">添加</button></p>
     </div>
     <div style='height:50px;'></div>
     <p ng-hide="page_p" class="page_p">

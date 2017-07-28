@@ -17,13 +17,13 @@
             <tr>
                 <td><span class="require"></span>目的地点：</td>
                 <td>
-                    <input ng-change="change2()" class="input" ng-model="fixAddress" ng-click="openFix()" placeholder="请选择目的地点" readonly="true">
-                    <div class="fixaddress_div" id="fixaddress_div">
+                    <input class="input" ng-model="fixAddress" ng-click="selectMap()" placeholder="请选择目的地点" readonly="true">
+                    <!-- <div class="fixaddress_div" id="fixaddress_div">
                         <p class="input_p" ng-repeat="a in address_list" ng-click="clickFix(a.address,a.addressAbbr,a.id)">
                             {{a.address}} - {{a.addressAbbr}}
                         </p>
                     </div>
-                    <button ng-click="addFixAddress()" class="button">地图上选择</button>
+                    <button ng-click="addFixAddress()" class="button">地图上选择</button> -->
                 </td>
             </tr>
             <tr>
@@ -40,7 +40,7 @@
                 <td><input ng-change="change2()" class="input" type="text" ng-model="order.caseNo" placeholder="请输入案件号"></td>
             </tr>
             <tr>
-                <td>车牌号：</td>
+                <td><span class="require"></span>车牌号：</td>
                 <td><input ng-change="change2()" class="input" type="text" ng-model="order.accidentCarNo" placeholder="请输入车牌号"></td>
             </tr>
             <!-- <tr ng-hide="!diaodu">
@@ -63,9 +63,11 @@
                 </td>
             </tr>
             <tr>
-                <td>车保类型：</td>
-                <td><input type="checkbox" ng-click="change3()" class="checkbox" ng-model="biaodi">标的车 <input ng-click="change3()"
-                        ng-model="sanzhe" type="checkbox" class="checkbox">三者车</td>
+                <td><span class="require"></span>车保类型：</td>
+                <td><input type="radio" ng-click="change3(1)" class="addorder_radio" ng-model="biaodi" id="biaodi">
+                    <label name="biaodi" class="{{insurance == 1?'checked':''}} addorder_label" for="biaodi" ></label>标的车 
+                    <input ng-click="change3(2)" ng-model="sanzhe" type="radio" class="addorder_radio" id="sanzhe">
+                    <label name="sanzhe" class="{{insurance == 2?'checked':''}} addorder_label" for="sanzhe" ></label>三者车</td>
             </tr>
             <tr>
                 <td>救援车类型：</td>
@@ -74,8 +76,10 @@
             <tr>
                 <td>收费方式：</td>
                 <td>
-                    <input type="radio" name="chargeMode" ng-click="chargeMode(1)" ng-checked="mode1">收取现金
-                    <input type="radio" name="chargeMode" ng-click="chargeMode(2)" ng-checked="mode2">免垫付
+                    <input type="radio" name="chargeMode" ng-click="chargeMode(1)" ng-checked="mode1" id="mode1" value="mode1" class="addorder_radio">
+                    <label name="mode1" class="{{mode == 1?'checked':''}} addorder_label" for="mode1" ></label>收取现金
+                    <input type="radio" name="chargeMode" ng-click="chargeMode(2)" ng-checked="mode2" id="mode2" value="mode2" class="addorder_radio">
+                    <label name="mode2" class="{{mode == 2?'checked':''}} addorder_label" for="mode2" ></label>免垫付
                 </td>
             </tr>
         </table>

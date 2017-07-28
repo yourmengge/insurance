@@ -70,7 +70,7 @@ ul li{
     background: #fff;
     overflow-y: auto;
 }
-@media screen and (max-width:1300px){
+@media screen and (max-width:1334px){
     .left_menu{
         width: 200px;
         position: absolute !important;
@@ -218,6 +218,9 @@ textarea{
     height: 40vh;
 
 }
+.font_red{
+    color: #f00 !important;
+}
 .addorder table tr{
     height: 50px;
     border-bottom: solid 1px #dedede;
@@ -226,7 +229,7 @@ textarea{
     text-align: left;
 }
 .addorder table tr td:nth-child(odd){
-    text-align: right;
+    text-align: left;
 }
 .addorder table tr td .input{
     height: 40px;
@@ -437,14 +440,15 @@ input[type=number]::-webkit-outer-spin-button {
     border: solid 1px #b5b5b5;
 }
 .require{
-    margin-right: 14px;
+    margin-left: -20px;
     width: 6px;
     height: 6px;
     background: #f00;
     border-radius: 50px;
     display: block;
     float: left;
-    margin-top: 5px;
+    margin-top: 8px;
+    margin-right: 5px;
 }
 .evalImg{
     width: 90px;
@@ -862,8 +866,8 @@ input[type=number]::-webkit-outer-spin-button {
     background: url(../img/edit.png) no-repeat;
     background-size: 100%;
     border: none;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 2px;
+    margin-right: 2px;
     width: 26px;
     height: 27px;
 }
@@ -920,6 +924,7 @@ input[type=number]::-webkit-outer-spin-button {
     line-height: 40px;
     background: #3889e5;
     color: #fff;
+        font-size: 14px;
 }
 .driver_all_div{
         height: 87vh;
@@ -1159,6 +1164,97 @@ video{
     margin-left: 92px; 
     float: right;
     border:none;
-    height: 25px;
-    width: 25px;
+    height: 24px;
+    width: 24px;
 }
+.list_table_tr{
+    width: 100%;
+    display: flex;
+}
+.list_table_tr div{
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    border: 1px solid #c8f0ff;
+    font-size: 13px;
+    background: #a9ebff;
+}
+.list_table_td{
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    flex-flow: row wrap;
+}
+.list_table_td:hover{
+    background: #f7f7f7;
+}
+.list_table_td div{
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #c8f0ff;
+    min-height: 40px;
+    overflow-wrap: break-word;
+        width: 10px;
+}
+.list_table_detail{
+    border: 1px solid #c8f0ff;
+    background: #f7f7f7;
+    padding: 30px;
+}
+.list_table_detail table{
+    width: 100%;
+    text-align: left;
+}
+.list_table_detail table tr td:nth-child(odd){
+    text-align: right;
+}
+.list_table_detail table tr td:nth-child(even){
+    text-align: left;
+}
+.list_table_detail table tr{
+    height: 30px;
+    line-height: 30px;
+}
+.list_table_detail table td{
+    font-size: 13px;
+    width: 15%;
+}
+ .addorder_radio {  
+    margin: 3px 3px 0px 5px;  
+    display: none;
+}
+.addorder_label{  
+    padding-left: 17px;
+    cursor: pointer;
+    background: url(../img/xuanxiang-anniu.png) no-repeat;
+    background-position: -1px 2px;
+    background-size: 241%;
+    margin-right: 4px;
+}
+.checked {  
+    background-position: -20px 2px;
+} 
+.button_span{
+    color: #0079b5;
+    cursor: pointer;
+    padding: 0 10px;
+}
+ /* input[type=checkbox]{
+    margin: 3px 3px 0px 5px;  
+    display: none;
+} 
+.checkbox_label{
+    padding-left: 20px;
+    padding-top: 3px;
+    cursor: pointer;
+    background: url(../img/xuanxiang-anniu.png) no-repeat;
+    background-position: bottom right;
+    background-size: 296%;
+}
+.checkbox_checked {  
+    background-position: bottom left;
+}  */

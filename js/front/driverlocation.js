@@ -1,6 +1,6 @@
 var driverlocation = angular.module('driverlocation', ['Road167']);
 var map, map2;
-var t; var isInit;
+ var isInit;
 driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     /**
      *返回上页 
@@ -30,9 +30,9 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
 
     }
     $scope.drawLocation = function () {
-        // t = setTimeout(function () {
-        //     $scope.drawLocation();
-        // }, 2000);
+        t = setTimeout(function () {
+            $scope.drawLocation();
+        }, 2000);
         map2.clearOverlays();
         APIService.get_driver_track_list($scope.disasterId, '', 'ALL', limit).then(function (res) {
             if (res.data.http_status == 200) {
@@ -117,7 +117,7 @@ driverlocation.controller('driverlocationCtrl', ['$scope', 'APIService', functio
         })
     }
     $scope.initData = function () {
-        $scope.pick = hide;
+        $scope.pick = show;
         $scope.detailDiv = hide;
         $scope.detail_doing = 0;
         $scope.detail_done = 0;

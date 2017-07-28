@@ -46,20 +46,25 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
         })
     }
     $scope.add_disaster_driver = function () {
-        var data = {
-            "phone": $scope.phone,
-            "name": $scope.name
-        }
-        APIService.add_disaster_driver($scope.disasterId, data).then(function (res) {
-            if (res.data.http_status == 200) {
-                layer.msg('添加司机成功');
-                setTimeout(function() {
-                    location.reload();
-                }, 2000);
-            } else {
-                isError(res);
+        if (!isPhone.test($scope.phone)) {
+            layer.msg('电话号码不合法')
+        } else {
+            var data = {
+                "phone": $scope.phone,
+                "name": $scope.name
             }
-        })
+            APIService.add_disaster_driver($scope.disasterId, data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('添加司机成功');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    isError(res);
+                }
+            })
+        }
+
     }
     $scope.add = function () {
         $('.alert_bg').css('display', 'block')

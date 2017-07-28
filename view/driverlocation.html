@@ -13,22 +13,24 @@
     <div style="width: 35%;max-height: 608px;float: left;overflow-y: auto;">
         <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table" style="width: 100%;float:left">
             <tr class="table_1_tr">
+                <td>状态</td>
                 <td>姓名</td>
                 <td>联系方式</td>
                 <td>所属车队</td>
             </tr>
             <tr ng-repeat="a in list">
-                <td ng-click="selectdriver(a)"><img style="margin-right: -10px;float:left" src="{{a.trackDesc | trackStatus}}" alt="">{{a.userName}}</td>
+                <td ng-click="selectdriver(a)" class="{{a.trackDesc == '离线'?'font_red':''}}">{{a.trackDesc}}</td>
+                <td ng-click="selectdriver(a)">{{a.userName}}</td>
                 <td ng-click="selectdriver(a)">{{a.userPhone}}</td>
                 <td ng-click="selectdriver(a)">{{a.fleetName}}</td>
             </tr>
 
         </table>
-        <p class="tips_p">
+        <!-- <p class="tips_p">
             <img src="img/zaixian.png" alt="">表示在线司机
             <img src="img/jingzhi.png" alt="">表示静止司机
             <img src="img/lixian.png" alt="">表示离线司机
-        </p>
+        </p> -->
     </div>
 
     <!--<p ng-hide="page_p" class="location_page">
@@ -48,12 +50,13 @@
                 <img src="" alt="">
             </div>
             <p class="driver_list_p">
-                新订单： {{pending}}
+                新订单： <span style="color:#f00">{{pending}}</span>
             </p>
             <p class="driver_list_p">
                 订单总数：{{allCounts}}
             </p>
             <div class="driver_list_title " style="    display: flex;">
+                <span>状态</span>
                 <span>姓名</span>
                 <span ng-hide="pick">联系方式</span>
                 <span ng-hide="pick">所属车队</span>
@@ -61,7 +64,8 @@
             </div>
             <div class="driver_list">
                 <p ng-repeat="a in list_line" ng-click="selectdriver2(a)">
-                    <span><img style="    margin-right: -29px;float: left;padding-top: 10px;padding-left: 5px;" src="{{a.trackDesc | trackStatus}}" alt="">{{a.userName}}</span>
+                    <span class="{{a.trackDesc == '离线'?'font_red':''}}">{{a.trackDesc}}</span>
+                    <span>{{a.userName}}</span>
                     <span ng-hide="pick">{{a.userPhone}}</span>
                     <span ng-hide="pick">{{a.fleetName}}</span>
                     <span><button ng-click="warn(a.userPhone) ;$event.stopPropagation();" class="button {{a.trackDesc == '离线'?'':'button_disabled'}}" ng-disabled="{{a.trackDesc == '离线'?'':'true'}}" style="min-width:60px;">提醒</button></span>

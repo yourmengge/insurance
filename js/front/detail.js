@@ -94,6 +94,7 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
     }
     $scope.goto = function (orderNo) {
         sessionStorage.setItem('fixaddress_orderNo', orderNo)
+        sessionStorage.setItem('select_type', 'update')
         goto_view('main/updateFix')
     }
 }])

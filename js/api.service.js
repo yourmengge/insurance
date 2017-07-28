@@ -366,7 +366,23 @@ Road167.factory('APIService', function ($http) {
     service.get_all_disaster_orders = function (disasterId) {
         return service.get(host + urlV1 + '/disaster/statis/' + disasterId);
     }
+    //获取查勘员列表
+    service.get_inspector_list = function (limit) {
+        return service.get(host + urlV1 + '/third/user?roleId=3&$limit=' + limit)
+    }
 
+    //添加查勘员
+    service.add_inspector = function (data) {
+        return service.post(host + urlV1 + '/import/inspector', data)
+    }
+    //查勘员批量导入确认
+    service.submit_inspector_list = function (id) {
+        return service.post(host + urlV1 + '/excel/inpsector/import/confirm/' + id, { '': '' })
+    }
+    //查勘员离职
+    service.delete_inspector = function(id){
+        return service.patch(host + urlV1 + '/user/' + id + '/actions/resignation')
+    }
     // //导出订单
     // service.export = function(){
     //     return service.get(host + urlV1 + '/order/export')

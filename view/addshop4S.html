@@ -8,11 +8,11 @@
                 <td><input class="input" type="text" ng-change="change()" ng-model="data.branchCompany"></td>
             </tr>
             <tr>
-                <td><span class="tips">*</span>推修码：</td>
+                <td><span class="require"></span>推修码：</td>
                 <td><input class="input" type="text" ng-change="change()" maxlength="25" ng-model="data.pushFixCode"> <span style="color:#dedede">{{data.pushFixCode.length + 0}}/25</span></td>
             </tr>
             <tr>
-                <td><span class="tips">*</span>车行全称：</td>
+                <td><span class="require"></span>车行全称：</td>
                 <td><input class="input" type="text" ng-change="change()" maxlength="50" ng-model="data.fullName"> <span style="color:#dedede">{{data.fullName.length + 0}}/50</span></td>
             </tr>
             <tr>
@@ -20,7 +20,7 @@
                 <td><input class="input" type="text" ng-model="data.simpleName" ng-change="change()"></td>
             </tr>
             <tr>
-                <td><span class="tips">*</span>车行地址：</td>
+                <td><span class="require"></span>车行地址：</td>
                 <td><input class="input" type="text" ng-model="address" placeholder="请从地图上选择" readonly ng-click="selectMap('车行')"></td>
             </tr>
             <tr>
@@ -28,7 +28,7 @@
                 <td><input class="input" type="text" ng-model="data.afterSaleMgr" ng-change="change()"></td>
             </tr>
             <tr>
-                <td><span class="tips">*</span>电话：</td>
+                <td><span class="require"></span>电话：</td>
                 <td><input class="input" type="text" ng-model="data.afterSalePhone" ng-change="change()"></td>
             </tr>
             <tr>
@@ -41,12 +41,16 @@
             </tr>
         </table>
         <br>
-        
+
         <br>
         <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->
-        <button class="button  " style="margin-left: 5vw;margin-top: 30px;" id="submit" ng-click="submit_button()">确定</button>
-        <button class="button  " style="margin-left: 20px;margin-top: 30px;" id="submit" ng-click="reset()">重置</button>
-        <span style="color:#f00;margin:0 10px 0 30px;">*</span>为必填项
+        <div style="width:470px;height:50px;">
+            <button class="button  " style="margin-left: 5vw;" id="submit" ng-click="submit_button()">确定</button>
+            <button class="button  " style="margin-left: 20px;" id="submit" ng-click="reset()" ng-hide="title == '修改推修厂'">重置</button>
+            <span style="float:right">为必填项</span>
+            <span class="require" style="float:right"></span>
+        </div>
+
     </div>
 
 </div>

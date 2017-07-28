@@ -8,7 +8,7 @@ var fleet_list;
 addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($scope, APIService) {
 
     $scope.input = function () {
-        sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+        sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
     }
     // $scope.$watch('order', function (newValue, oldValue) {
     //     if(newValue != oldValue){
@@ -95,15 +95,29 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                                 client.multipartUpload($scope.getPicPathName(32), pic[i]).then(function (result) {
                                     a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
                                     b.push(result.name);
+                                    sessionStorage.setItem('pic_b', b)
                                     length++;
                                     pic = [];
                                     if (length == $scope.length) {
                                         layer.msg('上传成功')
                                         closeloading();
                                         document.getElementById("photo").value = '';
+                                        if ($scope.flag == 0) {
+                                            $scope.order.localPic = $scope.order.localPic.concat(a);
+                                            $scope.order.picturePaths = $scope.order.picturePaths.concat(b)
+                                            $scope.flag = 1;
+                                            a = [];
+                                            b = [];
+                                        } else {
+                                            $scope.order.localPic = a;
+                                            $scope.order.picturePaths = b;
+                                            a = [];
+                                            b = [];
+                                        }
+
                                         $scope.selectPic();
                                         $scope.initData();
-                                        $scope.order.localPic = a;
+                                        console.log(a)
                                     }
 
                                 })
@@ -117,13 +131,17 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     $scope.del = function (index) {
         b.splice(index, 1);
         a.splice(index, 1);
-        $scope.order.localPic = a;
+        $scope.order.localPic.splice(index, 1);
+        $scope.order.picturePaths.splice(index, 1);
+        $scope.selectPic();
     }
     $scope.chargeMode = function (type) {
         $scope.mode = type;
         sessionStorage.setItem('chargeMode', type);
     }
     $scope.initData = function () {
+        $scope.flag = 0;
+        console.log(a);
         $scope.order = {
             accidentCarNo: '',
             accidentAddress: '',
@@ -140,7 +158,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             designateGrabUserId: '',
             orderType: 2,
             rescueType: '',
-            localPic: ''
+            localPic: [],
+            picturePaths: []
         }
         //判断是否允许指派调度
         var funcList = sessionStorage.getItem('funcList')
@@ -163,8 +182,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $scope.mode2 = false;
         }
 
-        if (JSON.parse(sessionStorage.getItem('nar_addorder')) != null) {
-            $scope.order = JSON.parse(sessionStorage.getItem('nar_addorder'));
+        if (JSON.parse(sessionStorage.getItem('nar_addorder_order')) != null) {
+            $scope.order = JSON.parse(sessionStorage.getItem('nar_addorder_order'));
             if (!$scope.order.hasOwnProperty('rescueType')) {//不存在rescueType，默认值为拖车
                 $scope.rescueType = {
                     type: 'tuoche'
@@ -189,11 +208,11 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
 
         if (sessionStorage.getItem('nar_address') != null) {
             $scope.order.accidentAddress = sessionStorage.getItem('nar_address')
-            sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+            sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
         }
         if (sessionStorage.getItem('nar_address_fixaddress') != null) {
             $scope.order.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
-            sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+            sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
         }
         APIService.get_team_list(200).then(function (res) {
             fleet_list = [
@@ -220,7 +239,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     }
     $scope.$watch('rescueType.type', function (newValue) {
         $scope.order.rescueType = newValue;
-        sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+        $scope.counts4 = 1;
+        sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
         if (newValue == 'tuoche') {
             $scope.fix = show;
             if ($scope.order != null) {
@@ -239,33 +259,38 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
     })
     $scope.reset = function () {
-        $scope.order = {
-            accidentCarNo: '',
-            accidentAddress: '',
-            fixAddress: '',
-            accidentDriverName: '',
-            accidentDriverPhone: '',
-            caseNo: '',
-            accidentCarNo: '',
-            accidentCarNoType: '',
-            accidentLongitude: '',
-            accidentLatitude: '',
-            fixLatitude: '',
-            fixLongitude: '',
-            designateGrabUserId: '',
-            orderType: 2,
-            rescueType: '',
-            localPic: ''
+        if (confirm('重置后页面填写的信息将被清空')) {
+            sessionStorage.removeItem('nar_address_fixaddress');
+            $scope.order = {
+                accidentCarNo: '',
+                accidentAddress: '',
+                fixAddress: '',
+                accidentDriverName: '',
+                accidentDriverPhone: '',
+                caseNo: '',
+                accidentCarNo: '',
+                accidentCarNoType: '',
+                accidentLongitude: '',
+                accidentLatitude: '',
+                fixLatitude: '',
+                fixLongitude: '',
+                designateGrabUserId: '',
+                orderType: 2,
+                rescueType: '',
+                localPic: [],
+                picturePaths: []
+            }
+            sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
+            sessionStorage.setItem('nar_address', '')
+            sessionStorage.setItem('nar_address_fixaddress', '');
+            sessionStorage.setItem('chargeMode', '')
+            $scope.chargeMode(2);
+            location.reload();
         }
-        sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
-        sessionStorage.setItem('nar_address', '')
-        sessionStorage.setItem('nar_address_fixaddress', '');
-        sessionStorage.setItem('chargeMode', '')
-        $scope.chargeMode(2);
-        location.reload();
+
     }
     $scope.$watch('order.localPic', function (newValue) {
-        sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+        sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
     })
     $scope.$watch('order.accidentAddress', function (newValue, oldValue) {
         if (newValue == '' || newValue == null) {
@@ -273,6 +298,14 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $scope.counts1 = 0;
         } else {
             $scope.counts1 = 1;
+        }
+    });
+    $scope.$watch('order.accidentCarNo', function (newValue, oldValue) {
+        if (newValue == '' || newValue == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts5 = 0;
+        } else {
+            $scope.counts5 = 1;
         }
     });
     $scope.$watch('order.accidentDriverPhone', function (newValue, oldValue) {
@@ -293,15 +326,20 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
     });
     $scope.$watch('order.fixAddress', function (newValue, oldValue) {
-        if (newValue == '' || newValue == null) {
-            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
-            $scope.counts4 = 0;
+        if ($scope.order.rescueType == 'tuoche') {
+            if (newValue == '' || newValue == null) {
+                $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+                $scope.counts4 = 0;
+            } else {
+                $scope.counts4 = 1;
+            }
         } else {
             $scope.counts4 = 1;
         }
+
     });
-    $scope.$watch('counts1 + counts2  + counts4', function (newValue, oldValue) {
-        if (newValue == 3) {
+    $scope.$watch('counts1 + counts2  + counts4 + counts5', function (newValue, oldValue) {
+        if (newValue == 4) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -313,10 +351,12 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     $scope.selectMap = function (type) {
         if (type == 1) {
             sessionStorage.setItem('addorder_nar_type', '事故');
+            goto_view('main/nar_location');
         } else {
-            sessionStorage.setItem('addorder_nar_type', '目的')
+            sessionStorage.setItem('select_type', 'addorder')
+            goto_view('main/updateFix');
         }
-        goto_view('main/nar_location');
+
     }
     $scope.addOrder = function () {
         if ($scope.order.accidentCarNo != null) {//判断是否是挂车
@@ -327,12 +367,12 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
         $scope.order.accidentLongitude = sessionStorage.getItem('nar_address_nar_lng')
         $scope.order.accidentLatitude = sessionStorage.getItem('nar_address_nar_lat')
-        $scope.order.fixLatitude = sessionStorage.getItem('nar_address_fixaddress_nar_lng')
-        $scope.order.fixLongitude = sessionStorage.getItem('nar_address_fixaddress_nar_lat')
+        $scope.order.fixLatitude = sessionStorage.getItem('nar_address_fixaddress_nar_lat')
+        $scope.order.fixLongitude = sessionStorage.getItem('nar_address_fixaddress_nar_lng')
         if ($scope.rescueType.type != 'tuoche') {
-            order.fixAddress = '';
-            order.fixLatitude = '';
-            order.fixLongitude = '';
+            $scope.order.fixAddress = '';
+            $scope.order.fixLatitude = '';
+            $scope.order.fixLongitude = '';
         }
         switch ($scope.rescueType.type) {
             case 'tuoche':
@@ -365,6 +405,9 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                     $scope.order.localPic = [];
                     a = [];
                     b = [];
+                    sessionStorage.removeItem('nar_address_fixaddress');
+                    sessionStorage.removeItem('nar_address_fixaddress_nar_lat');
+                    sessionStorage.removeItem('nar_address_fixaddress_nar_lng');
                     sessionStorage.setItem('chargeMode', 2);
                     sessionStorage.removeItem('nar_addorder_order');
                     sessionStorage.removeItem('nar_address');
@@ -385,9 +428,10 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                         designateGrabUserId: '',
                         orderType: 2,
                         rescueType: '',
-                        localPic: ''
+                        localPic: [],
+                        picturePaths: []
                     }
-                    sessionStorage.setItem('nar_addorder', JSON.stringify($scope.order));
+                    sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
                     // $scope.reset();
                     setTimeout(function () {
                         goto_view('main/orderlist');
