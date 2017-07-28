@@ -2,6 +2,16 @@ var detail = angular.module('detail', ['Road167']);
 var map, orderPic = [], accidentPic = [], fixPic = [];
 detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
+
+        $scope.disaster = sessionStorage.getItem('isDisaster')
+        if ($scope.disaster == 'yes') {
+            $scope.title = sessionStorage.getItem('disaster_title')
+            $scope.text = '接单司机';
+            $scope.driverText = '接单'
+        } else {
+            $scope.text = '施救车队'
+            $scope.driverText = '派遣'
+        }
         loading();
         orderPic = []; accidentPic = []; fixPic = [];
         var order = sessionStorage.getItem('orderNo');
@@ -9,24 +19,26 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.detail = res.data;
+                $scope.fix_change_list = res.data.verifyAddressItems.items.reverse();
                 $scope.assignDriverses = res.data.assignDriverses;
-                $scope.pictures = $scope.detail.pictures;
-                if ($scope.pictures.length != 0) {
-                    for (var i = 0; i < $scope.pictures.length; i++) {
-                        if ($scope.pictures[i].type == 1) {
-                            orderPic.push($scope.pictures[i]);
-                            $scope.order_pic = orderPic;
-                        } else if ($scope.pictures[i].type == 2) {
-                            accidentPic.push($scope.pictures[i]);
-                            $scope.accident_pic = accidentPic;
-                        } else {
-                            fixPic.push($scope.pictures[i]);
-                            $scope.fix_pic = fixPic;
-                        }
-                    }
-                    console.log($scope.accident_pic)
-
-                }
+                
+                // $scope.pictures = $scope.detail.assignDriverses.pictureAndVideo;
+                // if ($scope.pictures.length != 0) {
+                //     for (var i = 0; i < $scope.pictures.length; i++) {
+                //         if ($scope.pictures[i].type == 1) {
+                //             orderPic.push($scope.pictures[i]);
+                //             $scope.order_pic = orderPic;
+                //         } else if ($scope.pictures[i].type == 2) {
+                //             accidentPic.push($scope.pictures[i]);
+                //             $scope.accident_pic = accidentPic;
+                //         } else {
+                //             fixPic.push($scope.pictures[i]);
+                //             $scope.fix_pic = fixPic;
+                //         }
+                //     }
+                //     console.log($scope.accident_pic)
+                // }
+                
             } else {
                 isError(res);
             }
@@ -79,5 +91,10 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
     $scope.track = function (data) {
         sessionStorage.setItem('driver_detail', JSON.stringify(data));
         goto_view('main/track')
+    }
+    $scope.goto = function (orderNo) {
+        sessionStorage.setItem('fixaddress_orderNo', orderNo)
+        sessionStorage.setItem('select_type', 'update')
+        goto_view('main/updateFix')
     }
 }])

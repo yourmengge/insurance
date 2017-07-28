@@ -1,0 +1,24 @@
+<div class="adddriver" ng-controller="batchinspectorCtrl" ng-init="initData()">
+    <h2>批量下单</h2>
+    <button class="goback" ng-click="back()"></button>
+    <!-- <h4 class="detail_title">
+        {{title}}
+    </h4> -->
+    <input class="input_file" name="input" type="file" ng-click="clear()" id="file" onchange="angular.element(this).scope().file()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+    
+    <button class="button_blank">选取文件</button>
+    <button id="add" class="button" ng-click="submit_order_list()" style="height:36px;">确认导入</button>
+    <a  href="{{url}}" class="download"></a>
+    <!-- <p>{{file_title}}</p> -->
+    <p ng-hide="table" style="text-align: center;font-size: 25px;">导入文件预览</p>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td>查勘员姓名</td>
+            <td>手机号码</td>
+        </tr>
+        <tr ng-repeat="a in list">
+            <td>{{a.name}}</td>
+            <td>{{a.phone}}</td>
+        </tr>
+    </table>
+</div>

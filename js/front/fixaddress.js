@@ -27,7 +27,7 @@ fixaddress.controller('fixaddressCtrl', ['$scope', 'APIService', function ($scop
         $('.closeBg').css('display', 'none');
         $('.map_div').css('display', 'none');
         loading();
-        APIService.get_fix_address(10).then(function (res) {
+        APIService.get_fix_address('',10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.fix_address_list = res.data.items;

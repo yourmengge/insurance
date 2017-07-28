@@ -3,27 +3,47 @@ var map, localSearch;
 selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         map = new BMap.Map("allmap");
-        var geolocation = new BMap.Geolocation();
-        geolocation.getCurrentPosition(function (r) {
-            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-               map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
-            }
-            else {
-                alert('failed' + this.getStatus());
-            }
-        }, { enableHighAccuracy: true })
+        $scope.lat = ''
+        // var geolocation = new BMap.Geolocation();
+        // geolocation.getCurrentPosition(function (r) {
+        //     if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        //         map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+        //     }
+        //     else {
+        //         alert('failed' + this.getStatus());
+        //     }
+        // }, { enableHighAccuracy: true })
+        function myFun(result) {
+            var cityName = result.name;
+            map.centerAndZoom(new BMap.Point(result.center.lng, result.center.lat), 13);
+            // if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            //     
+            // }
+        }
+        var myCity = new BMap.LocalCity();
+        myCity.get(myFun);
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
         map.addEventListener("click", showInfo);
         localSearch = new BMap.LocalSearch(map);
         $scope.type = sessionStorage.getItem('location_type')
     }
     $scope.change = function (text) {
-        if (text != null && text != '') {
-            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        if (text.length >= $scope.searchLocation.length) {//判断字数增加还是减少
+
         } else {
+            $scope.lat = '';
             $('#add').addClass('button_disabled').attr("disabled", 'true');
         }
+
+
     }
+    $scope.$watch('lat', function (newValue) {
+        if (newValue == '' || newValue == '') {
+            $('#add').addClass('button_disabled').attr("disabled", 'true');
+        } else {
+            $('#add').removeClass('button_disabled').removeAttr("disabled");
+        }
+    })
     $scope.goBack = function () {
         window.history.back();
     }
@@ -37,6 +57,10 @@ selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', functio
             } else {
                 $scope.lat = poi.point.lat;
                 $scope.lng = poi.point.lng;
+                $scope.searchLocation = $scope.searchName;
+                sessionStorage.setItem('location_lat', $scope.lat);
+                sessionStorage.setItem('location_lng', $scope.lng);
+                $('#add').removeClass('button_disabled').removeAttr("disabled");
                 map.centerAndZoom(poi.point, 15);
                 var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
@@ -61,14 +85,19 @@ selectlocation.controller('selectlocationCtrl', ['$scope', 'APIService', functio
             $('#searchName').val($scope.searchName);
             $scope.lat = rs.point.lat;
             $scope.lng = rs.point.lng;
+            $scope.searchLocation = $scope.searchName;
+            sessionStorage.setItem('location_lat', $scope.lat);
+            sessionStorage.setItem('location_lng', $scope.lng);
             $('#add').removeClass('button_disabled').removeAttr("disabled");
         });
 
     }
     $scope.add = function () {
         sessionStorage.setItem('location_address', $scope.searchName);
-        sessionStorage.setItem('location_lat', $scope.lat);
-        sessionStorage.setItem('location_lng', $scope.lng);
+        if ($scope.lat == '' || $scope.lat == null || $scope.lat == undefined) {
+            $scope.findPlace()
+        }
+
         window.history.back();
     }
 }])

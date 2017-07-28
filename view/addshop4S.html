@@ -1,0 +1,56 @@
+<div class="addorder_div" ng-controller="addshop4SCtrl" ng-init="initData()">
+    <h2>{{title}}</h2>
+    <button class="goback" ng-click="back()"></button>
+    <div class="addorder">
+        <table>
+            <tr>
+                <td>支公司：</td>
+                <td><input class="input" type="text" ng-change="change()" ng-model="data.branchCompany"></td>
+            </tr>
+            <tr>
+                <td><span class="require"></span>推修码：</td>
+                <td><input class="input" type="text" ng-change="change()" maxlength="25" ng-model="data.pushFixCode"> <span style="color:#dedede">{{data.pushFixCode.length + 0}}/25</span></td>
+            </tr>
+            <tr>
+                <td><span class="require"></span>车行全称：</td>
+                <td><input class="input" type="text" ng-change="change()" maxlength="50" ng-model="data.fullName"> <span style="color:#dedede">{{data.fullName.length + 0}}/50</span></td>
+            </tr>
+            <tr>
+                <td>车行简称：</td>
+                <td><input class="input" type="text" ng-model="data.simpleName" ng-change="change()"></td>
+            </tr>
+            <tr>
+                <td><span class="require"></span>车行地址：</td>
+                <td><input class="input" type="text" ng-model="address" placeholder="请从地图上选择" readonly ng-click="selectMap('车行')"></td>
+            </tr>
+            <tr>
+                <td>售后经理：</td>
+                <td><input class="input" type="text" ng-model="data.afterSaleMgr" ng-change="change()"></td>
+            </tr>
+            <tr>
+                <td><span class="require"></span>电话：</td>
+                <td><input class="input" type="text" ng-model="data.afterSalePhone" ng-change="change()"></td>
+            </tr>
+            <tr>
+                <td>售后经理2：</td>
+                <td><input class="input" type="text" ng-model="data.afterSaleMgr2" ng-change="change()"></td>
+            </tr>
+            <tr>
+                <td>电话2：</td>
+                <td><input class="input" type="text" ng-model="data.afterSalePhone2" ng-change="change()"></td>
+            </tr>
+        </table>
+        <br>
+
+        <br>
+        <!--<button class="button" style="margin-left: 5vw;margin-top: 30px;"  ng-click="back()"></button>-->
+        <div style="width:470px;height:50px;">
+            <button class="button  " style="margin-left: 5vw;" id="submit" ng-click="submit_button()">确定</button>
+            <button class="button  " style="margin-left: 20px;" id="submit" ng-click="reset()" ng-hide="title == '修改推修厂'">重置</button>
+            <span style="float:right">为必填项</span>
+            <span class="require" style="float:right"></span>
+        </div>
+
+    </div>
+
+</div>

@@ -1,5 +1,5 @@
 var createdisaster = angular.module('createdisaster', ['Road167']);
-var data;
+var data; var array ;
 createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     /**
      *返回上页 
@@ -19,22 +19,28 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
         return APIService.get_province_list(id);
     }
     $scope.initData = function () {
-        $scope.get_province_list(1).then(function (res) {
-            if (res.data.http_status == 200) {
-                $scope.provinceList = res.data.items;
-                $scope.province = res.data.items[0].regionId;
-                $scope.selectCity();
-            }
-        })
+        $scope.get_company_province();
+        
+        // $scope.get_province_list(1).then(function (res) {
+        //     if (res.data.http_status == 200) {
+        //         $scope.provinceList = res.data.items;
+        //         $scope.province = $scope.provinceRegionId;
+        //         $scope.selectCity();
+        //     } else {
+        //         isError(res)
+        //     }
+        // })
     }
     //获取城市列表
     $scope.selectCity = function () {
-        $scope.get_province_list($scope.province).then(function (res) {
+        $scope.get_province_list($scope.provinceId).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.cityList = res.data.items;
                 $scope.city = res.data.items[0].regionId;
                 $scope.selectArea();
                 $scope.selectList = [];
+            } else {
+                isError(res)
             }
         })
     }
@@ -44,6 +50,8 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
             if (res.data.http_status == 200) {
                 $scope.areaList = res.data.items;
                 $scope.selectList = [];
+            } else {
+                isError(res)
             }
         })
     }
@@ -63,10 +71,23 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
             id: ''
         }
     }
+    //获取公司省份
+    $scope.get_company_province = function () {
+        APIService.get_company_province(sessionStorage.getItem('companyId')).then(function (res) {
+            if (res.data.http_status == 200) {
+                $scope.province = res.data.provinceName;
+                $scope.provinceId = res.data.provinceRegionId;
+                $scope.selectCity();
+            } else {
+                isError(res);
+            }
+        })
+    }
     //判断是否选过
     $scope.isSelect = function (data) {
         for (var i = 0; i < $scope.selectList.length; i++) {
             if (data.regionId == $scope.selectList[i].id) {
+
                 return true;
             }
         }
@@ -130,7 +151,7 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
     //创建大灾
     $scope.create_disaster = function () {
         data = {
-            "province": $scope.province,
+            "province": $scope.provinceId,
             "city": $scope.city,
             "county": '',
             "startDate": $('#disaster_date').val(),
@@ -141,21 +162,21 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
         }
         $scope.startDate = $('#disaster_date').val()
         $scope.selectAreaName = '';
+        array = new Array();
         for (var i = 0; i < $scope.selectList.length; i++) {
             if (i == $scope.selectList.length - 1 || $scope.selectList.length == 1) {
-                data.county = data.county + $scope.selectList[i].id
                 $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name;
             } else {
-                data.county = data.county + $scope.selectList[i].id + ','
                 $scope.selectAreaName = $scope.selectAreaName + $scope.selectList[i].name + ';';
             }
+            array[i] = $scope.selectList[i].id;
         }
 
-        for (var i = 0; i < $scope.provinceList.length; i++) {
-            if ($scope.provinceList[i].regionId == $scope.province) {
-                $scope.selectProvinceName = $scope.provinceList[i].regionName;
-            }
-        }
+        // for (var i = 0; i < $scope.provinceList.length; i++) {
+        //     if ($scope.provinceList[i].regionId == $scope.province) {
+        //         $scope.selectProvinceName = $scope.provinceList[i].regionName;
+        //     }
+        // }
         for (var i = 0; i < $scope.cityList.length; i++) {
             if ($scope.cityList[i].regionId == $scope.city) {
                 $scope.selectCityName = $scope.cityList[i].regionName;
@@ -172,9 +193,11 @@ createdisaster.controller('createdisasterCtrl', ['$scope', 'APIService', functio
 
     //确认创建大灾
     $scope.submit_disaster = function () {
+        data.county = array.sort().join(',');
         APIService.create_disaster(data).then(function (res) {
             if (res.data.http_status == 200) {
                 layer.msg('创建成功！');
+                sessionStorage.setItem('createFirst', 'yes')
                 setTimeout(function () {
                     goto_view('main/disaster')
                 }, 3000);

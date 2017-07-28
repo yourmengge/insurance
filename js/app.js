@@ -1,4 +1,5 @@
-var insurance = angular.module('insurance', ['nar_location','disastermap','driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['updateFix', 'batchinspector', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var t;
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
     $stateProvider
@@ -11,10 +12,37 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'view/main.html'
         })
 
-
+        .state('main.addshop4S', {
+            url: '/addshop4S',
+            templateUrl: 'view/addshop4S.html'
+        })
+        .state('main.updateFix', {
+            url: '/updateFix',
+            templateUrl: 'view/updateFix.html'
+        })
+        .state('main.inspector', {
+            url: '/inspector',
+            templateUrl: 'view/inspector.html'
+        })
+        .state('main.companyfleet', {
+            url: '/companyfleet',
+            templateUrl: 'view/companyfleet.html'
+        })
         .state('main.addorder', {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
+        })
+        .state('main.batchinspector', {
+            url: '/batchinspector',
+            templateUrl: 'view/batchinspector.html'
+        })
+        .state('main.shop4S', {
+            url: '/shop4S',
+            templateUrl: 'view/shop4S.html'
+        })
+        .state('main.batchshop4S', {
+            url: '/batchshop4S',
+            templateUrl: 'view/batchshop4S.html'
         })
         .state('main.addorder_nar', {
             url: '/addorder_nar',
@@ -23,6 +51,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.selectlocation', {
             url: '/selectlocation',
             templateUrl: 'view/selectlocation.html'
+        })
+        .state('main.disasterdriverorderlist', {
+            url: '/disasterdriverorderlist',
+            templateUrl: 'view/disasterdriverorderlist.html'
         })
         .state('main.editorder', {
             url: '/editorder',
@@ -128,8 +160,9 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
 
 })
 function isError(err) {
-    if (err.data.http_status == 401.1 || err.data.http_code == 'userId.head.illeagl') {
+    if (err.data.http_code == 'token.error' || err.data.http_code == 'userId.head.illeagl') {
         layer.msg('您的账号在别处登录，请重新登录');
+        clearTimeout(t)
         setTimeout(function () {
             closeloading();
             goto_view('login');
@@ -185,6 +218,17 @@ insurance.filter('ToDay', function () {
     }
     return ToLocal;
 });
+insurance.filter('SecondOrder', function () {
+    function ToLocal(shijianchuo) {
+        if (shijianchuo != null) {
+
+            return '是';
+        } else {
+            return '否';
+        }
+    }
+    return ToLocal;
+});
 insurance.filter('Arrive', function () {
     function ToLocal(shijianchuo) {
         if (shijianchuo != null) {
@@ -225,6 +269,20 @@ insurance.filter('ToLocal', function () {
         } else {
             return null;
         }
+
+    }
+    return ToLocal;
+});
+insurance.filter('trackStatus', function () {
+    function ToLocal(text) {
+        if (text == '静止') {
+            return 'img/jingzhi.png'
+        } else if (text == '移动') {
+            return 'img/zaixian.png'
+        } else {
+            return 'img/lixian.png'
+        }
+
 
     }
     return ToLocal;
@@ -602,4 +660,11 @@ function loading() {
 }
 function closeloading() {
     layer.close(index);
+}
+function contains(e, d) {
+    for (var i = 0; i < e.length; i++) {
+        if (d == e[i]) {
+            return true;
+        }
+    }
 }

@@ -1,0 +1,94 @@
+<div class="adddriver" ng-controller="shop4SCtrl" ng-init="initData()">
+    <h2>推修厂管理</h2>
+    <p class="search_div">
+
+        <button class="button" ng-click="delete()">删除</button>
+
+
+        <input type="text" ng-model="keyword" placeholder="请输入推修码、车行全称或车行地址" class="input" style="width:250px;" ng-model="keyword">
+        <button class="button" ng-click="get_shop4S_page(keyword,10)">查询</button>
+        <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button" style="float:right" ui-sref="main.batchshop4S">批量导入</button>
+        <button class="button" style="float:right" ng-click="goto('add','')">添加</button>
+
+    </p>
+    <table cellspacing="0" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td>
+                <input type="checkbox" ng-click="selectAll()" ng-checked="all">
+            </td>
+            <td>
+                支公司
+            </td>
+            <td>
+                推修码
+            </td>
+            <td>
+                车行全称
+            </td>
+            <td>
+                车行简称
+            </td>
+            <td>
+                车行地址
+            </td>
+            <td>
+                售后经理
+            </td>
+            <td>
+                电话
+            </td>
+            <td>
+                售后经理2
+            </td>
+            <td>
+                电话2
+            </td>
+            <td>
+                操作
+            </td>
+        </tr>
+        <tr ng-repeat="a in shopList">
+            <td>
+                <input type="checkbox" ng-checked="select_one" ng-click="selectOne(a.shop4sId)">
+            </td>
+            <td>
+                {{a.branchCompany}}
+            </td>
+            <td>
+                {{a.pushFixCode}}
+            </td>
+            <td>
+                {{a.fullName}}
+            </td>
+            <td>
+                {{a.simpleName}}
+            </td>
+            <td>
+                {{a.address}}
+            </td>
+            <td>
+                {{a.afterSaleMgr}}
+            </td>
+            <td>
+                {{a.afterSalePhone}}
+            </td>
+            <td>
+                {{a.afterSaleMgr2}}
+            </td>
+            <td>
+                {{a.afterSalePhone2}}
+            </td>
+            <td>
+                <span class="button_span" style="min-width:50px;" ng-click="goto('update',a)">修改</span>
+            </td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

@@ -1,23 +1,29 @@
 <div class="adddriver" ng-controller="disasterorderlistCtrl" ng-init="initData()">
     <h2>订单列表</h2>
-    <button class="goback" ng-click="back()">返回</button>
-    <button class="button" ui-sref='main.batchaddorder'>批量下单</button>
-    <button class="button" ui-sref='main.driverordertotle'>司机订单统计</button>
+    <button class="goback" ng-click="back()"></button>
+    <h4 class="detail_title">    
+        {{title}}
+        <button class="button" ui-sref='main.driverordertotle'>司机订单统计</button>
+        <button class="button" ng-hide="status != 1" ui-sref='main.batchaddorder'>下单</button>
+        <button class="refrash" ng-click="Page('home')" ><input ng-click="Page('home')" type="button" class="refreash_icon">刷新</button>
+        <span style="float:right;margin-right: 20px;line-height: 33px;">最后更新时间{{nowTime | ToLocal}}</span>
+    </h4>
+    
+    
     <p class="search_div">
         开始时间：<input type="date" id="startDay" class="input"> 结束时间：
         <input type="date" id="endDay" class="input"> 订单状态：
-        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        案件号：
+        <select class="input" name="" style="width:100px;" ng-model="status2" ng-options="a.id as a.name for a in statusTexts" id=""></select>        案件号：
         <input class="input" type="text" ng-model="caseNo" style="width:160px;" placeholder="请输入案件号">
-        <button class="button" ng-click="search()">查询</button>
+        <button class="button search_button" ng-click="search()">查询</button>
         <button class="button" ng-click="initData()">显示全部</button>
-        <button class="button" ng-click="toexcel()">
-            导出当前页到excel
+        <button class="button output_button" ng-click="toexcel()">
+            导出excel
         </button>
     </p>
     <h1>{{tips}}</h1>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
-            <td width="50"></td>
             <td>案件号</td>
             <td ng-hide="1">地级市</td>
             <td ng-hide="1">区/县</td>
@@ -28,7 +34,9 @@
             <td>订单状态</td>
             <td width="15%">事故地点</td>
             <td class="noExl" ng-hide="1">施救地点</td>
+             <td>车主</td>
             <td width="120">车主手机号</td>
+           
             <td ng-hide="1">施救终点区域</td>
             <td width="15%">目的地点</td>
             <td class="noExl" ng-hide="1">施救终点地点</td>
@@ -38,31 +46,31 @@
             <td ng-hide="1">完成救援时间</td>
             <td class="noExl">操作</td>
         </tr>
-        <tr ng-repeat="a in orderList">
-            <td>{{$index + 1}}</td>
+        <tr ng-repeat="a in list">
             <td>{{a.caseNo}}</td>
             <td ng-hide="1">{{a.accidentAddressPicture|Shi}}</td>
             <td ng-hide="1">{{a.accidentAddressPicture|Qu}}</td>
             <td>{{a.createTime | ToLocal}}</td>
             <td ng-hide="1">{{a.inspectorName}}</td>
-            <td>{{a.accidentDriverName}}</td>
             <td ng-hide="1">{{a.accidentCarNoDesc}}</td>
             <td ng-hide="1">{{a.insuranceTypeDesc}}</td>
             <td>{{a.statusDesc}}</td>
-            <td class="noExl">{{a.accidentAddress}}</td>
-            <td ng-hide="1">{{a.accidentAddressPicture}}</td>
+            <td class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.accidentAddress}}</td>
+            <td ng-hide="1" class="{{a.accidentAddressPicture == null?'noExl':''}}">{{a.accidentAddressPicture}}</td>
+            <td>{{a.accidentDriverName}}</td>
             <td>{{a.accidentDriverPhone}}</td>
+            
             <td ng-hide="1">{{a.fixAddressPicture|Shi}}</td>
-            <td class="noExl">{{a.fixAddress}}</td>
-            <td ng-hide="1">{{a.fixAddressPicture}}</td>
+            <td  class="{{a.accidentAddressPicture == null?'':'noExl'}}">{{a.fixAddress}}</td>
+            <td ng-hide="1" class="{{a.accidentAddressPicture == null?'noExl':''}}">{{a.fixAddressPicture}}</td>
             <td ng-hide="1">{{a.departureTime|ToLocal}}</td>
             <td ng-hide="1">{{a.grabTime|ToLocal}}</td>
             <td ng-hide="1">{{a.accidentReachTime|ToLocal}}</td>
             <td ng-hide="1">{{a.orderEndTime|ToLocal}}</td>
             <td class="noExl">
-                <button class="button" ng-click="detail(a.orderNo)" style="width: 70px;">查看</button>
-                <button class="button green" ng-hide="a.status >= 4" ng-click="editOrder(a)" style="width: 70px;    background: #36b304;">修改</button>
-                <button class="button red" ng-hide="a.status >= 4"  ng-click="cancel(a.orderNo)" style="width: 70px;    background: #f00;">取消</button>
+                <button class="detail_button" ng-click="detail(a.orderNo)"></button>
+                <button class="edit_button" ng-hide="a.status >= 4" ng-click="editOrder(a)" ></button>
+                <button class="cancel_button" ng-hide="a.status >= 4"  ng-click="cancel(a.orderNo)" ></button>
             </td>
         </tr>
     </table>

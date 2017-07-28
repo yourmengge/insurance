@@ -1,7 +1,7 @@
-<div style="overflow:hidden;height: 100%;" ng-controller="trackCtrl" ng-init="initData()" class="track">
-    <button class="goback" ng-click="back()">返回</button>
-    <h2>{{text}}</h2>
-
-    <div id="allmap" style="width:100%"></div>
-    <div class="distance_div">收费公里数：<span style="font-size: 20px;color: #d41111;">{{distance | Distance}}</span></div>
+<div class="adddriver"  ng-controller="trackCtrl" ng-init="initData()" class="track">
+    <h2>查看{{title}}</h2>
+    <button ng-hide="timeout" ng-click="refresh()">刷新 {{time}} S</button>
+    <button class="goback" ng-click="back()"></button>
+    <div id="allmap" style="width:100%;height:85%"></div>
+    <div class="distance_div" ng-hide="!timeout">收费公里数：<span style="font-size: 20px;color: #d41111;">{{distance | Distance}}</span></div>
 </div>

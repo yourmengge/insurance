@@ -1,0 +1,53 @@
+<div class="adddriver" ng-controller="disasterdriverorderlistCtrl" ng-init="initData()">
+    <h2>司机订单列表</h2>
+    <button class="goback" ng-click="back()"></button>
+    <h4 class="detail_title">    
+        {{title}}    &emsp;&emsp;(司机：{{driverName}}-{{driverPhone}})
+    </h4>
+    
+    
+    <p class="search_div">
+        接单时间：<input type="date" id="startDay" class="input">
+        订单状态：
+        <select class="input" name="" style="width:100px;" ng-model="status2" ng-options="a.id as a.name for a in statusTexts" id=""></select>
+        <button class="button search_button" ng-click="search()">查询</button>
+        <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button output_button" ng-click="toexcel()">
+            导出当前页到excel
+        </button>
+    </p>
+    <h1>{{tips}}</h1>
+    <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td width="50"></td>
+            <td>案件号</td>
+            <td>下单时间</td>
+            <td>订单状态</td>
+            <td width="15%">事故地点</td>
+            <td width="120">车主手机号</td>
+            <td width="15%">目的地点</td>
+            <td class="noExl">操作</td>
+        </tr>
+        <tr ng-repeat="a in list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.caseNo}}</td>
+            <td>{{a.createTime | ToLocal}}</td>
+            <td>{{a.statusDesc}}</td>
+            <td>{{a.accidentAddress}}</td>
+            <td>{{a.accidentDriverPhone}}</td>
+            <td>{{a.fixAddress}}</td>
+            <td class="noExl">
+                <button class="detail_button" title="查看订单" ng-click="detail(a.orderNo)"></button>
+                <button class="edit_button" title="修改订单" ng-hide="a.status >= 4" ng-click="editOrder(a)"></button>
+                <button class="cancel_button" title="取消订单" ng-hide="a.status >= 4"  ng-click="cancel(a.orderNo)"></button>
+            </td>
+        </tr>
+    </table>
+    <div style='height:50px;'></div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+    </p>
+</div>

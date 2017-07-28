@@ -18,12 +18,21 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
                 var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
             } else {
-                var geolocation = new BMap.Geolocation();
-                geolocation.getCurrentPosition(function (r) {
-                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                        map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
-                    }
-                }, { enableHighAccuracy: true })
+                // var geolocation = new BMap.Geolocation();
+                // geolocation.getCurrentPosition(function (r) {
+                //     if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                //         map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 13);
+                //     }
+                // }, { enableHighAccuracy: true })
+                function myFun(result) {
+                    var cityName = result.name;
+                    map.centerAndZoom(new BMap.Point(result.center.lng, result.center.lat), 13);
+                    // if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    //     
+                    // }
+                }
+                var myCity = new BMap.LocalCity();
+                myCity.get(myFun);
             }
 
         }, 1000);
@@ -94,7 +103,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
      */
     $scope.add = function () {
         var data = {
-            disasterId:sessionStorage.getItem('disasterId_site'),
+            disasterId: sessionStorage.getItem('disasterId_site'),
             address: $scope.searchName,
             addressAbbr: $scope.remark,
             longitude: $scope.lng,
@@ -112,7 +121,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('修改成功');
-                        goto_view('main/site');
+                        window.history.back();
                     } else {
                         isError(res);
                     }
@@ -122,7 +131,7 @@ map_disaster.controller('disastermapCtrl', ['$scope', 'APIService', function ($s
                     if (res.data.http_status == 200) {
                         closeloading();
                         layer.msg('添加成功');
-                        goto_view('main/site')
+                        window.history.back();
                     } else {
                         isError(res);
                     }

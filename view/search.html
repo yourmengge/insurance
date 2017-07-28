@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="renderer" content="webkit">
+	<title>订单查询</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/admin.css" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/pintuer.css" />
+	<link rel="stylesheet" type="text/css" href="../assets/css/layer.css" />
+
+	<script src="../assets/js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../assets/js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../assets/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../assets/js/table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../assets/js/unit.js" type="text/javascript" charset="utf-8"></script>
+	<style>
+		.display {
+			display: none;
+		}
+
+		.searchDiv {
+			float: left;
+			display: none;
+			margin-top: 2px;
+			max-height: 30vh;
+			width: 225px;
+			margin-left: 70px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			border: 1px solid rgb(222, 222, 222);
+			position: absolute;
+			margin-top: 33px;
+			background: #fff;
+		}
+
+		.search_p {
+			text-align: left;
+			padding: 8px 0;
+			border-bottom: solid 1px #dedede;
+			margin: 0;
+			width: 225px;
+			padding-left: 10px;
+		}
+	</style>
+</head>
+
+<body ng-app="searchapp" ng-controller="SearchCtrl" ng-init="initDate();">
+	<form method="post" action="">
+		<div class="panel admin-panel">
+			<div class="panel-head"><strong class="icon-reorder"> 订单查询</strong></div>
+			<div class="padding border-bottom">
+				<ul class="search">
+					<li>
+						<div class="button-group" ng-click="selectType(1)">
+							<a class="button border-blue">普通查询</a>
+						</div>
+						<div class="button-group" ng-click="selectType(2)">
+							<a class="button border-blue">订单号查询</a>
+						</div>
+						<div class="button-group" ng-click="selectType(3)">
+							<a class="button border-blue">车队查询</a>
+						</div>
+						<div class="button-group" ng-click="selectType(4)">
+							<a class="button border-blue">案件号查询</a>
+						</div>
+						<div class="button-group" ng-click="selectType(5)">
+							<a class="button border-blue">保险公司查询</a>
+						</div>
+						<div class="button-group" ng-click="initDate()">
+							<a class="button border-blue">查看全部</a>
+						</div>
+						<div class="button-group">
+
+							<a class="button border-blue output_button" ng-click="toexcel()">导出当前页到Excel</a>
+						</div>
+						<div style="height: 10px;">
+
+						</div>
+						<div ng-hide="searchType1" style="font-size: 13px;">
+							<span>订单状态：</span>
+							<select id="status" name="" class="padding-5px" ng-model="searchstatus">
+									<option value="0" selected="selected">全部订单</option>
+									<option value="1">待接单</option>
+									<option value="2">待分配</option>
+									<option value="3">进行中</option>
+									<option value="4">已完成</option>
+									<option value="8">查勘取消</option>
+									<option value="81">保险人员取消</option>
+									<option value="9">历史未完成</option>
+								</select>
+							<span>下单角色：</span>
+							<select id="status" name="" class="padding-5px" ng-model="searchRole" ng-options="a.id as a.name for a in roles">
+								</select>
+							<span>车牌号：</span>
+							<input type="text" maxlength="7" class="padding-5px" name="" id="" value="" ng-model="searchCarNo" />
+							<select type="text" class="padding-5px" name="" id="" value="" ng-model="limit" ng-change="updateLimit(limit)" ng-options="c.id as c.name for c in orderTpyeTexts"
+							/></select>
+							<div class="button-group" ng-click="searchrole(searchstatus,searchRole,searchCarNo);">
+								<a class="button border-blue">查询</a>
+							</div>
+
+						</div>
+						<div ng-hide="searchType2">
+							<span>订单号：</span>
+							<input type="number" class="padding-5px" name="" id="" value="" ng-model="searchorderNo" />
+							<div class="button-group" ng-click="searchorder(searchorderNo);">
+								<a class="button border-blue">查询</a>
+							</div>
+							<select type="text" class="padding-5px" name="" id="" value="" ng-model="limit" ng-change="updateLimit(limit)" ng-options="c.id as c.name for c in orderTpyeTexts"
+							/></select>
+						</div>
+						<div ng-hide="searchType3">
+							<!--<span>起始日期：</span>
+								<input type="date" id="startDate" class="padding-5px" name="" id="" value="" />
+								<span>结束日期：</span>
+								<input type="date" id="endDate" class="padding-5px" name="" id="" value="" />&nbsp;&nbsp;-->
+
+							<span style="float:left">车队查询：</span>
+							<!--<select name="" id="fleetId" class="padding-5px" ng-model="fleetId" ng-options="a.fleetId as a.name for a in teamList">
+								</select>-->
+							<a class="button bg-main" ng-click="search();" style="margin-left: 1vw;"> 搜索</a>
+							<input ng-click="search();" type="text" ng-model="searchTeam" class="input input-width" name="sentitle" value="" id="idCard"
+							 placeholder="支持模糊查询" />
+							<div class="searchDiv" style="display: none; margin-top: 2px;max-height: 30vh;width: 225px;overflow-x: hidden;overflow-y: auto;border: 1px solid rgb(222, 222, 222);">
+								<p class="search_p" ng-repeat="a in teamList" ng-click="click(a.fleetId,a.name)">{{a.name}}</p>
+							</div>
+
+							<select type="text" class="padding-5px" name="" id="" value="" ng-model="limit" ng-change="updateLimit(limit)" ng-options="c.id as c.name for c in orderTpyeTexts"
+							/></select>
+							<div class="button-group" ng-click="searchDate(searchstatus,fleetId);">
+								<a class="button border-blue">查询</a>
+							</div>
+						</div>
+						<div ng-hide="searchType4">
+							<span>案件号查询：</span>
+							<input type="number" class="padding-5px" name="" id="" value="" ng-model="searchcaseNo" />
+							<select type="text" class="padding-5px" name="" id="" value="" ng-model="limit" ng-change="updateLimit(limit)" ng-options="c.id as c.name for c in orderTpyeTexts"
+							/></select>
+							<div class="button-group" ng-click="searchCaseNo(searchcaseNo);">
+								<a class="button border-blue">查询</a>
+							</div>
+						</div>
+						<div ng-hide="searchType5">
+							<span>保险公司查询：</span>
+							<div>
+								<input class="padding-5px" name="" id="" value="" ng-model="companyName" placeholder="支持模糊查询" style="width:250px;float:left;margin-right: 20px;"
+								 ng-click="searchInsurance();" ng-change="companyChange()" />
+								<div class="searchDiv">
+									<p class="search_p" ng-repeat="a in companyList" ng-click="selectCompany(a.companyNo,a.name)">{{a.name}}</p>
+								</div>
+							</div>
+
+							<!--<select type="text" class="padding-5px" name="" id="" value="" ng-model="limit" ng-change="updateLimit(limit)" ng-options="c.id as c.name for c in orderTpyeTexts"
+							/></select>-->
+							<div class="button-group" ng-click="searchCompany();" style="    margin-top: -7px;">
+								<a class="button border-blue">查询</a>
+							</div>
+						</div>
+						<!--<span>订单日期：</span>
+							<input type="date" name="" class="padding-5px" id="" value="" ng-model="pattern.createTime" />-->
+						<!--<a class="button button-small border-green" id="checkall" ng-click="searchOrder(orderNoinput,orderstatus,orderTime);">查询</a>-->
+					</li>
+				</ul>
+			</div>
+			<table class="table table-hover text-center" id="table2excel" style="font-size:14px;">
+				<tr>
+					<td class="bold" width="50"></td>
+					<td class="bold">订单号</td>
+					<td class="bold">订单日期</td>
+					<td class="bold">订单状态</td>
+					<td class="bold" width="15%" style="color: #f00">事故地点</td>
+					<td class="bold" width="120">车主手机号</td>
+					<td class="bold" width="15%">维修地点</td>
+					<td class="bold" ng-hide="1">案件来源</td>
+					<td class="bold">订单来源</td>
+					<td class="bold">平台报价</td>
+					<td class="bold" ng-hide="1">接单车队</td>
+					<td class="bold" ng-hide="1">案件号</td>
+					<td class="bold" ng-hide="1">地级市</td>
+					<td class="bold" ng-hide="1">区/县</td>
+					<td class="bold" ng-hide="1">查勘员</td>
+					<td class="bold" ng-hide="1">车牌号</td>
+					<td class="bold" ng-hide="1">施救标的/三者</td>
+					<td class="bold" ng-hide="1">施救终点区域</td>
+					<td class="bold" ng-hide="1">司机出发时间</td>
+					<td class="bold" ng-hide="1">派单时间</td>
+					<td class="bold" ng-hide="1">到达现场时间</td>
+					<td class="bold" ng-hide="1">完成救援时间</td>
+					<td class="noExl bold">操作</td>
+				</tr>
+				<tr ng-repeat="search in searchData" class="table_tr">
+					<td>{{$index + 1}}</td>
+					<td>{{search.orderNo}}</td>
+					<td>{{search.createTime|ToLocal}}</td>
+					<td>{{search.statusDesc}}</td>
+					<td>{{search.accidentAddress}}</td>
+					<td>{{search.accidentDriverPhone}}</td>
+					<td>{{search.fixAddress}}</td>
+					<td ng-hide="1">{{search.caseSource}}</td>
+					<td>{{search.createRoleDesc}}&nbsp;{{search.createName}}</td>
+					<td>{{search.platformPayments | Zhengchu}}元</td>
+					<td ng-hide="1">{{search.grabFleetName}}</td>
+					<td ng-hide="1">[{{search.caseNo}}]</td>
+					<td ng-hide="1">{{search.accidentAddress|Shi}}</td>
+					<td ng-hide="1">{{search.accidentAddress|Qu}}</td>
+					<td ng-hide="1">{{search.inspectorName}}</td>
+					<td ng-hide="1">{{search.accidentCarNo}} {{search.accidentCarNoType | carType}}</td>
+					<td ng-hide="1">{{search.insuranceTypeDesc}}</td>
+					<td ng-hide="1">{{search.fixAddress|Shi}}</td>
+					<td ng-hide="1">{{search.departureTime|ToLocal}}</td>
+					<td ng-hide="1">{{search.grabTime|ToLocal}}</td>
+					<td ng-hide="1">{{search.accidentReachTime|ToLocal}}</td>
+					<td ng-hide="1">{{search.orderEndTime|ToLocal}}</td>
+					<!--<td>{{orderTypeTexts[search.orderType]}}</td>-->
+					<td class="noExl bold">
+						<div class="button-group" ng-click="updateorder(search.orderNo);" style="margin-right: 0.1vw;">
+							<img src="../assets/img/detail.png" style="width: 1.5vw;" alt="" title="查看详情">
+						</div>
+						<div ng-hide="search.status >= 4" class="button-group" ng-click="update(search.verifyFixAddressStatus,search.orderNo,search.accidentAddress,search.fixAddress,search.accidentDriverName,search.accidentDriverPhone);"
+						 style="margin-right: 0.1vw;">
+							<img src="../assets/img/edit.png" style="width: 1.5vw;" alt="" title="修改订单">
+						</div>
+						<div ng-hide="search.status >= 4" class="button-group" ng-click="cancel(search.orderNo);">
+							<img src="../assets/img/cancel.png" style="width: 1.5vw;" alt="" title="取消订单">
+						</div>
+						<!--<div ng-hide="search.status >= 4" class="button-group" ng-click="paiqianwaiyuan(search.orderNo);">
+							<img src="../assets/img/paiqian.png" style="width: 1.5vw;" alt="" title="派遣外援">
+						</div>-->
+					</td>
+				</tr>
+
+			</table>
+			<table width="100%" align="center" style="font-size: 1vw;margin-top: 10px;">
+				<tr>
+					<td style="text-align: center;">
+						<ul class="pagination" ng-hide="page">
+							<li>
+								<a ng-click="ToPage(1)" ng-hide="first" style="padding: 5px;">首页</a>
+							</li>
+							<li>
+								<a ng-click="upPage(2)" ng-hide="up" style="padding: 5px;">上一页</a>
+							</li>
+							<li>
+								<a style="padding: 5px;">{{PageNum}}</a>
+							</li>
+
+							<li>
+								<a ng-click="upPage(1)" ng-hide="next" style="padding: 5px;">下一页</a>
+							</li>
+							<li>
+								<a ng-click="ToPage(0)" ng-hide="end" style="padding: 5px;">尾页</a>
+							</li>
+							总页数：<input type="text" ng-model="countPages" disabled style="width:30px;text-align:right;border:none;background:#fff;">
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg" ng-hide="bg" ng-click="close()">
+
+		</div>
+		<div class="alertCancle" style="display: none">
+			<p style="margin-top: 5vh;font-size: 4vh;">确认取消订单吗？</p>
+			<p style="margin-top: 5vh;"><span>{{num1}}</span> + <span>{{num2}}</span> = <input type="text" style="width: 40px;" id="num3"></p>
+			<a style="margin-top: 10px;width: 5vw;padding: 5px;" class="button border-blue" ng-click="cancelBtn(num1,num2)">确认</a>
+		</div>
+	</form>
+	<script type="text/javascript">
+		var app = angular.module('searchapp', []);
+
+		//分页部分;
+		var countPages = 0;
+		var offset = 0;
+		var fleetId = 0;
+		var url = '';
+		app.config(function ($httpProvider) {
+			$httpProvider.defaults.headers.common = {
+				"Content-Type": 'application / json',
+				"user-id": sessionStorage.getItem("userid"),
+				"Authorization": sessionStorage.getItem("token")
+			}
+		});
+		app.filter('Zhengchu', function () {
+			function zhengchu(free) {
+				if (free == null) {
+					return 0;
+				} else {
+					return free / 100;
+				}
+			}
+			return zhengchu;
+		});
+		app.filter('Shi', function () {
+			function Shi(address) {
+				if (address == null || address.length == 0) {
+					return null;
+				} else {
+					address = address.replace(/-/g, "");
+					if (address.indexOf('省') != -1) {
+						if (address.indexOf('市') != -1) {
+							return address.substring(address.indexOf('省') + 1, address.indexOf('市'));
+						} else {
+							return null;
+						}
+					} else {
+						if (address.indexOf('市') != -1) {
+							return address.substring(0, address.indexOf('市'));
+						} else {
+							return null;
+						}
+
+					}
+				}
+
+			}
+			return Shi;
+		});
+		app.filter('Qu', function () {
+			function Qu(address) {
+				if (address == null || address.length == 0) {
+					return null;
+				} else {
+					address = address.replace(/-/g, "");
+					if (address.indexOf('省') != -1) {
+						if (address.indexOf('市') != -1) {
+							if (address.indexOf('区') != -1) {
+								return address.substring(address.indexOf('市') + 1, address.indexOf('区'));
+							} else if (address.indexOf('县') != -1) {
+								return address.substring(address.indexOf('市') + 1, address.indexOf('县'));
+							}
+
+						} else {
+							return null;
+						}
+					} else {
+						if (address.indexOf('市') != -1) {
+							if (address.indexOf('区') != -1) {
+								return address.substring(address.indexOf('市') + 1, address.indexOf('区'));
+							} else if (address.indexOf('县') != -1) {
+								return address.substring(address.indexOf('市') + 1, address.indexOf('县'));
+							}
+						} else {
+							return null;
+						}
+
+					}
+				}
+
+			}
+			return Qu;
+		});
+		app.filter('carType', function () {
+			function Qu(address) {
+				if (address == 1) {
+					return '挂';
+				} else {
+					return '';
+				}
+
+			}
+			return Qu;
+		});
+		app.filter('ToLocal', function () {
+			function add0(m) {
+				return m < 10 ? '0' + m : m
+			}
+
+			function ToLocal(shijianchuo) {
+				if (shijianchuo != null) {
+					var time = new Date(shijianchuo);
+					var y = time.getFullYear();
+					var m = time.getMonth() + 1;
+					var d = time.getDate();
+					var h = time.getHours();
+					var mm = time.getMinutes();
+					var s = time.getSeconds();
+					var nowtime = y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+					return nowtime;
+				} else {
+					return null;
+				}
+				//shijianchuo是整数，否则要parseInt转换
+
+			}
+			return ToLocal;
+		});
+		app.controller('SearchCtrl', function ($scope, $http) {
+			$scope.orderTpyeTexts = [{ id: 10, name: '10条' }, { id: 20, name: "20条" }, { id: 50, name: "50条" }, { id: 100, name: "100条" }, { id: 200, name: "200条" }];
+			$scope.limit = 10;
+			$scope.searchState = 0;
+			function add0(m) {
+				return m < 10 ? '0' + m : m
+			}
+			$scope.roles = [{
+				id: 9,
+				name: '全部'
+			}, {
+				id: 0,
+				name: '管理员'
+			}, {
+				id: 2,
+				name: '调度'
+			}, {
+				id: 3,
+				name: '查勘员'
+			}, {
+				id: 4,
+				name: '用户'
+			}]
+			$scope.geturl = function (type) {
+				if ($scope.searchorderNo != '' && type == 0) {
+					return (host + "/extrication/v1/order?orderNo=" + $scope.searchorderNo + "&$offset=0&$limit=" + $scope.limit);
+				}
+				if ($scope.searchorderNo != '' && type == 1) {
+					return (host + "/extrication/v1/order?orderNo=" + $scope.searchorderNo + "&$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit);
+				}
+				if ($scope.searchorderNo != '' && type == 2) {
+					return (host + "/extrication/v1/order?orderNo=" + $scope.searchorderNo + "&$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit);
+				}
+				if ($scope.searchRole != 9 && type == 0) {
+					return (host + "/extrication/v1/order?$offset=0&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&createRoleId=" + $scope.searchRole + "&accidentCarNo=" + $scope.searchCarNo);
+
+				}
+				if ($scope.searchRole != 9 && type == 1) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&createRoleId=" + $scope.searchRole + "&accidentCarNo=" + $scope.searchCarNo);
+
+				}
+				if ($scope.searchRole != 9 && type == 2) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&createRoleId=" + $scope.searchRole + "&accidentCarNo=" + $scope.searchCarNo);
+
+				}
+				if ($scope.fleetId != '' && type == 0) {
+					return (host + "/extrication/v1/order?fleetId=" + $scope.fleetId + "&$offset=0&$limit=" + $scope.limit + "&status=0");
+
+				}
+				if ($scope.fleetId != '' && type == 1) {
+					return (host + "/extrication/v1/order?fleetId=" + $scope.fleetId + "&$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchState);
+				}
+				if ($scope.fleetId != '' && type == 2) {
+					return (host + "/extrication/v1/order?fleetId=" + $scope.fleetId + "&$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchState);
+				}
+				if ($scope.searchCarNo != '' && type == 0 && $scope.searchRole == 9) {
+					return (host + "/extrication/v1/order?$offset=0&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&accidentCarNo=" + $scope.searchCarNo);
+				}
+				if ($scope.searchCarNo != '' && type == 1 && $scope.searchRole == 9) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&accidentCarNo=" + $scope.searchCarNo);
+				}
+				if ($scope.searchCarNo != '' && type == 2 && $scope.searchRole == 9) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + "&accidentCarNo=" + $scope.searchCarNo);
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 1 && $scope.searchstatus != 0) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + '&accidentCarNo=' + $scope.searchCarNo);
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 2 && $scope.searchstatus != 0) {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + '&accidentCarNo=' + $scope.searchCarNo);
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 0 && $scope.searchstatus != 0) {
+					return (host + "/extrication/v1/order?$offset=0&$limit=" + $scope.limit + "&status=" + $scope.searchstatus + '&accidentCarNo=' + $scope.searchCarNo)
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 1 && $scope.searchCarNo == '') {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=0");
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 2 && $scope.searchCarNo == '') {
+					return (host + "/extrication/v1/order?$offset=" + ($scope.PageNum - 1) * $scope.limit + "&$limit=" + $scope.limit + "&status=0");
+				}
+				if ($scope.searchorderNo == '' && $scope.searchRole == 9 && $scope.fleetId == '' && type == 0 && $scope.searchCarNo == '') {
+					return (host + "/extrication/v1/order?$offset=0&$limit=" + $scope.limit + "&status=0")
+				}
+
+			}
+			function ToLocalTime(shijianchuo) {
+				//shijianchuo是整数，否则要parseInt转换
+				var time = new Date(shijianchuo);
+				var y = time.getFullYear();
+				var m = time.getMonth() + 1;
+				var d = time.getDate();
+				var h = time.getHours();
+				var mm = time.getMinutes();
+				var s = time.getSeconds();
+				var nowtime = y + '-' + add0(m) + '-' + add0(d);
+				return nowtime;
+			}
+
+			$scope.searchInsurance = function () {
+				$('.searchDiv').css('display', 'block');
+				$http.get(host + '/extrication/v1/company').success(function (res) {
+					$scope.companyList = res.companyList;
+				})
+			}
+			$(document).click(function () {
+				$('.searchDiv').css('display', 'none');
+			})
+			$scope.search = function () {
+				if ($scope.searchTeam == null || $scope.searchTeam == '') {
+					$http.get(host + "/extrication/v1/fleet/list?$offset=0&$limit=200").success(function (res) {
+						if (res.http_code == "token.error") {
+							parent.location.href = 'index.html';
+						}
+						$scope.teamList = res.fleetList;
+						$scope.fleetId = res.fleetList[0].fleetId;
+						$('.searchDiv').css('display', 'block');
+					});
+				} else {
+					$http.get(host + "/extrication/v1/fleet/list?$offset=0&$limit=10&fleetname=" + $scope.searchTeam).success(function (res) {
+						if (res.http_code == "token.error") {
+							parent.location.href = 'index.html';
+						}
+						if (res.count == 0) {
+							layer.msg('该车队不存在');
+							$scope.fleetId = '';
+						} else {
+							$scope.teamList = res.fleetList;
+							$scope.fleetId = res.fleetList[0].fleetId;
+							$('.searchDiv').css('display', 'block');
+						}
+
+					});
+				}
+
+			}
+			$scope.click = function (id, name) {
+				$scope.fleetId = id;
+				$scope.searchTeam = name;
+				$('.searchDiv').css('display', 'none');
+			}
+			$scope.companyChange = function () {
+				$('.searchDiv').css('display', 'block');
+				$http.get(host + "/extrication/v1/company?$offset=0&$limit=10&name=" + $scope.companyName).success(function (res) {
+					if (res.http_code == "token.error") {
+						parent.location.href = 'index.html';
+					}
+					if (res.companyCounts == 0) {
+						layer.msg('该公司不存在');
+						$scope.companyId = '';
+					} else {
+						$scope.companyList = res.companyList;
+						$('.searchDiv').css('display', 'block');
+					}
+
+				});
+			}
+			$scope.selectCompany = function (no, name) {
+				$scope.companyName = name;
+				$scope.companyNo = no;
+				$('.searchDiv').css('display', 'none');
+			}
+			$scope.searchCompany = function () {
+				$http.get(host + '/extrication/v1/order/list2?companyNo=' + $scope.companyNo).success(function (res) {
+					if (res.http_status == 200) {
+						$scope.searchData = res.items;
+						if (res.count == 0) {
+							alert('未找到该保险公司的订单');
+						}
+						$scope.page = 1;
+					}
+				})
+			}
+			$scope.update = function (status, orderid, accidentAddress, fixAddress, accidentDriverName, accidentDriverPhone) {
+				sessionStorage.setItem('orderid', orderid);
+				sessionStorage.setItem('status', status);
+				sessionStorage.setItem('accidentAddress', accidentAddress);
+				sessionStorage.setItem('fixAddress', fixAddress);
+				sessionStorage.setItem('accidentDriverName', accidentDriverName);
+				sessionStorage.setItem('accidentDriverPhone', accidentDriverPhone);
+				layer.open({
+					type: 2,
+					title: '修改订单',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['100%', '100%'],
+					content: 'update.html' //iframe的url
+				});
+			}
+			$scope.createRoleIdTexts = {
+				0: "系统后台下单",
+				2: '调度下单',
+				3: '查勘下单'
+			}
+			$scope.cancel = function (no) {
+				$scope.alertCancle = 0;
+				$scope.bg = 0;
+				$scope.num1 = parseInt(Math.random() * 50);
+				$scope.num2 = parseInt(Math.random() * 50);
+				$scope.cancelNo = no;
+				$('.alertCancle').css('display', 'block');
+			}
+			$scope.toexcel = function () {
+				$("#table2excel").table2excel({
+					// 不被导出的表格行的CSS class类
+					exclude: ".noExl",
+					// 导出的Excel文档的名称
+					name: "Excel Document Name",
+					// Excel文件的名称
+					filename: "下载"
+				});
+			}
+			$scope.cancelBtn = function (num1, num2) {
+				var num3 = $('#num3').val();
+				if (num3 != '') {
+					if (num1 + num2 == num3) {
+						$http.patch(host + '/extrication/v1/order/' + $scope.cancelNo + '/actions/cancel', { cancelCause: '' }).success(function (res) {
+							if (res.http_status == 200) {
+								sessionStorage.setItem('temp', 1);
+								sessionStorage.setItem('temporderNo', $scope.cancelNo);
+								location.href = 'addorder.html';
+							}
+						})
+					} else {
+						layer.msg('哎呀，算错了');
+					}
+				} else {
+					layer.msg("不要这么懒，什么都不填");
+				}
+
+
+			}
+			//分页部分,首页尾页按钮
+			$scope.ToPage = function (type, state) {
+				if (state != null) {
+					$scope.searchState = state;
+				}
+
+				if (type == 0) {
+					$scope.PageNum = $scope.countPages;
+					$scope.next = 1;
+					$scope.up = 0;
+					url = $scope.geturl(2);
+					$http.get(url).success(function (data) {
+						if (data.http_code == "token.error") {
+							parent.parent.location.href = 'index.html';
+						}
+
+						$scope.searchData = data.orderList;
+
+					});
+
+
+				}
+				if (type == 1) {
+					if ($scope.countPages == 1) {
+						$scope.first = 1;
+						$scope.end = 1;
+						$scope.up = 1;
+						$scope.next = 1;
+						$scope.page = 1;
+					} else {
+						$scope.next = 0;
+					}
+					$scope.PageNum = 1;
+					$scope.up = 1;
+					$scope.next = 0;
+					url = $scope.geturl(2);
+					$http.get(url).success(function (data) {
+						if (data.http_code == "token.error") {
+							parent.parent.location.href = 'index.html';
+						}
+
+						$scope.searchData = data.orderList;
+
+					});
+
+				}
+
+			}
+			//分页部分
+			$scope.PageNum = 1;
+			$scope.upPage = function (type) {
+				if (type == 1) {
+					$scope.up = 0;
+					if ($scope.PageNum == countPages - 1) {
+						$scope.next = 1;
+					}
+					if ($scope.PageNum > countPages) {
+						$scope.PageNum = countPages - 1;
+					}
+					if ($scope.PageNum < countPages) {
+						$scope.PageNum = $scope.PageNum + 1;
+						url = $scope.geturl(1);
+						$http.get(url).success(function (data) {
+							if (data.http_code == "token.error") {
+								parent.parent.location.href = 'index.html';
+							}
+
+							$scope.searchData = data.orderList;
+
+						});
+					}
+				}
+				if (type == 2) {
+
+					$scope.next = 0;
+					if ($scope.PageNum == 2) {
+						$scope.up = 1;
+					}
+					else {
+						$scope.up = 0;
+					}
+					if ($scope.PageNum >= 1) {
+						$scope.PageNum = $scope.PageNum - 1;
+						url = $scope.geturl(1);
+						$http.get(url).success(function (data) {
+							if (data.http_code == "token.error") {
+								parent.parent.location.href = 'index.html';
+							}
+
+							$scope.searchData = data.orderList;
+
+						});
+					}
+				}
+
+			}
+			$scope.searchrole = function (searchstatus, searchRole, searchCarNo) {
+				url = $scope.geturl(0);
+				$http.get(url).success(function (data) {
+					if (data.http_code == "token.error") {
+						parent.parent.location.href = 'index.html';
+					}
+					countPages = Math.ceil(data.orderCounts / $scope.limit);
+					$scope.countPages = countPages;
+					if (countPages == 1 || countPages == 0) {
+						$scope.page = 1;
+					} else {
+						$scope.page = 0;
+					}
+					$scope.PageNum = 1;
+					$scope.searchData = data.orderList;
+				});
+			}
+			$scope.selectType = function (type) {
+				if (type == 1) {
+					$scope.searchType1 = 0;
+					$scope.searchType2 = 1;
+					$scope.searchType3 = 1;
+					$scope.searchType4 = 1;
+					$scope.searchType5 = 1;
+					$scope.searchorderNo = '';
+					$scope.fleetId = '';
+				}
+				if (type == 2) {
+					$scope.searchType1 = 1;
+					$scope.searchType2 = 0;
+					$scope.searchType3 = 1;
+					$scope.searchType4 = 1;
+					$scope.searchType5 = 1;
+					$scope.searchRole = 9;
+					$scope.fleetId = '';
+				}
+				if (type == 3) {
+					$scope.searchType1 = 1;
+					$scope.searchType2 = 1;
+					$scope.searchType3 = 0;
+					$scope.searchType4 = 1;
+					$scope.searchType5 = 1;
+					$scope.searchRole = 9;
+					$scope.searchorderNo = '';
+				}
+				if (type == 4) {
+					$scope.searchType1 = 1;
+					$scope.searchType2 = 1;
+					$scope.searchType3 = 1;
+					$scope.searchType4 = 0;
+					$scope.searchType5 = 1;
+					$scope.searchRole = 9;
+					$scope.searchorderNo = '';
+				}
+				if (type == 5) {
+					$scope.searchType1 = 1;
+					$scope.searchType2 = 1;
+					$scope.searchType3 = 1;
+					$scope.searchType4 = 1;
+					$scope.searchType5 = 0;
+					$scope.searchRole = 9;
+					$scope.searchorderNo = '';
+				}
+			}
+			//订单查询
+			$scope.searchorder = function (searchorderNo) {
+				if (searchorderNo != null && searchorderNo.length != 0) {
+					$scope.page = 0;
+					url = $scope.geturl(0);
+					$http.get(url).success(function (data) {
+						if (data.http_code == "token.error") {
+							parent.parent.location.href = 'index.html';
+						}
+						countPages = Math.ceil(data.orderCounts / $scope.limit);
+						$scope.countPages = countPages;
+						if (countPages == 1 || countPages == 0) {
+							$scope.page = 1;
+						} else {
+							$scope.page = 0;
+						}
+						$scope.PageNum = 1;
+						$scope.searchData = data.orderList;
+
+					});
+				}
+
+
+			}
+			$scope.searchCaseNo = function (caseNo) {
+				$http.get(host + '/extrication/v1/order?caseNo=' + caseNo + '&$offset=0&$limit=200').success(function (res) {
+					if (res.http_code == "token.error") {
+						parent.parent.location.href = 'index.html';
+					}
+					$scope.page = 1;
+					console.log(res);
+					$scope.searchData = res.orderList;
+				})
+			}
+			$scope.searchDate = function (searchstatus, fleetId) {
+				$scope.searchState = searchstatus;
+				if (fleetId == undefined) {
+					fleetId = 0;
+				}
+				url = $scope.geturl(0);
+				$http.get(url).success(function (data) {
+					if (data.http_code == "token.error") {
+						parent.parent.location.href = 'index.html';
+					}
+					countPages = Math.ceil(data.orderCounts / $scope.limit);
+					$scope.countPages = countPages;
+					if (countPages == 1 || countPages == 0) {
+						$scope.page = 1;
+					} else {
+						$scope.page = 0;
+					}
+					$scope.PageNum = 1;
+					$scope.searchData = data.orderList;
+
+				});
+
+			}
+			$scope.close = function () {
+				$scope.alertCancle = 1;
+				$scope.bg = 1;
+				$('.alertCancle').css('display', 'none');
+			}
+			$scope.initDate = function () {
+				$scope.open = 'display';
+				$scope.alertCancle = 1;
+				$scope.bg = 1;
+				$scope.searchType1 = 0;
+				$scope.searchType2 = 1;
+				$scope.searchType3 = 1;
+				$scope.searchType4 = 1;
+				$scope.searchType5 = 1;
+				$scope.searchorderNo = '';
+				$scope.searchRole = 9;
+				$scope.searchstatus = 0;
+				$scope.fleetId = '';
+				$scope.searchCarNo = '';
+				$scope.page = 0;
+				var url = $scope.geturl(1);
+				$http.get(url).success(function (data) {
+					if (data.http_status == 401.1) {
+						parent.parent.location.href = 'index.html';
+					}
+					//总页数
+					countPages = Math.ceil(data.orderCounts / $scope.limit);
+					$scope.countPages = countPages;
+					if (countPages == 1) {
+						$scope.up = 1;
+						$scope.next = 1;
+					}
+					$scope.up = 1;
+					$scope.searchData = data.orderList;
+
+				});
+				//获取车队信息
+				$http.get(host + "/extrication/v1/fleet/list?$offset=0&$limit=200").success(function (res) {
+					if (res.http_status == 401.1) {
+						parent.parent.location.href = 'index.html';
+					}
+					$scope.teamList = res.fleetList;
+				});
+			}
+			$scope.statusTexts = {
+				1: '待接单',
+				2: '待分配',
+				3: '进行中',
+				4: '已完成',
+				7: '后台取消',
+				8: '查勘取消',
+				81: '保险人员取消',
+				9: '历史未完成'
+			};
+			$scope.orderTypeTexts = {
+				1: "事故类型",
+				2: "非事故类型"
+
+			};
+
+			$scope.updateorder = function (orderid) {
+				sessionStorage.setItem('orderid', orderid);
+				layer.open({
+					type: 2,
+					title: '订单详情',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['100%', '100%'],
+					content: 'updateorder.html' //iframe的url
+				});
+			}
+
+			$scope.paiqianwaiyuan = function (orderid) {
+				sessionStorage.setItem('orderid', orderid);
+				layer.open({
+					type: 2,
+					title: '派遣外援司机',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['100%', '100%'],
+					content: 'paiqianwaiyuan.html' //iframe的url
+				});
+			}
+
+		});
+	</script>
+</body>
+
+</html>

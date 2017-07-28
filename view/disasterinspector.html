@@ -1,14 +1,18 @@
 <div class="adddriver" ng-controller="disasterinspectorCtrl" ng-init="initData()">
-    <h2>查勘员管理</h2>
-    <button class="goback" ng-click="back()">返回</button>
-    <h4 class="detail_title"></h4>
-    <button class="button" id="addinspector" ng-hide="status == 2">
+    <h2 ng-hide="status == 2">大灾查勘员管理</h2>
+    <h2 ng-hide="status != 2">查看查勘员</h2>
+    <button class="goback" ng-click="back()"></button>
+    <h4 class="detail_title">
+        {{title}}
+    </h4>
+    <button class="button" id="addinspector" ng-hide="status == 2" ng-click="add()">
         添加查勘员
     </button>
     <div class="addinspector_div">
         <h2 class="alert_add_h2">添加查勘员</h2>
-        <p>选择负责区域：<select style="    width: 268px;" name="" id="" class="input" ng-model="area" ng-options="a as a for a in arealist"></select></p>
-        <p>&emsp;选择查勘员：<input style="    width: 268px;" type="text" ng-model="key" class="input" placeholder="支持名字或手机号模糊查询" ng-change="searchkey()"></p>
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+        <p><span class="tips2">*</span>选择负责区域：<select style="    width: 268px;" name="" id="" class="input" ng-model="area" ng-options="a as a for a in arealist"></select></p>
+        <p><span class="tips2">*</span>&emsp;选择查勘员：<input style="    width: 268px;" type="text" ng-model="key" class="input" placeholder="支持名字或手机号模糊查询" ng-change="searchkey()"></p>
         <div class="inspector_search_div">
             <p ng-repeat="a in inspectorName track by $index" ng-click="check(a)">
                 {{a.name}}{{a.phone}}
@@ -16,7 +20,7 @@
         </div>
 
 
-        <p><button id="add" class="button" ng-click="add_disaster_inspector()">添加</button><button class="button red" ng-click="cancle()" id="cancle">取消</button></p>
+        <p><button id="add" class="button" ng-click="add_disaster_inspector()">添加</button></p>
     </div>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
@@ -32,16 +36,17 @@
             <td>{{a.userMobile}}</td>
             <td>{{a.responsibleArea}}</td>
             <td>
-                <button class="button green" ng-hide="status == 2" ng-click="update(a)" style="width: 70px;background: #36b304;">修改</button>
-                <button class="button red" ng-hide="status == 2" ng-click="delInspector(a)" style="width: 70px;background: #f00;">移除</button>
+                <button class="button" ng-hide="status == 2" ng-click="update(a)" >修改</button>
+                <button class="button red" ng-hide="status == 2" ng-click="delInspector(a)" style="margin-left:30px;">移除</button>
             </td>
         </tr>
     </table>
     <div class="alert_bg" ng-click="close()"></div>
     <div class="update_inspector">
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()" style="margin-top: -12px;margin-right: -10px;">
         <p>选择负责区域：<select style="    width: 268px;" name="" id="" class="input" ng-model="update_area" ng-options="a as a for a in arealist"></select></p>
         <p>&emsp;&emsp;&emsp;查勘员：{{updateInspector}}</p>
-        <p style="margin-top: 40px;"><button id="add" class="button" ng-click="update_submit()">修改</button><button ng-click="close()" class="button red" id="cancle">取消</button></p>
+        <p style="margin-top: 40px;"><button id="add" class="button" ng-click="update_submit()">修改</button></p>
     </div>
     <div style='height:50px;'></div>
     <p ng-hide="page_p" class="page_p">

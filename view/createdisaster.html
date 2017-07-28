@@ -1,22 +1,23 @@
 <div class="adddriver" ng-controller="createdisasterCtrl" ng-init="initData()">
     <h2>创建大灾</h2>
-    <button class="goback" ng-click="back()">返回</button>
+    <button class="goback" ng-click="back()"></button>
     <div class="addorder">
         <table>
             <tr>
                 <td><span class="tips">*</span>大灾区域：</td>
                 <td>
-                    <select class="input disaster_select" ng-change="selectCity()" name="" id="" ng-model="province" ng-options="a.regionId as a.regionName for a in provinceList" ></select>
+                    {{province}}&emsp;&emsp;
                     <select class="input disaster_select" ng-change="selectArea()"  name="" id=""ng-model="city" ng-options="a.regionId as a.regionName for a in cityList"></select>
-                    <span class="disaster_area">大灾区域 ></span>
+                    <span class="disaster_area">大灾区域</span><img style="height: 12px;margin-left: 16px;margin-right:12px;" src="img/dazai-quyu-jiantou.png" alt="">
                     <div class="find-div-body">
-                        <button class="area_btn_close" style="margin-right: 4px;margin-top: 4px;">X</button>
+                        <button class="area_btn_close" style="margin-right: 4px;margin-top: 4px;"><img src="img/lanse-guanbi.png" alt=""></button>
                         <div class="areaList">
-                            <button ng-repeat="a in areaList" ng-click="select(a)" ng-disabled="isSelect(a)">{{a.regionName}}</button>
+                            <button ng-repeat="a in areaList" ng-click="select(a)" class="{{isSelect(a)?'areaList_button_active':''}}" ng-disabled="isSelect(a)">{{a.regionName}}</button>
                         </div>
                     </div>
-                    <button class="area_btn" ng-repeat="a in selectList track by $index" ng-click="delArea($index)" >{{a.name}}&emsp;X</button>
+                    
                 </td>
+                <td style="text-align:left"><button class="area_btn" ng-repeat="a in selectList track by $index" ng-click="delArea($index)" >{{a.name}}&emsp;<img src="img/baise-guanbi.png" alt=""></button></td>
             </tr>
             <tr>
                 <td><span class="tips">*</span>开始日期：</td>
@@ -26,19 +27,28 @@
             </tr>
             <tr>
                 <td><span class="tips">*</span>司机需求量：</td>
-                <td><input class="input" type="number" ng-model="disaster_driver" placeholder="请输入需要的司机人数"></td>
+                <td><input class="input" type="number" max="1000" ng-model="disaster_driver" placeholder="请输入需要的司机人数"></td>
+                <td style="text-align:left">
+                    可设置1-1000人，包括1和1000
+                </td>
             </tr>
             <tr>
                 <td><span class="span_disaster"><span class="tips">*</span>费用说明：</span>
                 </td>
                 <td>
-                    <textarea id="" class="textarea_disaster" ng-model="disaster_pay" placeholder="请输入费用说明"></textarea>
+                    <textarea maxlength="1000" id="" class="textarea_disaster" ng-model="disaster_pay" placeholder="请输入费用说明"></textarea>
+                </td>
+                <td>
+                    <span class="span_disaster" style="float:left">最多可输入1000个字</span>
                 </td>
             </tr>
             <tr>
                 <td><span class="span_disaster">备注：</span></td>
                 <td>
-                    <textarea id="" class="textarea_disaster" ng-model="disaster_remark" placeholder="请输入备注信息"></textarea>
+                    <textarea id="" class="textarea_disaster" ng-model="disaster_remark" placeholder="请输入备注信息" maxlength="100"></textarea>
+                </td>
+                <td >
+                    <span class="span_disaster" style="float:left">最多可输入100个字</span>
                 </td>
             </tr>
         </table>
@@ -50,7 +60,7 @@
         </p>-->
         <div class="alert_bg"></div>
         <div class="submit_alert">
-            <p>大灾区域：{{selectProvinceName}}{{selectCityName}}{{selectAreaName}}</p>
+            <p>大灾区域：{{province}}{{selectCityName}}{{selectAreaName}}</p>
             <p>开始日期：{{startDate}}</p>
             <p>司机需求量：{{disaster_driver}}人</p>
             <p>费用说明：{{disaster_pay}}</p>
@@ -60,6 +70,6 @@
                 <button class="button red" ng-click="close()">取消</button>
             </p>
         </div>
-        <button id="submit" class="button" style="margin-left: 5vw;margin-top: 30px;" ng-click="create_disaster()">创建</button>
+        <button id="submit" class="button" style="margin-left: 5vw;margin-top: 30px;width:111px;" ng-click="create_disaster()">创建</button><span style="color:#f00;margin:0 10px 0 30px;">*</span>为必填项
     </div>
 </div>

@@ -1,8 +1,8 @@
 <div class="adddriver" ng-controller="reviewCtrl" ng-init="initData()">
     <h2>司机退出审核</h2>
-    <button class="goback" ng-click="back()">返回</button>
+    <button class="goback" ng-click="back()"></button>
     <h4 class="detail_title">
-
+        {{title}}
     </h4>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
@@ -16,10 +16,18 @@
             <td>操作</td>
 
         </tr>
-        <tr ng-repeat="a in orderList">
-            <td>{{a.caseNo}}</td>
-            <td>{{a.accidentAddressPicture|Shi}}</td>
-            <td>{{a.accidentAddressPicture|Qu}}</td>
+        <tr ng-repeat="a in list">
+            <td>{{$index + 1}}</td>
+            <td>{{a.userName}}</td>
+            <td>{{a.userPhone}}</td>
+            <td>{{a.applyLeaveTime | ToLocal}}</td>
+            <td>{{a.fleetName}}</td>
+            <td>{{a.bossName}}</td>
+            <td>{{a.bossPhone}}</td>
+            <td>
+                <button class="button green" ng-click="reviw_disaster_driver(a,1)">通过</button>
+                <button class="button red" ng-click="reviw_disaster_driver(a,0)">拒绝</button>
+            </td>
         </tr>
     </table>
     <div style='height:50px;'></div>

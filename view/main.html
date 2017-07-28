@@ -4,34 +4,44 @@
         <img src="img/logo.png" alt="" class="logo">
         <span style="float:left;">{{companyName}}</span>
         <span>欢迎您，{{adminName}}</span>
+
         <a style="cursor:pointer" ng-click="logout()">退出登录</a>
     </div>
     <div class="left_menu">
-        <p id="lm1" class="addorder" ui-sref='main.addorder' >
-            <img src="img/addorder1.png" alt="">下单
+        <p id="lm1" class="addorder" ui-sref='main.addorder' title="下单">
+            <img src="img/shiguxiadan.png" alt=""><span class="right_span">下单</span>
         </p>
-        <p id="lm7" ui-sref='main.addorder_nar' class='addorder_nar'>
-            <img src="img/addorder1.png" alt="">下单
+        <p id="lm7" ui-sref='main.addorder_nar' class='addorder_nar' title="下单">
+            <img src="img/xiadan.png" alt=""><span class="right_span">下单</span>
         </p>
-        <p id="lm2" ui-sref='main.orderlist' class='orderlist'>
-            <img src="img/orderlist1.png" alt="">查看订单
+        <p id="lm2" ui-sref='main.orderlist' class='orderlist' title="查看订单">
+            <img src="img/orderlist1.png" alt=""><span class="right_span">查看订单</span>
         </p>
-        <p id="lm3" ui-sref='main.evaluation' class='evaluation'>
-            <img src="img/eval1.png" alt="">查看评价
+        <p id="lm3" ui-sref='main.evaluation' class='evaluation' title="查看评价">
+            <img src="img/eval1.png" alt=""><span class="right_span">查看评价</span>
         </p>
-        <p id="lm4" ui-sref='main.adddriver' class='adddriver'>
-            <img src="img/driver1.png" alt="">查看指派司机
+        <p id="lm4" ui-sref='main.adddriver' class='adddriver' title="查看指派司机">
+            <img src="img/driver1.png" alt=""><span class="right_span">查看指派司机</span>
         </p>
-        <p id="lm5" ui-sref='main.fixaddress' class='fixaddress'>
-            <img src="img/location1.png" alt="">查看固定目的地
+        <p id="lm5" ui-sref='main.fixaddress' class='fixaddress' title="查看固定目的地">
+            <img src="img/location1.png" alt=""><span class="right_span">查看固定目的地</span>
         </p>
-        <p id="lm6" ui-sref='main.team' class='team'>
-            <img src="img/location1.png" alt="">施救车队管理
+        <p id="lm6" ui-sref='main.team' class='team' title="施救车队管理">
+            <img src="img/shijiuchedui.png" alt=""><span class="right_span">施救车队管理</span>
         </p>
-        <p id="lm7" ui-sref='main.disaster' class='disaster'>
-            <img src="img/location1.png" alt="">大灾管理
+        <p id="lm8" ng-click="goto()" class='disaster' title="大灾管理">
+            <img src="img/dazai-guanli.png" alt=""><span class="right_span">大灾管理</span>
+            <a href="view/help.html" id="help" target="blank" title="大灾帮助文档"></a>
         </p>
-        
+        <p id="lm9" ui-sref='main.shop4S' class='shop4S' title="推修厂管理">
+            <img src="img/tuixiuchang.png" alt=""><span class="right_span">推修厂管理</span>
+        </p>
+        <p id="lm10" ui-sref='main.companyfleet' class='companyfleet' title="抢单车队管理">
+            <img src="img/qiangdanchedui.png" alt=""><span class="right_span">抢单车队管理</span>
+        </p>
+        <p id="lm11" ui-sref='main.inspector' class='companyfleet' title="查勘员管理">
+            <img src="img/qiangdanchedui.png" alt=""><span class="right_span">查勘员管理</span>
+        </p>
     </div>
     <div ui-view class="right_content"></div>
 </div>
