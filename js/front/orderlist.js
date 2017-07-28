@@ -44,28 +44,29 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         sessionStorage.setItem('isDisaster', 'not');
     }
     $scope.toexcel = function (status, caseNo) {
+        window.open(host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay  + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
         //window.open('http://dev.road167.com:8080/extrication/v1/order/export');
         // APIService.export().then(function (res) {
         //     console.log(res.data);
         // })
-        $http({
-            method: 'GET',
-            url: host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay  + '&keyword=' + $scope.caseNo,
-            headers: {
-                "Content-Type": undefined,
-                "Authorization": APIService.token,
-                "user-id": APIService.userId
-            },
-            responseType: 'blob',
-        }).then(function (res) {
-            var blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            console.log(blob)
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.download = '订单.xls';
-            a.href = URL.createObjectURL(blob);
-            a.click();
-        })
+        // $http({
+        //     method: 'GET',
+        //     url: host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay  + '&keyword=' + $scope.caseNo,
+        //     headers: {
+        //         "Content-Type": undefined,
+        //         "Authorization": APIService.token,
+        //         "user-id": APIService.userId
+        //     },
+        //     responseType: 'blob',
+        // }).then(function (res) {
+        //     var blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        //     console.log(blob)
+        //     var a = document.createElement("a");
+        //     document.body.appendChild(a);
+        //     a.download = '订单.xls';
+        //     a.href = URL.createObjectURL(blob);
+        //     a.click();
+        // })
         // $("#table2excel").table2excel({
         //     // 不被导出的表格行的CSS class类
         //     exclude: ".noExl",
