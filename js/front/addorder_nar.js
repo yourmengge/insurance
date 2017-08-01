@@ -150,7 +150,6 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             accidentDriverPhone: '',
             caseNo: '',
             accidentCarNo: '',
-            accidentCarNoType: '',
             accidentLongitude: '',
             accidentLatitude: '',
             fixLatitude: '',
@@ -260,6 +259,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     })
     $scope.reset = function () {
         if (confirm('重置后页面填写的信息将被清空')) {
+            sessionStorage.removeItem('fixAddress_shop4sId');
             sessionStorage.removeItem('nar_address_fixaddress');
             $scope.order = {
                 accidentCarNo: '',
@@ -269,7 +269,6 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                 accidentDriverPhone: '',
                 caseNo: '',
                 accidentCarNo: '',
-                accidentCarNoType: '',
                 accidentLongitude: '',
                 accidentLatitude: '',
                 fixLatitude: '',
@@ -338,8 +337,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
 
     });
-    $scope.$watch('counts1 + counts2  + counts4 ', function (newValue, oldValue) {
-        if (newValue == 3) {
+    $scope.$watch('counts1 + counts2  + counts4 + counts5', function (newValue, oldValue) {
+        if (newValue == 4) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -359,16 +358,20 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
 
     }
     $scope.addOrder = function () {
-        if ($scope.order.accidentCarNo != null) {//判断是否是挂车
-            if ($scope.order.accidentCarNo.indexOf('挂') > 0) {
-                $scope.order.accidentCarNo = $scope.order.accidentCarNo.replace('挂', '')
-                $scope.order.accidentCarNoType = 1;
-            }
-        }
+        // if ($scope.order.accidentCarNo != null) {//判断是否是挂车
+        //     if ($scope.order.accidentCarNo.indexOf('挂') > 0) {
+        //         $scope.order.accidentCarNo = $scope.order.accidentCarNo.replace('挂', '')
+        //         $scope.order.accidentCarNoType = 1;
+        //     }
+        // }
+
         $scope.order.accidentLongitude = sessionStorage.getItem('nar_address_nar_lng')
         $scope.order.accidentLatitude = sessionStorage.getItem('nar_address_nar_lat')
         $scope.order.fixLatitude = sessionStorage.getItem('nar_address_fixaddress_nar_lat')
         $scope.order.fixLongitude = sessionStorage.getItem('nar_address_fixaddress_nar_lng')
+        if (sessionStorage.getItem('fixAddress_shop4sId') != null) {
+            $scope.order.shop4sId = sessionStorage.getItem('fixAddress_shop4sId')
+        }
         if ($scope.rescueType.type != 'tuoche') {
             $scope.order.fixAddress = '';
             $scope.order.fixLatitude = '';
@@ -412,6 +415,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                     sessionStorage.removeItem('nar_addorder_order');
                     sessionStorage.removeItem('nar_address');
                     sessionStorage.removeItem('nar_address_fixaddress');
+                    sessionStorage.removeItem('fixAddress_shop4sId');
                     $scope.order = {
                         accidentCarNo: '',
                         accidentAddress: '',
@@ -420,7 +424,6 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
                         accidentDriverPhone: '',
                         caseNo: '',
                         accidentCarNo: '',
-                        accidentCarNoType: '',
                         accidentLongitude: '',
                         accidentLatitude: '',
                         fixLatitude: '',

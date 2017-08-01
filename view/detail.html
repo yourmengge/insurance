@@ -199,10 +199,11 @@
     <h4 class="detail_title">推修厂确认信息</h4>
     <div class="car_div">
         <p>
-            <span class="car_div_title">推修厂确认时间：</span>
+            <span class="car_div_title">确认时间：</span>
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>
         </p>
         <p>
+            <span class="car_div_title">到达车辆照片</span>
             <div class="img_div">
                 <img ng-repeat="a in detail.shop4sPictures" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
             </div>

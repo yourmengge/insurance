@@ -71,6 +71,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
         $scope.shop4s_lat = data.latitude;
         $scope.shop4s_lng = data.longitude;
         $scope.shop4sId = data.shop4sId;
+        sessionStorage.setItem('fixAddress_shop4sId', data.shop4sId)
         $scope.shop4sFullName = data.address + data.simpleName;
     }
 
