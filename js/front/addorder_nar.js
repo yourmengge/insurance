@@ -36,13 +36,13 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         return picPathName;
     }
     $scope.push = function () {
-        if (a.length < 10) {
+        if ($scope.order.localPic.length < 10) {
             var input = document.getElementById("photo");
             $scope.length = input.files.length;
-            if ($scope.length + a.length > 10) {
+            if ($scope.length + $scope.order.localPic.length > 10) {
                 alert('最多只能添加10张照片');
                 closeloading();
-                $scope.length = 10 - a.length;
+                $scope.length = 10 - $scope.order.localPic.length;
             }
             for (var i = 0; i < $scope.length; i++) {
                 pic.push(input.files[i]);
@@ -61,70 +61,71 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             type: 1,
             path: ''
         }
-
-        var bucket = '';
-        var f = document.getElementById("photo").value;
-        if (f == "") {
-            alert("请上传图片");
-            closeloading();
-            return false;
-        }
-        else {
-            if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(f)) {
-                alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
-                document.getElementById("photo").value = '';
+        if ($scope.order.localPic.length < 10) {
+            var bucket = '';
+            var f = document.getElementById("photo").value;
+            if (f == "") {
+                alert("请上传图片");
                 closeloading();
                 return false;
+            }
+            else {
+                if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(f)) {
+                    alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+                    document.getElementById("photo").value = '';
+                    closeloading();
+                    return false;
 
-            } else {
-                loading();
-                $scope.pic_counts = pic.length;
-                APIService.get_oss().then(function (res) {
-                    if (res.data.http_status == 200) {
-                        $scope.ossRes = res.data;
-                        for (let i = 0; i < pic.length; i++) {
-                            (function (i) {
-                                var client = new OSS.Wrapper({
-                                    region: 'oss-cn-hangzhou',
-                                    accessKeyId: $scope.ossRes.accessKeyId,
-                                    accessKeySecret: $scope.ossRes.accessKeySecret,
-                                    bucket: $scope.ossRes.bucketName,
-                                    stsToken: $scope.ossRes.securityToken
-                                });
-                                bucket = $scope.ossRes.bucketName;
-                                client.multipartUpload($scope.getPicPathName(32), pic[i]).then(function (result) {
-                                    a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
-                                    b.push(result.name);
-                                    sessionStorage.setItem('pic_b', b)
-                                    length++;
-                                    pic = [];
-                                    if (length == $scope.length) {
-                                        layer.msg('上传成功')
-                                        closeloading();
-                                        document.getElementById("photo").value = '';
-                                        if ($scope.flag == 0) {
-                                            $scope.order.localPic = $scope.order.localPic.concat(a);
-                                            $scope.order.picturePaths = $scope.order.picturePaths.concat(b)
-                                            $scope.flag = 1;
-                                            a = [];
-                                            b = [];
-                                        } else {
-                                            $scope.order.localPic = a;
-                                            $scope.order.picturePaths = b;
-                                            a = [];
-                                            b = [];
+                } else {
+                    loading();
+                    $scope.pic_counts = pic.length;
+                    APIService.get_oss().then(function (res) {
+                        if (res.data.http_status == 200) {
+                            $scope.ossRes = res.data;
+                            for (let i = 0; i < pic.length; i++) {
+                                (function (i) {
+                                    var client = new OSS.Wrapper({
+                                        region: 'oss-cn-hangzhou',
+                                        accessKeyId: $scope.ossRes.accessKeyId,
+                                        accessKeySecret: $scope.ossRes.accessKeySecret,
+                                        bucket: $scope.ossRes.bucketName,
+                                        stsToken: $scope.ossRes.securityToken
+                                    });
+                                    bucket = $scope.ossRes.bucketName;
+                                    client.multipartUpload($scope.getPicPathName(32), pic[i]).then(function (result) {
+                                        a.push('http://' + bucket + '.oss-cn-hangzhou.aliyuncs.com/' + result.name + '?x-oss-process=style/ZOOM_OUT_VIEW');
+                                        b.push(result.name);
+                                        sessionStorage.setItem('pic_b', b)
+                                        length++;
+                                        pic = [];
+                                        if (length == $scope.length) {
+                                            layer.msg('上传成功')
+                                            closeloading();
+                                            document.getElementById("photo").value = '';
+                                            if ($scope.flag == 0) {
+                                                $scope.order.localPic = $scope.order.localPic.concat(a);
+                                                $scope.order.picturePaths = $scope.order.picturePaths.concat(b)
+                                                $scope.flag = 1;
+                                                a = [];
+                                                b = [];
+                                            } else {
+                                                $scope.order.localPic = a;
+                                                $scope.order.picturePaths = b;
+                                                a = [];
+                                                b = [];
+                                            }
+
+                                            $scope.selectPic();
+                                            $scope.initData();
+                                            console.log(a)
                                         }
 
-                                        $scope.selectPic();
-                                        $scope.initData();
-                                        console.log(a)
-                                    }
-
-                                })
-                            })(i);
+                                    })
+                                })(i);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     }
