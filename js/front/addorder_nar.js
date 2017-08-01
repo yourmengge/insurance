@@ -338,8 +338,8 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         }
 
     });
-    $scope.$watch('counts1 + counts2  + counts4 + counts5', function (newValue, oldValue) {
-        if (newValue == 4) {
+    $scope.$watch('counts1 + counts2  + counts4 ', function (newValue, oldValue) {
+        if (newValue == 3) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');

@@ -148,7 +148,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
             }
         }
         loading();
-        APIService.paging(urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.orderList = res.data.orderList;

@@ -137,7 +137,7 @@ disasterdriverorderlist.controller('disasterdriverorderlistCtrl', ['$scope', 'AP
             }
         }
         loading();
-        APIService.paging(urlV1 + urlOrder + '/disaster/list-driver?disasterId=' + $scope.disasterId + '&driverUserId=' + $scope.driverUserId + '&OrderStatus2=' + $scope.status2 + '&grabDate=' + $('#startDay').val() + '&$limit=' + limit, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + urlOrder + '/disaster/list-driver?disasterId=' + $scope.disasterId + '&driverUserId=' + $scope.driverUserId + '&OrderStatus2=' + $scope.status2 + '&grabDate=' + $('#startDay').val(), limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.list = res.data.items;

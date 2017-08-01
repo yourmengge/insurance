@@ -71,7 +71,7 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
             APIService.delete_inspector(data.userId).then(function (res) {
                 closeloading();
                 if (res.data.http_status == 200) {
-                    layer.msg(data.name + '移除成功！');
+                    layer.msg('离职成功！');
                     setTimeout(function () {
                         location.reload();
                     }, 1000);

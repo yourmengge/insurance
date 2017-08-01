@@ -117,7 +117,7 @@
         目的地变更记录
     </h4>
     <p ng-hide="disaster == 'yes'">
-        <input type="button" ng-disabled='detail.status >= 8 || detail.status == 4 || detail.orderType == 3' class="button {{(detail.status >= 8|| detail.status == 4)?'button_disabled':''}}"
+        <input type="button" ng-disabled='detail.status >= 8 || detail.status == 4 || detail.orderType == 3' class="button {{(detail.status >= 8|| detail.status == 4 || detail.orderType == 3)?'button_disabled':''}}"
             ng-click="goto(detail.orderNo)" value="修改目的地">
         <table class="fix_change">
             <tr ng-repeat="a in fix_change_list" ng-show="a.applyRoleDesc == '保险公司管理员' ">
@@ -196,8 +196,8 @@
         </div>
         <div style="width: 80%;height: 2px;background: #333;"></div>
     </div>
-    <h4 class="detail_title" ng-hide="disaster == 'yes'">推修厂确认信息</h4>
-    <div class="car_div" ng-hide="disaster == 'yes'">
+    <h4 class="detail_title">推修厂确认信息</h4>
+    <div class="car_div">
         <p>
             <span class="car_div_title">推修厂确认时间：</span>
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>

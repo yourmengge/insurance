@@ -197,7 +197,7 @@ Road167.factory('APIService', function ($http) {
 
     //查看大灾订单列表
     service.get_disaster_order_list = function (disasterId, status, startDay, endDay, caseNo, limit) {
-        return service.get(host + urlV1 + '/order/disaster/list?disasterId=' + disasterId + '&OrderStatus2=' + status + '&caseNo=' + caseNo + '&startDay=' + startDay + '&endDay=' + endDay + '&$limit=' + limit)
+        return service.get(host + urlV1 + '/order/disaster/list?disasterId=' + disasterId + '&OrderStatus2=' + status + '&keyword=' + caseNo + '&startDay=' + startDay + '&endDay=' + endDay + '&$limit=' + limit)
     }
 
 

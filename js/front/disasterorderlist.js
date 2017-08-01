@@ -13,6 +13,14 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
         { id: 'FINISH', name: '已完成' },
         { id: 'CANCEL', name: '已取消' }
     ]
+    $scope.openDiv = function (index) {
+        if ($scope.openDetail == index) {
+            $scope.openDetail = -1;
+        } else {
+            $scope.openDetail = index;
+        }
+
+    }
     $scope.editOrder = function (data) {
         goto_view('main/editorder');
         sessionStorage.setItem('editorder', JSON.stringify(data));
@@ -27,6 +35,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
         goto_view('main/detail');
     }
     $scope.initData = function () {
+        $scope.openDetail = -1;
         $scope.nowTime = new Date().getTime();
         var today = time.getTime();
         $('#startDay').val(ToLocalTime(today - 2678400000));
@@ -66,7 +75,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
     }
     $scope.search = function () {
         $scope.get_date();
-        APIService.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo,10).then(function (res) {
+        APIService.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo, 10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 if (res.data.count == 0) {
@@ -103,28 +112,29 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
         $scope.endDay = $scope.endDay[0].substr(2, 3) + '' + $scope.endDay[1] + '' + $scope.endDay[2];
     }
     $scope.toexcel = function () {
+        window.open(host + urlV1 + '/order/export/disaster?disasterId=' + $scope.disasterId + '&OrderStatus2=' + $scope.status2 + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
         //window.open('http://dev.road167.com:8080/extrication/v1/order/export');
         // APIService.export().then(function (res) {
         //     console.log(res.data);
         // })
-        $http({
-            method: 'GET',
-            url: host + urlV1 + '/order/export/disaster?disasterId=' + $scope.disasterId + '&OrderStatus2=' + $scope.status2 + '&$limit=99&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&caseNo=' + $scope.caseNo,
-            headers: {
-                "Content-Type": undefined,
-                "Authorization": APIService.token,
-                "user-id": APIService.userId
-            },
-            responseType: 'blob',
-        }).then(function (res) {
-            var blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            console.log(blob)
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.download = '订单.xls';
-            a.href = URL.createObjectURL(blob);
-            a.click();
-        })
+        // $http({
+        //     method: 'GET',
+        //     url: host + urlV1 + '/order/export/disaster?disasterId=' + $scope.disasterId + '&OrderStatus2=' + $scope.status2 + '&$limit=99&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&caseNo=' + $scope.caseNo,
+        //     headers: {
+        //         "Content-Type": undefined,
+        //         "Authorization": APIService.token,
+        //         "user-id": APIService.userId
+        //     },
+        //     responseType: 'blob',
+        // }).then(function (res) {
+        //     var blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        //     console.log(blob)
+        //     var a = document.createElement("a");
+        //     document.body.appendChild(a);
+        //     a.download = '订单.xls';
+        //     a.href = URL.createObjectURL(blob);
+        //     a.click();
+        // })
         // $("#table2excel").table2excel({
         //     // 不被导出的表格行的CSS class类
         //     exclude: ".noExl",
@@ -160,7 +170,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
             }
         }
         loading();
-        APIService.paging(urlV1 + '/order/disaster/list?disasterId=' + $scope.disasterId + '&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&OrderStatus2=' + $scope.status2 + '&caseNo=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + '/order/disaster/list?disasterId=' + $scope.disasterId + '&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&OrderStatus2=' + $scope.status2 + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.list = res.data.items;
