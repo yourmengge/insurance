@@ -9,7 +9,7 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     closeloading();
                     layer.msg('登录成功');
                     sessionStorage.setItem('lmId', 1)
-                    sessionStorage.setItem('funcList',res.data.funcList)
+                    sessionStorage.setItem('funcList', res.data.funcList)
 
                     if (contains(res.data.funcList, 1) || contains(res.data.funcList, 1001)) {
                         sessionStorage.setItem('zhipaidiaodu', 1);
@@ -27,6 +27,18 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
             layer.msg('账号密码不能为空')
         }
 
+    }
+    document.onkeydown = keyDownSearch;
+
+    function keyDownSearch(e) {
+        // 兼容FF和IE和Opera    
+        var theEvent = e || window.event;
+        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        if (code == 13 || code == 108) {
+            $scope.login();
+            return false;
+        }
+        return true;
     }
     function contains(e, d) {
         for (var i = 0; i < e.length; i++) {
