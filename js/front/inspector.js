@@ -2,6 +2,7 @@ var inspector = angular.module('inspector', ['Road167']);
 inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         loading();
+        $scope.edit_div = hide;
         $scope.phone = '';
         $scope.Name = '';
         $scope.get_inspector_list(limit);
@@ -21,6 +22,26 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
                 //分页结束
             } else {
                 isError(res);
+            }
+        })
+    }
+    $scope.update = function (data) {
+        $('.alert_bg').css('display', 'block');
+        $scope.edit_div = show;
+        $('#edit').css('display', 'block');
+        $scope.editName = data.name;
+        $scope.userId = data.userId;
+    }
+    $scope.submit_edit = function () {
+        APIService.update_user_name($scope.userId, { name: $scope.editName }).then(function (res) {
+            if(res.data.http_status == 200){
+                layer.msg('修改成功');
+                setTimeout(function() {
+                    $scope.close();
+                    $scope.initData();
+                }, 1000);
+            }else{
+                isError(res)
             }
         })
     }
@@ -60,6 +81,8 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
     $scope.close = function () {
         $scope.phone = '';
         $scope.Name = '';
+        $('#edit').css('display', 'none');
+        $scope.edit_div = hide;
         $('.alert_bg').css('display', 'none')
         $('.addinspector_div').css('display', 'none')
         $('.update_inspector').css('display', 'none')
@@ -82,11 +105,11 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
         }
     }
     $scope.submit_add = function () {
-        
+
         if (isPhone.test($scope.phone)) {
             var data = {
-                'name':$scope.Name,
-                'phone':$scope.phone
+                'name': $scope.Name,
+                'phone': $scope.phone
             }
             loading();
             APIService.add_inspector(data).then(function (res) {

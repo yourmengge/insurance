@@ -140,7 +140,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', '$timeout', function ($sc
         })
     }
     $scope.error = function () {
-        alert('司机未使用APP进行施救')
+        alert('未获取到司机位置')
         // var point = new BMap.Point(119.25139470108, 26.10503783703435);
         // map.centerAndZoom(point, 16);  // 初始化地图,设置中心点坐标和地图级别
         // map.addControl(new BMap.MapTypeControl());   //添加地图类型控件

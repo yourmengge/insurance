@@ -5,6 +5,24 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
         $(this).addClass('selected_button_click').siblings().removeClass('selected_button_click');
     })
     $scope.initData = function () {
+        $scope.guding = false;
+        $scope.shop4s_cfg = false;
+        APIService.get_company_cfg(sessionStorage.getItem('companyNo')).then(function (res) {
+            if (res.data.http_status == 200) {
+                for (var i in res.data.items) {
+                    if (res.data.items[i].funId == 1003) {
+                        $scope.guding = true;
+
+                    }
+                    if (res.data.items[i].funId == 1005) {
+                        $scope.shop4s_cfg = true;
+
+                    }
+                }
+            } else {
+                isError(res)
+            }
+        })
         map = new BMap.Map("allmap");
         $scope.select_type = sessionStorage.getItem('select_type')
         if ($scope.select_type == 'update') {
@@ -14,7 +32,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
             $scope.selectTitle = '选择';
             $scope.selectTitle2 = '确认'
         }
-        $scope.showDiv = 'shop'
+        $scope.showDiv = 'map'
         $scope.lat = '';
         $scope.shop4s_lat = '';
         $scope.fixaddress_lat = '';

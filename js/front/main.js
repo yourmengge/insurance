@@ -4,6 +4,7 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
         $(this).addClass('left_menu_click').siblings().removeClass('left_menu_click');
         sessionStorage.setItem('lmId', $(this).attr('id'));
         sessionStorage.setItem('jiexi_success', '');
+        sessionStorage.removeItem('filter')
         // sessionStorage.removeItem('nar_address');
         // sessionStorage.removeItem('nar_address_fixaddress');
     })

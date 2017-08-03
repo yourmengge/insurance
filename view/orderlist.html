@@ -7,7 +7,7 @@
 
         <input class="input" type="text" ng-model="caseNo" style="width:260px;" placeholder="请输入查勘员、车牌号或施救单位">
         <button class="button" ng-click="search()">查询</button>
-        <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button" ng-click="searchAll()">显示全部</button>
         <button class="button output_button" ng-click="toexcel(status,caseNo)">
             导出excel
         </button>
@@ -45,9 +45,8 @@
     </table> -->
     <div class="list_table" ng-hide="table">
         <div class="list_table_tr">
-            <!-- <div>
-                案件号
-            </div> -->
+            <div style="flex: 0.3;">
+            </div>
             <div>
                 查勘员
             </div>
@@ -56,6 +55,9 @@
             </div>
             <div>
                 车主
+            </div>
+            <div>
+                车牌号
             </div>
             <div>
                 车主手机号
@@ -77,10 +79,10 @@
             </div>
         </div>
         <div ng-repeat="a in orderList">
-            <div class="list_table_td" ng-click="openDiv($index)" ng-mouseenter="openDiv($index)">
-                <!-- <div>
-                    {{a.caseNo}} 
-                </div> -->
+            <div class="list_table_td">
+                <div ng-click="openDiv($index)" style="flex: 0.3;padding: 0;padding-top: 7px;font-size: 24px;">
+                    {{openDetail != $index?'+':'-'}}
+                </div>
                 <div>
                     {{a.inspectorName}}
                 </div>
@@ -89,6 +91,9 @@
                 </div>
                 <div>
                     {{a.accidentDriverName}}
+                </div>
+                <div>
+                    {{a.accidentCarNoDesc}}
                 </div>
                 <div>
                     {{a.accidentDriverPhone}}
@@ -114,12 +119,7 @@
             <div class="list_table_detail" ng-hide="openDetail != $index">
                 <table>
                     <tr>
-                        <td>
-                            车牌号：
-                        </td>
-                        <td>
-                            {{a.accidentCarNoDesc}}
-                        </td>
+
                         <td>
                             订单类型：
                         </td>
@@ -132,15 +132,16 @@
                         <td>
                             {{a.shop4sConfirmTime | ToLocal}}
                         </td>
-
-                    </tr>
-                    <tr>
                         <td>
                             车行简称：
                         </td>
                         <td>
                             {{a.shop4sName}}
                         </td>
+
+                    </tr>
+                    <tr>
+
 
                         <td>
                             拍照目的地点：

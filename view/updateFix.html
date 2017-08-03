@@ -3,9 +3,9 @@
     <div id="allmap" style="height:91%;width:70%"></div>
     <div class="map_right">
         <p id="selected" style="width:100%;    margin: 0;">
-            <button class="selected_button selected_button_click" style="min-width:80px;margin-left:10px;" ng-click="showDiv = 'shop'">推修厂地址</button>
-            <button class="selected_button " style="min-width:80px;margin-left:10px;" ng-click="showDiv = 'address'">固定目的地</button>
-            <button class="selected_button " style="min-width:70px;margin-left:10px;" ng-click="showDiv = 'map'">地图搜索</button>
+            <button class="selected_button selected_button_click " style="min-width:70px;margin-left:10px;" ng-click="showDiv = 'map'">地图搜索</button>
+            <button ng-hide="shop4s_cfg == false" class="selected_button " style="min-width:80px;margin-left:10px;" ng-click="showDiv = 'shop'">推修厂地址</button>
+            <button ng-hide="guding == false" class="selected_button " style="min-width:80px;margin-left:10px;" ng-click="showDiv = 'address'">固定目的地</button>
 
         </p>
         <!-- <div class="right_button_list">
@@ -13,7 +13,7 @@
             <button ng-click="showDiv = 'address'">固定目的地</button>
             <button ng-click="showDiv = 'map'">地图搜索</button>
         </div> -->
-        <div class="search_shop4s {{showDiv == 'shop'?'':'hide'}}">
+        <div ng-hide="shop4s_cfg == false" class="search_shop4s {{showDiv == 'shop'?'':'hide'}}">
             <h3>推修厂</h3>
             <p><input class="p_input" type="text" placeholder="请输入推修厂地址" style="width:68%" ng-model="searchshop4s"><button class="button search_button"
                     ng-click="shop4s_btn()" style="min-width: 62px !important;">查询</button></p>
@@ -28,7 +28,7 @@
                 <button class="button search_button button_del" ng-hide="map_type == 1" ng-click="goBack()">取消</button>
             </p>
         </div>
-        <div class="search_shop4s  {{showDiv == 'address'?'':'hide'}}">
+        <div ng-hide="guding == false" class="search_shop4s  {{showDiv == 'address'?'':'hide'}}">
             <h3>固定目的地</h3>
             <p><input class="p_input" type="text" placeholder="请输入固定目的地地址" style="width:68%" ng-model="searchfixaddress">
                 <button class="button search_button" ng-click="searchaddress()">查询</button>

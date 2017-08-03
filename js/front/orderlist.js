@@ -1,16 +1,29 @@
 var orderlist = angular.module('orderlist', ['Road167']);
 var time = new Date();
+
 orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function ($scope, APIService, $http) {
     $scope.initData = function () {
+        $scope.table = show;
         $scope.openDetail = -1;
+        $scope.tips = '';
         loading();
+        $scope.page_p = show;
         var today = time.getTime();
         $('#startDay').val(ToLocalTime(today - 2678400000));
         $('#endDay').val(ToLocalTime(today));
         $scope.get_date();
         $scope.status = 0;
         $scope.caseNo = '';
-        APIService.get_order_list(10, $scope.start, $scope.endDay, 0, '').then(function (res) {
+
+        if (JSON.parse(sessionStorage.getItem('filter')) != null) {
+            var a = JSON.parse(sessionStorage.getItem('filter'))
+            $scope.start = a.startDate;
+            $scope.endDay = a.endDate;
+            $scope.status = a.status;
+            $scope.caseNo = a.keyword;
+            $scope.reset_date();
+        }
+        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.orderList = res.data.orderList;
@@ -27,13 +40,19 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
             }
         })
     }
-    $scope.openDiv = function(index){
-        if($scope.openDetail == index){
+    $scope.reset_date = function () {
+        var s = $scope.start.substr(0,2) + '-' + $scope.start.substr(2,2) + '-' + $scope.start.substr(4,2)
+        var e = $scope.endDay.substr(0,2) + '-' + $scope.endDay.substr(2,2) + '-' + $scope.endDay.substr(4,2)
+        $('#startDay').val('20' + s)
+        $('#endDay').val('20' + e)
+    }
+    $scope.openDiv = function (index) {
+        if ($scope.openDetail == index) {
             $scope.openDetail = -1;
-        }else{
+        } else {
             $scope.openDetail = index;
         }
-        
+
     }
     $scope.editOrder = function (data) {
         goto_view('main/editorder');
@@ -44,7 +63,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         sessionStorage.setItem('isDisaster', 'not');
     }
     $scope.toexcel = function (status, caseNo) {
-        window.open(host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay  + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
+        window.open(host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
         //window.open('http://dev.road167.com:8080/extrication/v1/order/export');
         // APIService.export().then(function (res) {
         //     console.log(res.data);
@@ -77,9 +96,15 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         // });
     }
     $scope.search = function () {
+        $scope.get_date();
+        filter.endDate = $scope.endDay;
+        filter.keyword = $scope.caseNo;
+        filter.startDate = $scope.start;
+        filter.status = $scope.status;
+        sessionStorage.setItem('filter', JSON.stringify(filter));
         $scope.openDetail = -1;
         loading();
-        $scope.get_date();
+
         APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
@@ -164,11 +189,14 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         { id: 2, name: '待分配' },
         { id: 3, name: '进行中' },
         { id: 4, name: '已完成' },
-        { id: 7, name: '后台取消' },
         { id: 8, name: '查勘取消' },
         { id: 81, name: '保险人员取消' },
         { id: 9, name: '历史未完成' }
     ]
+    $scope.searchAll = function () {
+        sessionStorage.removeItem('filter');
+        $scope.initData();
+    }
     $scope.cancel = function (orderNo) {
         if (confirm('确定要取消订单吗')) {
             loading();

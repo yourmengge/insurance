@@ -111,7 +111,7 @@
         下单照片
     </h4>
     <div class="img_div">
-        <img ng-repeat="a in detail.orderPictures" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+        <img ng-repeat="a in detail.orderPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
     </div>
     <h4 ng-hide="disaster == 'yes'" class="detail_title">
         目的地变更记录
@@ -180,19 +180,19 @@
         </p>
         <h4>事故地点照片</h4>
         <div class="img_div">
-            <img ng-repeat="a in driver.pictureAndVideo.accidentPictures" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+            <img ng-repeat="a in driver.pictureAndVideo.accidentPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
         </div>
         <h4>事故地点视频</h4>
         <div class="img_div">
-            <video ng-repeat="a in driver.pictureAndVideo.accidentVideos" src="{{a.path}}" controls="controls"></video>
+            <video ng-repeat="a in driver.pictureAndVideo.accidentVideos" ng-src="{{a.path}}" controls="controls"></video>
         </div>
         <h4>拖送地点照片</h4>
         <div class="img_div">
-            <img ng-repeat="a in driver.pictureAndVideo.fixPictures" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+            <img ng-repeat="a in driver.pictureAndVideo.fixPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
         </div>
         <h4>拖送地点视频</h4>
         <div class="img_div">
-            <video ng-repeat="a in driver.pictureAndVideo.fixVideos" src="{{a.path}}" controls="controls"></video>
+            <video ng-repeat="a in driver.pictureAndVideo.fixVideos" ng-src="{{a.path}}" controls="controls"></video>
         </div>
         <div style="width: 80%;height: 2px;background: #333;"></div>
     </div>
@@ -203,9 +203,9 @@
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>
         </p>
         <p>
-            <span class="car_div_title">到达车辆照片</span>
+            <span class="car_div_title">车辆到达照片</span>
             <div class="img_div">
-                <img ng-repeat="a in detail.shop4sPictures" src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+                <img ng-repeat="a in detail.shop4sPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
             </div>
         </p>
     </div>

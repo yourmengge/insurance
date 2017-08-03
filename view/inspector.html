@@ -10,8 +10,6 @@
 
     </p>
     <div class="addinspector_div">
-
-
         <h2 class="alert_add_h2">添加查勘员</h2>
         <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
         <p style="    text-align: left;    margin-left: 100px;width:300px">
@@ -20,7 +18,16 @@
         <p style="text-align: left;margin-left: 100px;width:300px">
             手机号：&emsp;<input type="text" class="input" style="width: 70%;" ng-model="phone">
         </p>
-        <p><button  class="button {{Name != '' && phone != '' ?'':'button_disabled'}}" ng-click="submit_add()" ng-disabled="Name != '' && phone != ''?'':'true'">确定</button>
+        <p><button class="button {{Name != '' && phone != '' ?'':'button_disabled'}}" ng-click="submit_add()" ng-disabled="Name != '' && phone != ''?'':'true'">确定</button>
+            <button class="button button_del" ng-click="close()">取消</button></p>
+    </div>
+    <div class="addinspector_div" ng-hide="edit_div" id="edit">
+        <h2 class="alert_add_h2">修改查勘员</h2>
+        <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+        <p style="    text-align: left;    margin-left: 100px;width:300px">
+            姓&emsp;名：&emsp;<input type="text" class="input" style="width: 70%;" ng-model="editName">
+        </p>
+        <p><button class="button {{editName != ''  ?'':'button_disabled'}}" ng-click="submit_edit()" ng-disabled="editName != '' ?'':'true'">确定</button>
             <button class="button button_del" ng-click="close()">取消</button></p>
     </div>
     <h2>{{tips}}</h2>
@@ -33,7 +40,10 @@
         <tr ng-repeat="a in list">
             <td>{{a.name}}</td>
             <td>{{a.phone}}</td>
-            <td><span class="button_span" ng-click="delete(a)">离职</span></td>
+            <td>
+                <span class="button_span" ng-click="delete(a)">离职</span>
+                <span class="button_span" ng-click="update(a)">修改</span>
+            </td>
         </tr>
     </table>
     <div style='height:50px;'></div>

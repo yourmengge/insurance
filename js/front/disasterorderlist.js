@@ -29,12 +29,21 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
         sessionStorage.setItem('location_address', data.accidentAddress);
         sessionStorage.setItem('isDisaster', 'yes');
     }
+    $scope.reset_date = function () {
+        var s = $scope.start.substr(0, 2) + '-' + $scope.start.substr(2, 2) + '-' + $scope.start.substr(4, 2)
+        var e = $scope.endDay.substr(0, 2) + '-' + $scope.endDay.substr(2, 2) + '-' + $scope.endDay.substr(4, 2)
+        $('#startDay').val('20' + s)
+        $('#endDay').val('20' + e)
+    }
     $scope.detail = function (orderNo) {
         sessionStorage.setItem('orderNo', orderNo);
         sessionStorage.setItem('isDisaster', 'yes');
         goto_view('main/detail');
     }
     $scope.initData = function () {
+        $scope.table = show;
+        $scope.page_p = show;
+        $scope.tips = '';
         $scope.openDetail = -1;
         $scope.nowTime = new Date().getTime();
         var today = time.getTime();
@@ -48,7 +57,15 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
         $scope.areaList = sessionStorage.getItem('disaster_area')
         $scope.status2 = 'ALL'
         $scope.title = sessionStorage.getItem('disaster_title')
-        $scope.get_disaster_order_list($scope.disasterId, $scope.status2, '', '', '')
+        if (JSON.parse(sessionStorage.getItem('filter')) != null) {
+            var a = JSON.parse(sessionStorage.getItem('filter'))
+            $scope.start = a.startDate;
+            $scope.endDay = a.endDate;
+            $scope.status2 = a.status2;
+            $scope.caseNo = a.keyword;
+            $scope.reset_date();
+        }
+        $scope.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo)
     }
 
     //查看大灾订单列表
@@ -75,6 +92,11 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
     }
     $scope.search = function () {
         $scope.get_date();
+        filter.endDate = $scope.endDay;
+        filter.keyword = $scope.caseNo;
+        filter.startDate = $scope.start;
+        filter.status2 = $scope.status2;
+        sessionStorage.setItem('filter', JSON.stringify(filter));
         APIService.get_disaster_order_list($scope.disasterId, $scope.status2, $scope.start, $scope.endDay, $scope.caseNo, 10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
@@ -102,6 +124,10 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
                 isError(res);
             }
         })
+    }
+    $scope.searchAll = function () {
+        sessionStorage.removeItem('filter');
+        $scope.initData();
     }
     $scope.get_date = function () {
         var startDate = $('#startDay').val();

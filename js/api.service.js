@@ -380,8 +380,16 @@ Road167.factory('APIService', function ($http) {
         return service.post(host + urlV1 + '/excel/inpsector/import/confirm/' + id, { '': '' })
     }
     //查勘员离职
-    service.delete_inspector = function(id){
+    service.delete_inspector = function (id) {
         return service.patch(host + urlV1 + '/user/' + id + '/actions/resignation')
+    }
+    //获取公司功能权限
+    service.get_company_cfg = function () {
+        return service.get(host + urlV1 + '/fun')
+    }
+    //修改用户名
+    service.update_user_name = function (id, data) {
+        return service.patch(host + urlV1 + '/user/' + id, data)
     }
     // //导出订单
     // service.export = function(){
