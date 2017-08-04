@@ -26,6 +26,9 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
         $scope.key = '';
         $scope.get_disaster_driver($scope.urlType, '', limit, '', $scope.disasterId)
     }
+    $scope.searchAll = function(){
+        $scope.get_disaster_driver($scope.urlType, '', limit, '', $scope.disasterId)
+    }
     $scope.get_disaster_driver = function (type, key, limit, status, disasterId) {
         APIService.get_disaster_driver(type, key, limit, status, disasterId).then(function (res) {
             if (res.data.http_status == 200) {
@@ -149,7 +152,7 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
         if (type === 'driver') {
             $scope.type = '司机';
             $scope.message = '支持司机姓名和手机号码模糊查询';
-            $scope.urlType = 'list'
+            $scope.urlType = ''
         } else {
             $scope.type = '车队';
             $scope.message = '支持车队名字和调度手机号码模糊查询';
@@ -157,7 +160,7 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
         }
     }
     $scope.search = function () {
-        $scope.get_disaster_driver($scope.urlType, $scope.key, limit, $scope.searchStatus, $scope.disasterId).then(function (res) {
+        APIService.get_disaster_driver($scope.urlType, $scope.key, limit, $scope.searchStatus, $scope.disasterId).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.driverlist = res.data.items;
             } else {

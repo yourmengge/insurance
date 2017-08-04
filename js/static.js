@@ -1,8 +1,8 @@
 var
-    // host = 'http://dev.road167.com:8080/extrication';
-    // url = 'http://localhost:8080';
-    host = 'http://test.road167.com/extrication';
-    url = 'http://test.road167.com';
+    host = 'http://dev.road167.com:8080/extrication';
+    url = 'http://localhost:8080';
+    // host = 'http://test.road167.com/extrication';
+    // url = 'http://test.road167.com';
     // host = 'http://www.road167.com/extrication';
     // url = 'http://www.road167.com';
 urlOrder = '/order';

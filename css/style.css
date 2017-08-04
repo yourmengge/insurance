@@ -83,11 +83,11 @@ ul li{
     }
 }   
 .left_menu::-webkit-scrollbar-thumb{
-    background:#ababab;
+    background:#b7b7b7;
     border-radius:4px;
 }
 .left_menu::-webkit-scrollbar{
-    width:10px;
+    width:6px;
 }
 .left_menu::-webkit-scrollbar-corner{
     border-radius:4px;
@@ -170,11 +170,11 @@ ul li{
     overflow-x: hidden;
 }
 .right_content::-webkit-scrollbar-thumb{
-    background:#ababab;
+    background:#b7b7b7;
     border-radius:4px;
 }
 .right_content::-webkit-scrollbar{
-    width:10px;
+    width:6px;
 }
 .right_content::-webkit-scrollbar-corner{
     border-radius:4px;
@@ -202,6 +202,14 @@ ul li{
 }
 .button:active{
     background: #3889e5;
+}
+.driver_table{
+    margin-left: 40px;
+    font-size: 14px;
+    width: 44%;
+}
+.driver_table tr td:nth-child(odd){
+    color: #c31f20;
 }
 textarea{
     padding: 10px;

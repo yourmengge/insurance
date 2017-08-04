@@ -142,7 +142,6 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     }
     $scope.initData = function () {
         $scope.flag = 0;
-        console.log(a);
         $scope.order = {
             accidentCarNo: '',
             accidentAddress: '',

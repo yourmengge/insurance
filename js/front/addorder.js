@@ -42,6 +42,14 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         sessionStorage.setItem('select_type', 'addorder')
         goto_view('main/updateFix');
     }
+    //清除sessionstorage
+    $scope.clear = function () {
+        sessionStorage.removeItem('nar_address_fixaddress');
+        sessionStorage.setItem('addorder_order', '{}');
+        sessionStorage.setItem('chargeMode', '');
+        sessionStorage.setItem('location_address', '');
+        location.reload();
+    }
     $scope.analysis = function () {
         sessionStorage.setItem('location_address', '')
         $scope.fixAddress = '';
@@ -50,6 +58,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         } else {
             APIService.analysis($scope.message).then(function (res) {
                 if (res.data.http_status == 200) {
+                    // $scope.clear();
+                    $scope.insurance = ''
                     layer.msg('解析成功');
                     $scope.mode = 2;
                     if ($scope.mode == 2) {
@@ -324,15 +334,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     }
     $scope.reset = function () {
         if (confirm('重置后页面填写的信息将被清空')) {
-            sessionStorage.removeItem('nar_address_fixaddress');
-            sessionStorage.setItem('addorder_order', '{}');
-            sessionStorage.setItem('chargeMode', '');
-            sessionStorage.setItem('location_address', '');
-            location.reload();
+            $scope.clear();
+
         }
     }
     $scope.initData = function () {
-
         $scope.message = ''
         var funcList = sessionStorage.getItem('funcList')
         if (contains(funcList, 1) || contains(funcList, 1001)) {

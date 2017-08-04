@@ -1,5 +1,5 @@
 <div class="adddriver" ng-controller="batchinspectorCtrl" ng-init="initData()">
-    <h2>批量下单</h2>
+    <h2>批量导入</h2>
     <button class="goback" ng-click="back()"></button>
     <!-- <h4 class="detail_title">
         {{title}}
@@ -14,7 +14,7 @@
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">
             <td>查勘员姓名</td>
-            <td>手机号码</td>
+            <td>手机号</td>
         </tr>
         <tr ng-repeat="a in list">
             <td>{{a.name}}</td>

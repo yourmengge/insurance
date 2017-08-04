@@ -65,7 +65,7 @@
             </tr>
             <tr>
                 <td>
-                    事故现场：
+                    事故现场照片：
                 </td>
                 <td>
                     <label for="photo" class="photo_label">上传照片</label>
@@ -76,7 +76,7 @@
         <div class="photo_div">
             <div class="img" ng-repeat="a in order.localPic track by $index">
                 <button class="delete_pic" ng-click="del($index)"></button>
-                <img src="{{a}}" alt="">
+                <img ng-src="{{a}}" alt="">
             </div>
         </div>
         <div style="width: 476px;">

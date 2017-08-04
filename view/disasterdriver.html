@@ -18,7 +18,7 @@
     <p>{{type}}搜索：<input type="text" ng-model="key" class="input" style="width:250px" placeholder="{{message}}">&emsp;&emsp;&emsp;状态：
         <select style="width:100px" class="input" name="" ng-model="searchStatus" id="" ng-options="a.id as a.name for a in statusTexts"></select>
         <button class="button search_button" ng-click="search()">查询</button>
-        <button class="button search_button" ng-click="initData()">查看全部</button>
+        <button class="button search_button" ng-click="searchAll()">查看全部</button>
     </p>
     <table id="table2excel" cellspacing="0" ng-hide="table" cellpadding='10' class="table">
         <tr class="table_1_tr">

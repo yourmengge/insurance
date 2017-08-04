@@ -141,7 +141,7 @@
     </div>
     <h4 class="detail_title">{{text}}</h4>
     <div class="car_div" ng-repeat="driver in assignDriverses">
-        <p>
+        <!-- <p>
             <span class="car_div_title">任务状态：</span>
             <span>{{driver.taskFlagDesc}}</span>
             <span class="car_div_title" ng-hide="detail.orderType == 2">车辆类型：</span>
@@ -158,7 +158,55 @@
             <span>{{driver.phone}}</span>
             <span class="car_div_title">司机ID：</span>
             <span>{{driver.driverUserId}}</span>
-        </p>
+        </p> -->
+        <table class="driver_table">
+            <tr>
+                <td>
+                    任务状态：
+                </td>
+                <td>
+                    {{driver.taskFlagDesc}}
+                </td>
+                <td>
+                    车辆类型：
+                </td>
+                <td>
+                    {{driver.carTypeDesc}}
+                </td>
+                <td ng-hide="disaster == 'yes'">
+                    派遣备注：
+                </td>
+                <td ng-hide="disaster == 'yes'">
+                    {{driver.remark}}
+                </td>
+                <td ng-hide="disaster != 'yes'">
+                    所属车队：
+                </td>
+                <td ng-hide="disaster != 'yes'">
+                    {{driver.fleetName}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    司机：
+                </td>
+                <td>
+                    {{driver.driverName}}
+                </td>
+                <td>
+                    司机电话：
+                </td>
+                <td>
+                    {{driver.phone}}
+                </td>
+                <td>
+                    司机ID：
+                </td>
+                <td>
+                    {{driver.driverUserId}}
+                </td>
+            </tr>
+        </table>
         <p>
             <span ng-hide="disaster == 'yes'" class="car_div_title">派遣司机时间：</span>
             <span ng-hide="disaster == 'yes'">{{driver.createTime | ToLocal}}</span>
