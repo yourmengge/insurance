@@ -47,6 +47,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         sessionStorage.removeItem('nar_address_fixaddress');
         sessionStorage.setItem('addorder_order', '{}');
         sessionStorage.setItem('chargeMode', '');
+        sessionStorage.removeItem('fixAddress_shop4sId');
         sessionStorage.setItem('location_address', '');
         location.reload();
     }
@@ -139,6 +140,9 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 $scope.order.accidentCarNoType = 1;
             }
         }
+        if (sessionStorage.getItem('fixAddress_shop4sId') != null) {
+            $scope.order.shop4sId = sessionStorage.getItem('fixAddress_shop4sId')
+        }
         if ($scope.addressId != null) {//addressId 不为空，该地址是通过选择框获取得到，目的地点的经纬度通过addressId从目的地点列表中获取
             for (var i = 0; i < $scope.address_list.length; i++) {
                 if ($scope.address_list[i].id == $scope.addressId) {
@@ -167,6 +171,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     sessionStorage.removeItem('location_address');
                     sessionStorage.removeItem('location_lat');
                     sessionStorage.removeItem('location_lng');
+                    sessionStorage.removeItem('fixAddress_shop4sId');
                     setTimeout(function () {
                         goto_view('main/orderlist');
 

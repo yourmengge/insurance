@@ -145,6 +145,7 @@ disasterinspector.controller('disasterinspectorCtrl', ['$scope', 'APIService', f
         APIService.get_disaster_inspector(sessionStorage.getItem('companyNo'), $scope.keyName, $scope.key).then(function (res) {
             if (res.data.http_status == 200) {
                 if (res.data.totalElements == 0) {
+                    $scope.inspectorName = []
                     $scope.inspectorName.push({ name: '未找到相关匹配' });
                 } else {
                     for (var i = 0; i < res.data.totalElements; i++) {
