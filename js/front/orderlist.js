@@ -13,6 +13,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         $('#endDay').val(ToLocalTime(today));
         $scope.get_date();
         $scope.status = 0;
+        $scope.ordertype = 0
         $scope.caseNo = '';
 
         if (JSON.parse(sessionStorage.getItem('filter')) != null) {

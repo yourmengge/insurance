@@ -35,6 +35,9 @@
             <th>车队名</th>
             <th>车队老板</th>
             <th>车队电话</th>
+            <th>接单数</th>
+            <th>完成数</th>
+            <th>取消数</th>
             <th>操作</th>
         </tr>
         <tr ng-repeat="a in team_list">
@@ -42,6 +45,9 @@
             <td>{{a.fleetName}}</td>
             <td>{{a.bossName}}</td>
             <td>{{a.bossPhone}}</td>
+            <td>{{a.grabOrderCounts}}</td>
+            <td>{{a.finishOrderCounts}}</td>
+            <td>{{a.cancelOrderCounts}}</td>
             <td><span class="button_span" ng-click="delete(a)">删除</span></td>
         </tr>
     </table>
