@@ -116,6 +116,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                     $scope.table = show;
                     $scope.tips = '';
                     $scope.orderList = res.data.orderList;
+                    
                     //分页部分
                     $scope.current = 1;
                     $scope.pageCount = Math.ceil(res.data.orderCounts / limit);
@@ -123,6 +124,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                         $scope.page_p = hide;
                     } else {
                         $scope.page_p = show;
+                        $scope.down = show;
                     }
                     $scope.up = hide;
                     //分页结束

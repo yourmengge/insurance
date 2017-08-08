@@ -40,6 +40,7 @@ disasterdriver.controller('disasterdriverCtrl', ['$scope', 'APIService', functio
                     $scope.page_p = hide;
                 } else {
                     $scope.page_p = show;
+                    $scope.down = show;
                 }
                 $scope.up = hide;
                 //分页结束

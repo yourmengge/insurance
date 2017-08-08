@@ -82,6 +82,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
                     $scope.table = show;
                     $scope.tips = ''
                     $scope.page_p = show;
+                    $scope.down = show;
                 }
                 $scope.up = hide;
                 //分页结束
@@ -115,6 +116,7 @@ disasterorderlist.controller('disasterorderlistCtrl', ['$scope', 'APIService', '
                         $scope.page_p = hide;
                     } else {
                         $scope.page_p = show;
+                        $scope.down = show;
                     }
                     $scope.up = hide;
                     //分页结束

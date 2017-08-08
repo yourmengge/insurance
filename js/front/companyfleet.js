@@ -16,6 +16,9 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                 $scope.pageCount = Math.ceil(res.data.count / limit);
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
+                }else{
+                    $scope.page_p = show;
+                    $scope.down = show;
                 }
                 $scope.up = hide;
                 //分页结束

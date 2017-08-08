@@ -19,6 +19,9 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
                 $scope.pageCount = Math.ceil(res.data.count / limit);
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
+                }else{
+                    $scope.page_p = show;
+                    $scope.down = show;
                 }
                 $scope.up = hide;
                 //分页结束
