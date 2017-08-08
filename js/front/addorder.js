@@ -29,8 +29,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         insuranceType: '',
         carType: 2,
         accidentLongitude: 0,
-        accidentLatitude: 0,
-        pushFixType: ''
+        accidentLatitude: 0
     }
     // $scope.change = function () {
     //     if ($scope.message != null && $scope.message != '') {
@@ -50,8 +49,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         sessionStorage.setItem('chargeMode', '');
         sessionStorage.removeItem('fixAddress_shop4sId');
         sessionStorage.setItem('location_address', '');
-        $scope.insurance = '';
-        $scope.pushFix = '';
+        location.reload();
     }
     $scope.analysis = function () {
         sessionStorage.setItem('location_address', '')
