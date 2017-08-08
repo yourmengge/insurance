@@ -28,10 +28,17 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
         }
 
     }
-    document.onkeydown = keyDownSearch;
-
-    function keyDownSearch(e) {
-        // 兼容FF和IE和Opera    
+    // $(document).keydown(function (e) {
+    //     console.log(e.keyCode);
+    //     var theEvent = e || window.event;
+    //     var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //     if (code == 13 || code == 108) {
+    //         $scope.login();
+    //         return false;
+    //     }
+    //     return true;
+    // });
+    $scope.keydown = function (e) {
         var theEvent = e || window.event;
         var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
         if (code == 13 || code == 108) {

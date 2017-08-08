@@ -2,10 +2,12 @@
     <h2>查看订单</h2>
     <p class="search_div">
         开始时间：<input type="date" id="startDay" class="input"> 结束时间：
-        <input type="date" id="endDay" class="input"> 订单状态：
-        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>
-
-        <input class="input" type="text" ng-model="caseNo" style="width:260px;" placeholder="请输入查勘员、车牌号或施救单位">
+        <input type="date" id="endDay" class="input"> 
+        订单状态：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        
+        订单类型：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in orderTypeTexts" id=""></select>
+        <input class="input" type="text" ng-model="caseNo" style="width:300px;" placeholder="请输入查勘员、车牌号、施救单位或车行简称">
         <button class="button" ng-click="search()">查询</button>
         <button class="button" ng-click="searchAll()">显示全部</button>
         <button class="button output_button" ng-click="toexcel(status,caseNo)">
@@ -47,31 +49,34 @@
         <div class="list_table_tr">
             <div style="flex: 0.3;">
             </div>
-            <div>
+            <div style="flex: 0.7;">
                 查勘员
             </div>
             <div>
                 下单时间
             </div>
-            <div>
+            <div style="flex: 0.7;">
                 车主
             </div>
-            <div>
+            <div style="flex: 0.7;">
                 车牌号
             </div>
             <div>
                 车主手机号
             </div>
-            <div>
+            <div style="flex: 0.6;">
                 订单状态
             </div>
-            <div>
+            <div style="flex: 1.2;">
                 施救地点
+            </div>
+            <div>
+                推修车行简称
             </div>
             <div>
                 施救单位
             </div>
-            <div>
+            <div style="flex: 1.5;">
                 施救终点地点
             </div>
             <div>
@@ -83,31 +88,34 @@
                 <div ng-click="openDiv($index)" style="flex: 0.3;padding: 0;padding-top: 7px;font-size: 24px;">
                     {{openDetail != $index?'+':'-'}}
                 </div>
-                <div>
+                <div style="flex: 0.7;">
                     {{a.inspectorName}}
                 </div>
                 <div>
                     {{a.createTime | ToLocal}}
                 </div>
-                <div>
+                <div style="flex: 0.7;">
                     {{a.accidentDriverName}}
                 </div>
-                <div>
+                <div style="flex: 0.7;">
                     {{a.accidentCarNoDesc}}
                 </div>
                 <div>
                     {{a.accidentDriverPhone}}
                 </div>
-                <div>
+                <div style="flex: 0.6;">
                     {{a.statusDesc}}
                 </div>
-                <div>
+                <div style="flex: 1.2;">
                     {{a.accidentAddress}}
+                </div>
+                <div>
+                    {{a.shop4sName}}
                 </div>
                 <div>
                     {{a.grabFleetName}}
                 </div>
-                <div>
+                <div style="flex: 1.5;">
                     {{a.fixAddress}}
                 </div>
                 <div>
@@ -132,17 +140,6 @@
                         <td>
                             {{a.shop4sConfirmTime | ToLocal}}
                         </td>
-                        <td>
-                            车行简称：
-                        </td>
-                        <td>
-                            {{a.shop4sName}}
-                        </td>
-
-                    </tr>
-                    <tr>
-
-
                         <td>
                             拍照目的地点：
                         </td>

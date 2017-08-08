@@ -181,7 +181,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     $scope.goBack = function () {
         window.history.back();
     }
-    $scope.tab = function (type) {
+    $scope.tab = function(type){
         map.clearOverlays(); //清空原来的标注
         $scope.showDiv = type;
         sessionStorage.removeItem('fixAddress_shop4sId')
