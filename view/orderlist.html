@@ -47,34 +47,31 @@
         <div class="list_table_tr">
             <div style="flex: 0.3;">
             </div>
-            <div style="flex: 0.7;">
+            <div>
                 查勘员
             </div>
             <div>
                 下单时间
             </div>
-            <div style="flex: 0.7;">
+            <div>
                 车主
             </div>
-            <div style="flex: 0.7;">
+            <div>
                 车牌号
             </div>
             <div>
                 车主手机号
             </div>
-            <div style="flex: 0.6;">
+            <div>
                 订单状态
             </div>
-            <div style="flex: 1.2;">
-                施救地点
-            </div>
             <div>
-                推修车行简称
+                施救地点
             </div>
             <div>
                 施救单位
             </div>
-            <div style="flex: 1.5;">
+            <div>
                 施救终点地点
             </div>
             <div>
@@ -86,34 +83,31 @@
                 <div ng-click="openDiv($index)" style="flex: 0.3;padding: 0;padding-top: 7px;font-size: 24px;">
                     {{openDetail != $index?'+':'-'}}
                 </div>
-                <div style="flex: 0.7;">
+                <div>
                     {{a.inspectorName}}
                 </div>
                 <div>
                     {{a.createTime | ToLocal}}
                 </div>
-                <div style="flex: 0.7;">
+                <div>
                     {{a.accidentDriverName}}
                 </div>
-                <div style="flex: 0.7;">
+                <div>
                     {{a.accidentCarNoDesc}}
                 </div>
                 <div>
                     {{a.accidentDriverPhone}}
                 </div>
-                <div style="flex: 0.6;">
+                <div>
                     {{a.statusDesc}}
                 </div>
-                <div style="flex: 1.2;">
-                    {{a.accidentAddress}}
-                </div>
                 <div>
-                    {{a.shop4sName}}
+                    {{a.accidentAddress}}
                 </div>
                 <div>
                     {{a.grabFleetName}}
                 </div>
-                <div style="flex: 1.5;">
+                <div>
                     {{a.fixAddress}}
                 </div>
                 <div>
@@ -138,6 +132,17 @@
                         <td>
                             {{a.shop4sConfirmTime | ToLocal}}
                         </td>
+                        <td>
+                            车行简称：
+                        </td>
+                        <td>
+                            {{a.shop4sName}}
+                        </td>
+
+                    </tr>
+                    <tr>
+
+
                         <td>
                             拍照目的地点：
                         </td>

@@ -77,6 +77,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     sessionStorage.setItem('nar_address_fixaddress_nar_lat', res.data.fixLatitude);
                     sessionStorage.setItem('nar_address_fixaddress_nar_lng', res.data.fixLongitude);
                     sessionStorage.setItem('addorder_order', JSON.stringify(res.data));
+                    sessionStorage.removeItem('fixAddress_shop4sId');
                     $scope.order = res.data;
                     $scope.order.designateGrabUserId = '';
                     $scope.jiexi = hide;
