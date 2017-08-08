@@ -23,7 +23,7 @@
         <tr ng-repeat="a in items">
             <td>{{$index + 1}}</td>
             <td>
-                {{a.evalTime | ToDay}}<br> {{a.evalTime | ToTime}}
+                {{a.evalTime | ToLocal}}
             </td>
             <td class="noExl"><img class="evalImg" ng-src="img/{{a.evalStar}}.png" alt=""></td>
             <td style="max-width: 400px;padding: 20px;"><p style="word-wrap: break-word;">{{a.evalContent}}</p></td>

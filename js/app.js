@@ -652,6 +652,7 @@ insurance.filter('Qu', function () {
     }
     return Qu;
 });
+
 var index;
 function loading() {
     index = layer.load(1, {

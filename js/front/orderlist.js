@@ -41,8 +41,8 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         })
     }
     $scope.reset_date = function () {
-        var s = $scope.start.substr(0,2) + '-' + $scope.start.substr(2,2) + '-' + $scope.start.substr(4,2)
-        var e = $scope.endDay.substr(0,2) + '-' + $scope.endDay.substr(2,2) + '-' + $scope.endDay.substr(4,2)
+        var s = $scope.start.substr(0, 2) + '-' + $scope.start.substr(2, 2) + '-' + $scope.start.substr(4, 2)
+        var e = $scope.endDay.substr(0, 2) + '-' + $scope.endDay.substr(2, 2) + '-' + $scope.endDay.substr(4, 2)
         $('#startDay').val('20' + s)
         $('#endDay').val('20' + e)
     }
@@ -192,6 +192,12 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         { id: 8, name: '查勘取消' },
         { id: 81, name: '保险人员取消' },
         { id: 9, name: '历史未完成' }
+    ]
+    $scope.orderTypeTexts = [
+        { id: 0, name: '全部订单' },
+        { id: 1, name: '事故订单' },
+        { id: 2, name: '非事故订单' },
+        { id: 3, name: '非施救' }
     ]
     $scope.searchAll = function () {
         sessionStorage.removeItem('filter');

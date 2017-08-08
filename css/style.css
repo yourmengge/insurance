@@ -1185,10 +1185,10 @@ video{
     text-align: center;
     height: 50px;
     line-height: 50px;
-    border: 1px solid #c8f0ff;
     font-size: 13px;
     background: #a9ebff;
 }
+
 .list_table_td{
     width: 100%;
     display: flex;
@@ -1208,17 +1208,29 @@ video{
     overflow-wrap: break-word;
         width: 10px;
 }
+@media screen and (max-width:1366px){
+    .list_table_tr div{
+        font-size: 10px !important;
+    }
+    .list_table_td div{
+        font-size: 10px !important;
+    }
+    .detail_button,.edit_button,.cancel_button{
+        width:20px;
+        height:21px;
+    }
+}
 .list_table_detail{
     border: 1px solid #c8f0ff;
     background: #f7f7f7;
     padding: 30px;
 }
 .list_table_detail table{
-    width: 100%;
+    width: 70%;
     text-align: left;
 }
 .list_table_detail table tr td:nth-child(odd){
-    text-align: right;
+    text-align: center;
 }
 .list_table_detail table tr td:nth-child(even){
     text-align: left;
