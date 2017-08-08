@@ -79,6 +79,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     sessionStorage.setItem('addorder_order', JSON.stringify(res.data));
                     sessionStorage.removeItem('fixAddress_shop4sId');
                     $scope.order = res.data;
+                    if (res.data.shop4sId != null) {
+                        sessionStorage.setItem('fixAddress_shop4sId', res.data.shop4sId);
+                    }
+
                     $scope.order.designateGrabUserId = '';
                     $scope.jiexi = hide;
                     $scope.accident = res.data.accidentAddress;
@@ -110,6 +114,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         // }
         if (sessionStorage.getItem('fixAddress_shop4sId') != null) {
             $scope.order.shop4sId = sessionStorage.getItem('fixAddress_shop4sId')
+        } else {
+            $scope.order.shop4sId = '';
         }
         if ($scope.addressId != null) {//addressId 不为空，该地址是通过选择框获取得到，目的地点的经纬度通过addressId从目的地点列表中获取
             for (var i = 0; i < $scope.address_list.length; i++) {
