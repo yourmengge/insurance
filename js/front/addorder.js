@@ -254,8 +254,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $scope.counts3 = 1;
     //     }
     // });
-    $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6', function (newValue, oldValue) {
-        if (newValue == 5) {
+    $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6 + counts7', function (newValue, oldValue) {
+        if (newValue == 6) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
