@@ -181,6 +181,11 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     $scope.goBack = function () {
         window.history.back();
     }
+    $scope.tab = function (type) {
+        map.clearOverlays(); //清空原来的标注
+        $scope.showDiv = type;
+        sessionStorage.removeItem('fixAddress_shop4sId')
+    }
     $scope.findPlace = function () {
         map.clearOverlays(); //清空原来的标注
         var keyword = $scope.searchName;
@@ -274,6 +279,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
                 }
             })
         } else {
+            sessionStorage.removeItem('fixAddress_shop4sId')
             $scope.sessionStorageName = 'nar_address_fixaddress'
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.fixaddress_lat);
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.fixaddress_lng);
@@ -301,6 +307,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
                 }
             })
         } else {
+            sessionStorage.removeItem('fixAddress_shop4sId')
             $scope.sessionStorageName = 'nar_address_fixaddress'
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.selectFixLat);
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.selectFixLng);
