@@ -116,7 +116,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                     $scope.table = show;
                     $scope.tips = '';
                     $scope.orderList = res.data.orderList;
-                    
+
                     //分页部分
                     $scope.current = 1;
                     $scope.pageCount = Math.ceil(res.data.orderCounts / limit);
@@ -149,41 +149,46 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         goto_view('main/detail');
     }
     $scope.Page = function (type) {
-        $scope.openDetail = -1;
-        if (type == 'home') {
-            $scope.current = 1;
-            $scope.up = hide;
-            $scope.down = show;
-        }
-        if (type == 'end') {
-            $scope.current = $scope.pageCount;
-            $scope.up = show;
-            $scope.down = hide;
-        }
-        if (type == 'down') {
-            $scope.up = show;
-            $scope.current = $scope.current + 1;
-            if ($scope.current == $scope.pageCount) {
+        $scope.get_date();
+        if ($scope.start - $scope.endDay <= 0) {
+            $scope.openDetail = -1;
+            if (type == 'home') {
+                $scope.current = 1;
+                $scope.up = hide;
+                $scope.down = show;
+            }
+            if (type == 'end') {
+                $scope.current = $scope.pageCount;
+                $scope.up = show;
                 $scope.down = hide;
             }
-        }
-        if (type == 'up') {
-            $scope.down = show;
-            $scope.current = $scope.current - 1;
-            if ($scope.current == 1) {
-                $scope.up = hide;
+            if (type == 'down') {
+                $scope.up = show;
+                $scope.current = $scope.current + 1;
+                if ($scope.current == $scope.pageCount) {
+                    $scope.down = hide;
+                }
             }
-        }
-        loading();
-        APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
-            if (res.data.http_status == 200) {
-                closeloading();
-                $scope.orderList = res.data.orderList;
-            } else {
-                isError(res)
+            if (type == 'up') {
+                $scope.down = show;
+                $scope.current = $scope.current - 1;
+                if ($scope.current == 1) {
+                    $scope.up = hide;
+                }
             }
+            loading();
+            APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+                if (res.data.http_status == 200) {
+                    closeloading();
+                    $scope.orderList = res.data.orderList;
+                } else {
+                    isError(res)
+                }
 
-        })
+            })
+        } else {
+            layer.msg('开始时间应在结束时间之前');
+        }
     }
     $scope.statusTexts = [
         { id: 0, name: '全部订单' },
