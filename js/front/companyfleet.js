@@ -45,6 +45,9 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
             }
         }
     }
+    $scope.lose_focus = function(){
+        $('input').removeClass('wrong_input');
+    }
     $scope.update_weight = function () {
         var temp = {
             "fleetId": '',
@@ -54,9 +57,9 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         for (var i in $scope.team_list) {
             temp.fleetId = $scope.team_list[i].fleetId;
             temp.weight = $('#' + temp.fleetId).val();
-            console.log(typeof (temp.weight))
             if (temp.weight < 0 || temp.weight >= 100 || !isInteger(temp.weight)) {
-                layer.msg('提示错误');
+                layer.msg('请输入大于等于0的整数');
+                $('#' + temp.fleetId).addClass('wrong_input').focus();
                 break;
             }
             data.push(temp);
@@ -190,7 +193,8 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.bili = '';
         $('.alert_bg').css('display', 'none')
         $('.addinspector_div').css('display', 'none')
-        $('.weightCfg_div').css('display', 'none')
+        $('.weightCfg_div').css('display', 'none');
+        $scope.initData();
     }
     $scope.delete = function (data) {
 

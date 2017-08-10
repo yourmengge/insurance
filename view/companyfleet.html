@@ -55,18 +55,19 @@
         <div class="weightCfg_div">
             <h2 class="alert_add_h2">权重配置</h2>
             <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
+            <span class="wrong_font">*请输入大于等于0的整数</span>
             <div>
                 <p style="text-align:center;" ng-repeat="a in team_list">
-                    <span class="list_span">{{a.fleetName}}：</span><input ng-model="input" ng-change="inputNum()"  class="input weight_input" type="number" ng-value="a.weight" id="{{a.fleetId}}">
+                    <span class="list_span">{{a.fleetName}}：</span><input ng-blur="lose_focus()" ng-model="input" ng-change="inputNum()"  class="input weight_input" type="number" ng-value="a.weight" id="{{a.fleetId}}">
                 </p>
                 {{a.fleetId}}
             </div>
-            <p>
-                <p>比例：{{bili}}</p>
+            <div class="cfg_div_footer">
+                <p class="gray">比例值：{{bili}}</p>
                 <button class="button button_del" ng-click="close()">取消</button>
                 <button class="button" ng-click="update_weight()">提交</button>
 
-            </p>
+            </div>
         </div>
         <div class="addinspector_div">
             <h2 class="alert_add_h2">添加抢单车队</h2>
