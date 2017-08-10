@@ -38,9 +38,15 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $('#button').addClass('button_disabled').attr("disabled", 'disabled');
     //     }
     // }
-    $scope.selectMap = function () {
-        sessionStorage.setItem('select_type', 'addorder')
-        goto_view('main/updateFix');
+    $scope.selectMap = function (type) {
+        if (type == 1) {
+            sessionStorage.setItem('addorder_nar_type', '事故');
+            goto_view('main/nar_location');
+        } else {
+            sessionStorage.setItem('select_type', 'addorder')
+            goto_view('main/updateFix');
+        }
+
     }
     //清除sessionstorage
     $scope.clear = function () {
@@ -209,6 +215,22 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
 
     //     })
     // }
+    $scope.$watch('order.pushFixType', function (accident) {
+        if (accident == '' || accident == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts7 = 0;
+        } else {
+            $scope.counts7 = 1;
+        }
+    });
+    $scope.$watch('order.insuranceType', function (accident) {
+        if (accident == '' || accident == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts6 = 0;
+        } else {
+            $scope.counts6 = 1;
+        }
+    });
     $scope.$watch('order.accidentAddress', function (accident) {
         if (accident == '' || accident == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -259,8 +281,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $scope.counts3 = 1;
     //     }
     // });
-    $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6', function (newValue, oldValue) {
-        if (newValue == 5) {
+    $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6 + counts7', function (newValue, oldValue) {
+        if (newValue == 6) {
             $('#submit').removeAttr("disabled").removeClass('button_disabled');
         } else {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
@@ -380,6 +402,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     $scope.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
                 } else {
                     $scope.fixAddress = $scope.order.fixAddress;
+                }
+                if (sessionStorage.getItem('nar_address') != null) {
+                    $scope.order.accidentAddress = sessionStorage.getItem('nar_address')
+                    sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
                 }
                 // $scope.accidentDriverName = data.accidentDriverName;
                 // $scope.accidentCarNoType = data.accidentCarNoType;

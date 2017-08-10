@@ -136,8 +136,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取订单列表
-    service.get_order_list = function (limit, startDay, endDay, status, caseno) {
-        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&keyword=' + caseno);
+    service.get_order_list = function (limit, startDay, endDay, status, caseno,ordertype) {
+        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&keyword=' + caseno + '&orderType=' + ordertype);
     }
 
     //获取司机轨迹列表
@@ -335,8 +335,8 @@ Road167.factory('APIService', function ($http) {
         return service.delete(host + urlV1 + '/company-fleet/' + id);
     }
     //查询抢单车队
-    service.get_company_fleet = function (keyword, limit) {
-        return service.get(host + urlV1 + '/company-fleet?$limit=' + limit + '&keyword=' + keyword)
+    service.get_company_fleet = function (startDay, endDay) {
+        return service.get(host + urlV1 + '/company-fleet?$limit=200' + '&startDay=' + startDay + '&endDay=' + endDay)
     }
 
     //申请更改目的地
@@ -390,6 +390,15 @@ Road167.factory('APIService', function ($http) {
     //修改用户名
     service.update_user_name = function (id, data) {
         return service.patch(host + urlV1 + '/user/' + id, data)
+    }
+
+    //修改保险公司信息
+    service.update_company = function (id, data) {
+        return service.patch(host + urlV1 + '/company/' + id, data);
+    }
+    //权重配置
+    service.weight_cfg = function (no, data) {
+        return service.put(host + urlV1 + '/company-fleet/company/' + no, data)
     }
     // //导出订单
     // service.export = function(){

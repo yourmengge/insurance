@@ -88,8 +88,9 @@ detail.controller('detailCtrl', ['$scope', 'APIService', function ($scope, APISe
             }
         })
     }
-    $scope.track = function (data) {
+    $scope.track = function (data,order) {
         sessionStorage.setItem('driver_detail', JSON.stringify(data));
+        sessionStorage.setItem('order_detail', JSON.stringify(order));
         goto_view('main/track')
     }
     $scope.goto = function (orderNo) {

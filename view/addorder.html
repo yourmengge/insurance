@@ -10,14 +10,14 @@
         <table>
             <tr>
                 <td><span class="require"></span>事故地点：</td>
-                <td><input class="input" type="text" ng-model="order.accidentAddress" ng-change="change2()" placeholder="请输入事故地点">
+                <td><input class="input" type="text" ng-model="order.accidentAddress"  ng-click="selectMap(1)"  ng-change="change2()" placeholder="请输入事故地点">
 
                 </td>
             </tr>
             <tr>
                 <td><span class="require"></span>目的地点：</td>
                 <td>
-                    <input class="input" ng-model="fixAddress" ng-click="selectMap()" placeholder="请选择目的地点" readonly="true">
+                    <input class="input" ng-model="fixAddress" ng-click="selectMap(2)" placeholder="请选择目的地点" readonly="true">
                     <!-- <div class="fixaddress_div" id="fixaddress_div">
                         <p class="input_p" ng-repeat="a in address_list" ng-click="clickFix(a.address,a.addressAbbr,a.id)">
                             {{a.address}} - {{a.addressAbbr}}

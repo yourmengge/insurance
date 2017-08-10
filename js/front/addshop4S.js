@@ -25,7 +25,9 @@ addshop4S.controller('addshop4SCtrl', ['$scope', 'APIService', "$http", function
             "afterSaleMgr": '',
             "afterSalePhone": '',
             "afterSaleMgr2": '',
-            "afterSalePhone2": ''
+            "afterSalePhone2": '',
+            "dealer": '',
+            "dealerPhone": ''
         }
         if (JSON.parse(sessionStorage.getItem('shop4S_data') != '') && JSON.parse(sessionStorage.getItem('shop4S_data') != undefined)) {
             $scope.data = JSON.parse(sessionStorage.getItem('shop4S_data'))

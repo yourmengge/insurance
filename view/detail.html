@@ -41,6 +41,8 @@
         <tr>
             <td>下单备注：</td>
             <td style="max-width: 30px;">{{detail.remark}}</td>
+            <td>推修类型：</td>
+            <td style="max-width: 30px;">{{detail.pushFixTypeDesc}}</td>
         </tr>
         <tr ng-hide="detail.status != 8 && detail.status != 81 && detail.status != 82">
             <td>取消订单备注：</td>
@@ -223,8 +225,8 @@
             <span>{{driver.assignPrice | Price}}</span>
             span
         </p>-->
-            <button class="button" ng-hide="driver.taskEndTime != null" ng-click="track(driver)">查看当前位置</button>
-            <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver)">查看历史轨迹</button>
+            <button class="button" ng-hide="driver.taskEndTime != null" ng-click="track(driver,detail)">查看当前位置</button>
+            <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver,detail)">查看历史轨迹</button>
         </p>
         <h4>事故地点照片</h4>
         <div class="img_div">
@@ -246,12 +248,16 @@
     </div>
     <h4 class="detail_title">推修厂确认信息</h4>
     <div class="car_div">
+         <p>
+            <span class="car_div_title">查看时间：</span>
+            <span>{{detail.shop4sReadTime | ToLocal}}</span>
+        </p> 
         <p>
             <span class="car_div_title">确认时间：</span>
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>
         </p>
         <p>
-            <span class="car_div_title">车辆到达照片</span>
+            <span class="car_div_title" style="color:#333;">车辆到达照片</span>
             <div class="img_div">
                 <img ng-repeat="a in detail.shop4sPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
             </div>
