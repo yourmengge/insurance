@@ -69,6 +69,9 @@
                 施救地点
             </div>
             <div>
+                推修车行简称
+            </div>
+            <div>
                 施救单位
             </div>
             <div>
@@ -105,6 +108,9 @@
                     {{a.accidentAddress}}
                 </div>
                 <div>
+                    {{a.shop4sName}}
+                </div>
+                <div>
                     {{a.grabFleetName}}
                 </div>
                 <div>
@@ -132,23 +138,19 @@
                         <td>
                             {{a.shop4sConfirmTime | ToLocal}}
                         </td>
-                        <td>
+                        <!-- <td>
                             车行简称：
                         </td>
                         <td>
-                            {{a.shop4sName}}
-                        </td>
-
-                    </tr>
-                    <tr>
-
-
+                            
+                        </td> -->
                         <td>
                             拍照目的地点：
                         </td>
                         <td>
                             {{a.fixAddressPicture}}
                         </td>
+
                     </tr>
                 </table>
             </div>
