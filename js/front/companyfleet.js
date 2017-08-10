@@ -38,14 +38,11 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.bili = '';
         for (var i in $scope.team_list) {
             weight = $('#' + $scope.team_list[i].fleetId).val();
-            if (i == $scope.team_list.length - 1) {
-                $scope.bili = $scope.bili + weight
-            } else {
-                $scope.bili = $scope.bili + weight + ' : '
-            }
+            $('.' + $scope.team_list[i].fleetId).text(weight + '%')
+
         }
     }
-    $scope.lose_focus = function(){
+    $scope.lose_focus = function () {
         $('input').removeClass('wrong_input');
     }
     $scope.update_weight = function () {
@@ -161,10 +158,22 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $('#submit').removeAttr("disabled").removeClass('button_disabled');
     }
     $scope.openTips = function (id) {
-        $('#' + id).css('display', 'block');
+        $('#' + id).toggle(200);
     }
     $scope.closeTips = function (id) {
         $('#' + id).css('display', 'none');
+    }
+    $scope.isNum = function (e) {
+        var k = window.event ? e.keyCode : e.which;
+        if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
+        } else {
+            if (window.event) {
+                window.event.returnValue = false;
+            }
+            else {
+                e.preventDefault(); //for firefox 
+            }
+        }
     }
     $scope.addDriver = function () {
         $('.alert_bg').css('display', 'block')
@@ -177,11 +186,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.bili = 0;
         for (var i in $scope.team_list) {
             weight = $scope.team_list[i].weight;
-            if (i == $scope.team_list.length - 1) {
-                $scope.bili = $scope.bili + weight
-            } else {
-                $scope.bili = $scope.bili + weight + ' : '
-            }
+            $('.' + $scope.team_list[i].fleetId).text(weight + '%')
         }
     }
     $scope.cencle = function () {

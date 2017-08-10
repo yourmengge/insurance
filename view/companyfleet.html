@@ -1,43 +1,49 @@
 <div class="adddriver" ng-controller="companyfleetCtrl" ng-init="initData()">
     <h2>抢单车队管理</h2>
     <div class="tabs">
-        <div class="tips_btn" ng-mouseenter="openTips('tips1')" ng-mouseleave="closeTips('tips1')">
-            <button ng-click="changeMode(1)">
+        <button ng-click="changeMode(1)">
                 就近抢单模式
             </button>
-            <div class="companyFleet_tips" id="tips1">
+        <!-- <div class="companyFleet_tips" id="tips1">
                 <p>根据5分钟以内，按 30公里范围内抢单；</p>
                 <p>5~10分钟以内，按30-50公里范围内抢单；</p>
                 <p>超过10分钟，按 50-70公里范围内抢单。</p>
-            </div>
-        </div>
-        <div class="tips_btn" ng-mouseenter="openTips('tips2')" ng-mouseleave="closeTips('tips2')">
-            <button ng-click="changeMode(2)">
+            </div> -->
+        <button ng-click="changeMode(2)">
                 抢单模式
             </button>
-            <div class="companyFleet_tips" id="tips2">
+        <!-- <div class="companyFleet_tips" id="tips2">
                 <p>加入抢单模式的车队可随机进行抢单。</p>
-            </div>
-        </div>
-        <div class="tips_btn" ng-mouseenter="openTips('tips3')" ng-mouseleave="closeTips('tips3')">
-            <button ng-click="changeMode(3)">
+            </div> -->
+        <button ng-click="changeMode(3)">
                 按权重指派
             </button>
-            <div class="companyFleet_tips" id="tips3">
+        <!-- <div class="companyFleet_tips" id="tips3">
                 <p>按权重指派订单给施救车队。</p>
-            </div>
+            </div> -->
+        <button class="help_btn" title="解说" ng-click="openTips('div')"></button>
+        <div class="companyFleet_tips" id="div">
+            <p class="title1">1、就近抢单模式</p>
+            <p class="title2">&emsp;&emsp;刚下单推送30公里范围内，30公里范围内的调度可以抢单；</p>
+            <p class="title2">&emsp;&emsp;5分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；</p>
+            <p class="title2">&emsp;&emsp;10分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。</p>
+            <p class="title1">2、抢单模式</p>
+            <p class="title2">&emsp;&emsp;加入抢单模式的车队都可以抢单，不受范围限制。</p>
+            <p class="title1">3、按权重指派</p>
+            <p class="title2">&emsp;&emsp;系统会根据配置比例，直接指派订单给对应的调度；若比例相同时，平均分配。</p>
+            注： 1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的权重指派，且未配置车队，系统会默认使用第1种的就近抢单模式。
         </div>
     </div>
     <h3>当前模式：{{currentTitle}}</h3>
     <div ng-hide="current_mode != 1">
         <p>
-            根据5分钟以内，按 30公里范围内抢单；
+            刚下单推送30公里范围内，30公里范围内的调度可以抢单；
         </p>
         <p>
-            5~10分钟以内，按30-50公里范围内抢单；
+            5分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；
         </p>
         <p>
-            超过10分钟，按 50-70公里范围内抢单。
+            10分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。
         </p>
     </div>
     <div ng-hide="current_mode == 1">
@@ -58,12 +64,15 @@
             <span class="wrong_font">*请输入大于等于0的整数</span>
             <div>
                 <p style="text-align:center;" ng-repeat="a in team_list">
-                    <span class="list_span">{{a.fleetName}}：</span><input ng-blur="lose_focus()" ng-model="input" ng-change="inputNum()"  class="input weight_input" type="number" ng-value="a.weight" id="{{a.fleetId}}">
+                    <span class="list_span">{{a.fleetName}}：</span>
+                    <input ng-blur="lose_focus()" ng-model="input" ng-change="inputNum()" ng-keypress="isNum($event)" class="input weight_input"
+                        type="text" ng-value="a.weight" id="{{a.fleetId}}">
+                    <span class="{{a.fleetId}}"></span>
                 </p>
                 {{a.fleetId}}
             </div>
             <div class="cfg_div_footer">
-                <p class="gray">比例值：{{bili}}</p>
+                <!-- <p class="gray">比例值：{{bili}}</p> -->
                 <button class="button button_del" ng-click="close()">取消</button>
                 <button class="button" ng-click="update_weight()">提交</button>
 

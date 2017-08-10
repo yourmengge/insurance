@@ -771,33 +771,35 @@ input[type=number]::-webkit-outer-spin-button {
     transition: left 0.3s; 
 }
 .companyFleet_tips{
-    width: 250px;
-    position: fixed;
-    font-size: 12px;
-    padding: 10px;
+    width: 350px;
+    position: relative;
+    font-size: 13px;
+    padding: 15px;
     background: #1778de;
     color: #fff;
-    margin-top: 10px;
-    float: left;
+    margin-top: -52px;
     display: none;
     z-index: 10;
+    left: 313px;
+    border-radius: 3px;
 }
-.companyFleet_tips:before{
+/* .companyFleet_tips:before{
     box-sizing: content-box;
     width: 0px;
     height: 0px;
     position: absolute;
-    top: -16px;
+    top: 27px;
+    left: -18px;
     padding: 0;
     left: 26px;
-    border-bottom: 8px solid #1778de;
+    border-bottom: 8px solid transparent;
     border-top: 8px solid transparent;
     border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
+    border-right: 8px solid #1778de;
     display: block;
     content: '';
     z-index: 12;
-}
+} */
 .list_span{
     width: 163px;
     display: block;
@@ -810,16 +812,19 @@ input[type=number]::-webkit-outer-spin-button {
     width: 0px;
     height: 0px;
     position: absolute;
-    top: -18px;
-    left: 25px;
+    top: 27px;
+    left: -18px;
     padding: 0;
-    border-bottom: 9px solid #1778de;
+    border-bottom: 9px solid transparent;
     border-top: 9px solid transparent;
     border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
+    border-right: 9px solid #1778de;
     display: block;
     content: '';
     z-index: 10;
+}
+.title1{
+    font-size: 14px;
 }
 .tips_btn{
     width: 100px;
@@ -1222,6 +1227,17 @@ input[type=number]::-webkit-outer-spin-button {
     float: right;
     cursor: pointer;
     margin-top: -3px;
+}
+.help_btn{
+    background: url(../img/help.png);
+    width: 30px;
+    height: 30px;
+    border:none;
+    vertical-align: middle;
+}
+.help_btn:focus{
+    outline:none;
+    cursor: pointer;
 }
 video{
     width: 20vw;
