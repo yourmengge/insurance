@@ -204,6 +204,22 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
 
     //     })
     // }
+    $scope.$watch('order.pushFixType', function (accident) {
+        if (accident == '' || accident == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts7 = 0;
+        } else {
+            $scope.counts7 = 1;
+        }
+    });
+    $scope.$watch('order.insuranceType', function (accident) {
+        if (accident == '' || accident == null) {
+            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            $scope.counts6 = 0;
+        } else {
+            $scope.counts6 = 1;
+        }
+    });
     $scope.$watch('order.accidentAddress', function (accident) {
         if (accident == '' || accident == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');

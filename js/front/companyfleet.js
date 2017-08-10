@@ -5,6 +5,111 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.keyword = '';
         $scope.searchName = '';
         $scope.get_company_fleet('', limit);
+        //获取公司信息
+        $scope.get_company_detail();
+    }
+    $scope.get_company_detail = function () {
+        APIService.get_company_province(sessionStorage.getItem('companyId')).then(function (res) {
+            if (res.data.http_status == 200) {
+                $scope.current_mode = res.data.orderDispatchMode;
+                switch ($scope.current_mode) {
+                    case 1:
+                        $scope.currentTitle = '就近抢单模式'
+                        break;
+                    case 2:
+                        $scope.currentTitle = '抢单模式'
+                        break;
+                    case 3:
+                        $scope.currentTitle = '按权重指派'
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                isError(res)
+            }
+        })
+    }
+    function isInteger(obj) {
+        return obj % 1 === 0
+    }
+    $scope.inputNum = function () {
+        var weight = 0;
+        $scope.bili = '';
+        for (var i in $scope.team_list) {
+            weight = $('#' + $scope.team_list[i].fleetId).val();
+            if (i == $scope.team_list.length - 1) {
+                $scope.bili = $scope.bili + weight
+            } else {
+                $scope.bili = $scope.bili + weight + ' : '
+            }
+        }
+    }
+    $scope.update_weight = function () {
+        var temp = {
+            "fleetId": '',
+            "weight": ''
+        };
+        var data = [];
+        for (var i in $scope.team_list) {
+            temp.fleetId = $scope.team_list[i].fleetId;
+            temp.weight = $('#' + temp.fleetId).val();
+            console.log(typeof (temp.weight))
+            if (temp.weight < 0 || temp.weight >= 100 || !isInteger(temp.weight)) {
+                layer.msg('提示错误');
+                break;
+            }
+            data.push(temp);
+            temp = {
+                "fleetId": '',
+                "weight": ''
+            };
+            if (i == $scope.team_list.length - 1) {
+                APIService.weight_cfg(sessionStorage.getItem('companyNo'), { req: data }).then(function (res) {
+                    if (res.data.http_status == 200) {
+                        layer.msg('配置成功');
+                        $scope.close();
+                        $scope.initData();
+                    } else {
+                        isError(res);
+                    }
+                })
+            }
+        }
+
+    }
+    $scope.changeMode = function (type) {
+        if ($scope.current_mode != type) {
+            switch (type) {
+                case 1:
+                    $scope.message = '就近抢单模式'
+                    break;
+                case 2:
+                    $scope.message = '抢单模式'
+                    break;
+                case 3:
+                    $scope.message = '按权重指派'
+                    break;
+                default:
+                    break;
+            }
+            if (confirm($scope.message)) {
+                var data = {
+                    orderDispatchMode: type
+                }
+                APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
+                    if (res.data.http_status == 200) {
+                        layer.msg('切换模式成功');
+                        $scope.initData();
+                    } else {
+                        isError(res);
+                    }
+                })
+            }
+        } else {
+
+        }
+
     }
     $scope.get_company_fleet = function (keyword, limit) {
         APIService.get_company_fleet(keyword, limit).then(function (res) {
@@ -24,6 +129,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
             }
         })
     }
+
     $scope.search = function () {
         loading();
         APIService.search_team($scope.searchName).then(function (res) {
@@ -51,9 +157,29 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.fleetId = data.fleetId;
         $('#submit').removeAttr("disabled").removeClass('button_disabled');
     }
+    $scope.openTips = function (id) {
+        $('#' + id).css('display', 'block');
+    }
+    $scope.closeTips = function (id) {
+        $('#' + id).css('display', 'none');
+    }
     $scope.addDriver = function () {
         $('.alert_bg').css('display', 'block')
         $('.addinspector_div').toggle();
+    }
+    $scope.weightCfg = function () {
+        $('.alert_bg').css('display', 'block')
+        $('.weightCfg_div').toggle();
+        var weight = 0;
+        $scope.bili = 0;
+        for (var i in $scope.team_list) {
+            weight = $scope.team_list[i].weight;
+            if (i == $scope.team_list.length - 1) {
+                $scope.bili = $scope.bili + weight
+            } else {
+                $scope.bili = $scope.bili + weight + ' : '
+            }
+        }
     }
     $scope.cencle = function () {
         $('.add_driver_div').toggle(500);
@@ -61,9 +187,10 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $('.add_driver_div_p').css('display', 'none');
     }
     $scope.close = function () {
+        $scope.bili = '';
         $('.alert_bg').css('display', 'none')
         $('.addinspector_div').css('display', 'none')
-        $('.update_inspector').css('display', 'none')
+        $('.weightCfg_div').css('display', 'none')
     }
     $scope.delete = function (data) {
 
@@ -74,7 +201,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                 if (res.data.http_status == 200) {
                     layer.msg(data.fleetName + '移除成功！');
                     setTimeout(function () {
-                        location.reload();
+                        $scope.initData()
                     }, 1000);
                 } else {
                     isError(res);

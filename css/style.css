@@ -122,12 +122,35 @@ ul li{
     margin-bottom: 20px;
 }
 .photo_div .img{
-        width: 118px;
+    width: 118px;
     height: 118px;
     padding-bottom: 10px;
     float: left;
     margin-right: 1vw;
         overflow: hidden;
+}
+.weightCfg_div{
+    display: none;
+    width: 450px;
+    position: fixed;
+    z-index: 10;
+    top: 20vh;
+    left: 40vw;
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+.weightCfg_div div{
+    max-height: 260px;
+    overflow-y: auto;
+}
+.weightCfg_div p{
+    padding: 0px 30px;
+}
+.weight_input{
+    width:50px !important;
+    text-align: right;
+    padding-right: 5px;
 }
 .photo_div .img img{
     width: 100%
@@ -158,7 +181,7 @@ ul li{
     border-radius: 32px;
 }
 .right_content{
-    position: fixed;
+    position: relative;
     left: 15vw;
     top: 80px;
     bottom: 20px;
@@ -168,6 +191,8 @@ ul li{
     overflow-y: auto;
     right: 8px;
     overflow-x: hidden;
+    width: 81vw;
+    height: 84vh;
 }
 .right_content::-webkit-scrollbar-thumb{
     background:#b7b7b7;
@@ -731,6 +756,65 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .mui-switch.mui-switch-anim:checked:before {
     transition: left 0.3s; 
+}
+.companyFleet_tips{
+    width: 250px;
+    position: fixed;
+    font-size: 12px;
+    padding: 10px;
+    background: #1778de;
+    color: #fff;
+    margin-top: 10px;
+    float: left;
+    display: none;
+    z-index: 10;
+}
+.companyFleet_tips:before{
+    box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -16px;
+    padding: 0;
+    left: 26px;
+    border-bottom: 8px solid #1778de;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    display: block;
+    content: '';
+    z-index: 12;
+}
+.list_span{
+    width: 163px;
+    display: block;
+    float: left;
+    height: 35px;
+    line-height: 35px;
+}
+.companyFleet_tips:after{
+    box-sizing: content-box;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -18px;
+    left: 25px;
+    padding: 0;
+    border-bottom: 9px solid #1778de;
+    border-top: 9px solid transparent;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    display: block;
+    content: '';
+    z-index: 10;
+}
+.tips_btn{
+    width: 100px;
+    float: left;
+    text-align: center;
+}
+.tabs{
+    height: 30px;
 }
 .table_hover{
 	width: 7vw;

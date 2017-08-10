@@ -391,6 +391,15 @@ Road167.factory('APIService', function ($http) {
     service.update_user_name = function (id, data) {
         return service.patch(host + urlV1 + '/user/' + id, data)
     }
+
+    //修改保险公司信息
+    service.update_company = function (id, data) {
+        return service.patch(host + urlV1 + '/company/' + id, data);
+    }
+    //权重配置
+    service.weight_cfg = function (no, data) {
+        return service.put(host + urlV1 + '/company-fleet/company/' + no, data)
+    }
     // //导出订单
     // service.export = function(){
     //     return service.get(host + urlV1 + '/order/export')

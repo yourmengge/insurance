@@ -225,8 +225,8 @@
             <span>{{driver.assignPrice | Price}}</span>
             span
         </p>-->
-            <button class="button" ng-hide="driver.taskEndTime != null" ng-click="track(driver)">查看当前位置</button>
-            <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver)">查看历史轨迹</button>
+            <button class="button" ng-hide="driver.taskEndTime != null" ng-click="track(driver,detail)">查看当前位置</button>
+            <button class="button" ng-hide="driver.taskEndTime == null" ng-click="track(driver,detail)">查看历史轨迹</button>
         </p>
         <h4>事故地点照片</h4>
         <div class="img_div">
@@ -248,10 +248,10 @@
     </div>
     <h4 class="detail_title">推修厂确认信息</h4>
     <div class="car_div">
-        <p>
+         <p>
             <span class="car_div_title">查看时间：</span>
-            <span>{{detail.shop4sConfirmTime | ToLocal}}</span>
-        </p>
+            <span>{{detail.shop4sReadTime | ToLocal}}</span>
+        </p> 
         <p>
             <span class="car_div_title">确认时间：</span>
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>

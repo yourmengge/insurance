@@ -4,7 +4,12 @@ var map;
 track.controller('trackCtrl', ['$scope', 'APIService', '$timeout', function ($scope, APIService, $timeout) {
     $scope.initData = function () {
         $scope.time = 30;
+        $scope.order = JSON.parse(sessionStorage.getItem('order_detail'));
         $scope.driver = JSON.parse(sessionStorage.getItem('driver_detail'));
+        $scope.addressLat = $scope.order.accidentLatitude;
+        $scope.addressLng = $scope.order.accidentLongitude;
+        $scope.fixLat = $scope.order.fixLatitude;
+        $scope.fixLng = $scope.order.fixLongitude;
         $scope.departureTime = $scope.driver.departureTime;
         $scope.accidentReachTime = $scope.driver.accidentReachTime;
         $scope.taskEndTime = $scope.driver.taskEndTime;
@@ -32,6 +37,7 @@ track.controller('trackCtrl', ['$scope', 'APIService', '$timeout', function ($sc
     //获取当前定位
     $scope.get_location = function () {
         $scope.title = '当前司机位置'
+
         $scope.timeout = show;
         function countDown() {
             $scope.t = $timeout(function () {
@@ -46,6 +52,18 @@ track.controller('trackCtrl', ['$scope', 'APIService', '$timeout', function ($sc
         countDown();
         map = new BMap.Map("allmap");//实例化地图
         map.enableScrollWheelZoom(true);
+        //标注事故地点跟目的地点
+        marker1 = new BMap.Marker(new BMap.Point($scope.addressLng, $scope.addressLat));  // 创建标注
+        map.addOverlay(marker1);               // 将标注添加到地图中
+        var label1 = new BMap.Label("事故地点", { offset: new BMap.Size(20, -10) });
+        marker1.setLabel(label1);
+        marker2 = new BMap.Marker(new BMap.Point($scope.fixLongitude, $scope.fixLatitude));  // 创建标注
+        map.addOverlay(marker2);               // 将标注添加到地图中
+        var label2 = new BMap.Label("目的地点", { offset: new BMap.Size(20, -10) });
+        marker2.setLabel(label2);
+
+
+
         APIService.get_track(parseInt($scope.departureTime), parseInt($scope.nowTime), $scope.driverUserId).then(function (res) {
             if (res.data.status != 0) {
                 $scope.error();
