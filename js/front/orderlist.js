@@ -32,6 +32,9 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                 $scope.pageCount = Math.ceil(res.data.orderCounts / limit);
                 if (res.data.orderCounts <= limit) {
                     $scope.page_p = hide;
+                }else{
+                    $scope.page_p = show;
+                    $scope.down = show;
                 }
                 $scope.up = hide;
                 //分页结束
