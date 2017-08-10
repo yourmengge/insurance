@@ -62,24 +62,27 @@
                     <select ng-click="change2()" class="input" ng-model="order.designateGrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
                 </td>
             </tr>
-            <tr>
+             <tr>
                 <td><span class="require"></span>车保类型：</td>
                 <td><input type="radio" ng-click="change3(1)" class="addorder_radio" ng-model="biaodi" id="biaodi">
-                    <label name="biaodi" class="{{insurance == 1?'checked':''}} addorder_label" for="biaodi" ></label>标的车 
+                    <label name="biaodi" class="{{insurance == 1?'checked':''}} addorder_label" for="biaodi"></label>标的车
                     <input ng-click="change3(2)" ng-model="sanzhe" type="radio" class="addorder_radio" id="sanzhe">
-                    <label name="sanzhe" class="{{insurance == 2?'checked':''}} addorder_label" for="sanzhe" ></label>三者车</td>
+                    <label name="sanzhe" class="{{insurance == 2?'checked':''}} addorder_label" for="sanzhe"></label>三者车</td>
             </tr>
             <tr>
-                <td>救援车类型：</td>
-                <td>拖车</td>
+                <td><span class="require"></span>推修类型：</td>
+                <td><input type="radio" ng-click="change4(2)" class="addorder_radio" ng-model="qiangzhi" id="qiangzhi">
+                    <label name="qiangzhi" class="{{pushFix == 2?'checked':''}} addorder_label" for="qiangzhi"></label>强制推修
+                    <input ng-click="change4(1)" ng-model="zhengchang" type="radio" class="addorder_radio" id="zhengchang">
+                    <label name="zhengchang" class="{{pushFix == 1?'checked':''}} addorder_label" for="zhengchang"></label>正常推修</td>
             </tr>
             <tr>
-                <td>收费方式：</td>
+                <td><span class="require"></span>收费方式：</td>
                 <td>
                     <input type="radio" name="chargeMode" ng-click="chargeMode(1)" ng-checked="mode1" id="mode1" value="mode1" class="addorder_radio">
-                    <label name="mode1" class="{{mode == 1?'checked':''}} addorder_label" for="mode1" ></label>收取现金
+                    <label name="mode1" class="{{mode == 1?'checked':''}} addorder_label" for="mode1"></label>收取现金
                     <input type="radio" name="chargeMode" ng-click="chargeMode(2)" ng-checked="mode2" id="mode2" value="mode2" class="addorder_radio">
-                    <label name="mode2" class="{{mode == 2?'checked':''}} addorder_label" for="mode2" ></label>免垫付
+                    <label name="mode2" class="{{mode == 2?'checked':''}} addorder_label" for="mode2"></label>免垫付
                 </td>
             </tr>
         </table>
