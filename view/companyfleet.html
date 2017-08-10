@@ -48,8 +48,10 @@
     </div>
     <div ng-hide="current_mode == 1">
         <p class="search_div">
-            <input type="text" ng-model="keyword" placeholder="请输入车队或车队电话" class="input" style="width:200px;" ng-model="keyword">
-            <button class="button" ng-click="get_company_fleet(keyword,10)">查询</button>
+            <!-- <input type="text" ng-model="keyword" placeholder="请输入车队或车队电话" class="input" style="width:200px;" ng-model="keyword"> -->
+            开始时间：<input type="date" id="startDay" class="input"> 结束时间：
+            <input type="date" id="endDay" class="input">
+            <button class="button" ng-click="get_company_fleet()">查询</button>
             <button class="button" ng-click="initData()">显示全部</button>
             <button class="button" style="float:right" ng-click="addDriver()">
                 添加抢单车队
@@ -61,12 +63,12 @@
         <div class="weightCfg_div">
             <h2 class="alert_add_h2">权重配置</h2>
             <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
-            <span class="wrong_font">*请输入大于等于0的整数</span>
+            <span class="wrong_font">*请输入</span>
             <div>
                 <p style="text-align:center;" ng-repeat="a in team_list">
                     <span class="list_span">{{a.fleetName}}：</span>
-                    <input ng-blur="lose_focus()" ng-model="input" ng-change="inputNum()" ng-keypress="isNum($event)" class="input weight_input"
-                        type="text" ng-value="a.weight" id="{{a.fleetId}}">
+                    <input ng-keyup="keyup($event,a.fleetId)" maxlength="3" ng-blur="lose_focus()" ng-model="input" ng-change="inputNum($event,a.fleetId)"
+                        ng-keypress="isNum($event,a.fleetId)" class="input weight_input" type="text" ng-value="a.weight" id="{{a.fleetId}}">
                     <span class="{{a.fleetId}}"></span>
                 </p>
                 {{a.fleetId}}

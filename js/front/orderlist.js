@@ -13,7 +13,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         $('#endDay').val(ToLocalTime(today));
         $scope.get_date();
         $scope.status = 0;
-        $scope.ordertype = 0
+        $scope.ordertype = '';
         $scope.caseNo = '';
 
         if (JSON.parse(sessionStorage.getItem('filter')) != null) {
@@ -24,7 +24,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
             $scope.caseNo = a.keyword;
             $scope.reset_date();
         }
-        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
+        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.orderList = res.data.orderList;
@@ -64,7 +64,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         sessionStorage.setItem('isDisaster', 'not');
     }
     $scope.toexcel = function (status, caseNo) {
-        window.open(host + urlV1 + '/order/export/third?status=' + $scope.status + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
+        window.open(host + urlV1 + '/order/export/third?status=' + $scope.status + '&orderType=' + $scope.ordertype + '&$limit=999&startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&keyword=' + $scope.caseNo + '&Authorization=' + APIService.token + '&user-id=' + APIService.userId)
         //window.open('http://dev.road167.com:8080/extrication/v1/order/export');
         // APIService.export().then(function (res) {
         //     console.log(res.data);
@@ -106,7 +106,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         $scope.openDetail = -1;
         loading();
 
-        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo).then(function (res) {
+        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 if (res.data.orderCounts == 0) {
@@ -174,7 +174,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
             }
         }
         loading();
-        APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.orderList = res.data.orderList;
@@ -195,7 +195,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         { id: 9, name: '历史未完成' }
     ]
     $scope.orderTypeTexts = [
-        { id: 0, name: '全部订单' },
+        { id: '', name: '全部订单' },
         { id: 1, name: '事故订单' },
         { id: 2, name: '非事故订单' },
         { id: 3, name: '非施救' }

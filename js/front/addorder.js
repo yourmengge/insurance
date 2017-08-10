@@ -28,8 +28,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         designateGrabUserId: '',
         insuranceType: '',
         carType: 2,
-        accidentLongitude: 0,
-        accidentLatitude: 0,
+        accidentLongitude: '',
+        accidentLatitude: '',
         pushFixType: ''
     }
     // $scope.change = function () {
@@ -39,9 +39,15 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //         $('#button').addClass('button_disabled').attr("disabled", 'disabled');
     //     }
     // }
-    $scope.selectMap = function () {
-        sessionStorage.setItem('select_type', 'addorder')
-        goto_view('main/updateFix');
+    $scope.selectMap = function (type) {
+        if (type == 1) {
+            sessionStorage.setItem('addorder_nar_type', '事故');
+            goto_view('main/nar_location');
+        } else {
+            sessionStorage.setItem('select_type', 'addorder')
+            goto_view('main/updateFix');
+        }
+
     }
     //清除sessionstorage
     $scope.clear = function () {
@@ -391,6 +397,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     $scope.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
                 } else {
                     $scope.fixAddress = $scope.order.fixAddress;
+                }
+                if (sessionStorage.getItem('nar_address') != null) {
+                    $scope.order.accidentAddress = sessionStorage.getItem('nar_address')
+                    sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
                 }
                 // $scope.accidentDriverName = data.accidentDriverName;
                 // $scope.accidentCarNoType = data.accidentCarNoType;

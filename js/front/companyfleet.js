@@ -2,6 +2,7 @@ var companyfleet = angular.module('companyfleet', ['Road167']);
 companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         loading();
+        limit = 200;
         $scope.keyword = '';
         $scope.searchName = '';
         $scope.get_company_fleet('', limit);
@@ -34,12 +35,14 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         return obj % 1 === 0
     }
     $scope.inputNum = function () {
-        var weight = 0;
-        $scope.bili = '';
+        var totle = 0;
+        for (let i in $scope.team_list) {
+            var num = $('#' + $scope.team_list[i].fleetId).val()
+            totle = parseInt(num) + totle;
+        }
         for (var i in $scope.team_list) {
             weight = $('#' + $scope.team_list[i].fleetId).val();
-            $('.' + $scope.team_list[i].fleetId).text(weight + '%')
-
+            $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
         }
     }
     $scope.lose_focus = function () {
@@ -111,8 +114,10 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         }
 
     }
-    $scope.get_company_fleet = function (keyword, limit) {
-        APIService.get_company_fleet(keyword, limit).then(function (res) {
+    $scope.get_company_fleet = function () {
+        var startDay = $('#startDay').val();
+        var endDay = $('#endDay').val();
+        APIService.get_company_fleet(startDay, endDay).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.team_list = res.data.items;
@@ -163,9 +168,22 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
     $scope.closeTips = function (id) {
         $('#' + id).css('display', 'none');
     }
-    $scope.isNum = function (e) {
+    $scope.keyup = function (e, id) {
+        var num = parseInt($('#' + id).val())
+        if (num > 100) {
+            if (window.event) {
+                window.event.returnValue = false;
+                return false;
+            }
+            else {
+                e.preventDefault(); //for firefox 
+            }
+        }
+    }
+    $scope.isNum = function (e, id) {
         var k = window.event ? e.keyCode : e.which;
         if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
+
         } else {
             if (window.event) {
                 window.event.returnValue = false;
@@ -179,15 +197,22 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $('.alert_bg').css('display', 'block')
         $('.addinspector_div').toggle();
     }
+    $scope.write = function () {
+        var weight = 0;
+        var totle = 0;
+        for (let i in $scope.team_list) {
+            totle = $scope.team_list[i].weight + totle;
+        }
+        for (var i in $scope.team_list) {
+            weight = $scope.team_list[i].weight;
+            $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+        }
+    }
     $scope.weightCfg = function () {
         $('.alert_bg').css('display', 'block')
         $('.weightCfg_div').toggle();
-        var weight = 0;
-        $scope.bili = 0;
-        for (var i in $scope.team_list) {
-            weight = $scope.team_list[i].weight;
-            $('.' + $scope.team_list[i].fleetId).text(weight + '%')
-        }
+        $scope.write();
+
     }
     $scope.cencle = function () {
         $('.add_driver_div').toggle(500);
@@ -231,7 +256,13 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                     }
                     APIService.add_company_fleet(data).then(function (res) {
                         if (res.data.http_status == 200) {
-                            layer.msg('添加成功');
+                            if ($scope.current_mode == 3) {
+                                layer.msg($scope.searchName + '添加成功，请立即配置接单比例！');
+                            } else {
+                                layer.msg('添加成功');
+                            }
+
+
                             setTimeout(function () {
                                 location.reload();
                             }, 1000);

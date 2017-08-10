@@ -136,8 +136,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //获取订单列表
-    service.get_order_list = function (limit, startDay, endDay, status, caseno) {
-        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&keyword=' + caseno);
+    service.get_order_list = function (limit, startDay, endDay, status, caseno,ordertype) {
+        return service.get(host + urlV1 + third + urlOrder + '?$limit=' + limit + '&startDay=' + startDay + '&endDay=' + endDay + '&status=' + status + '&keyword=' + caseno + '&orderType=' + ordertype);
     }
 
     //获取司机轨迹列表
@@ -335,8 +335,8 @@ Road167.factory('APIService', function ($http) {
         return service.delete(host + urlV1 + '/company-fleet/' + id);
     }
     //查询抢单车队
-    service.get_company_fleet = function (keyword, limit) {
-        return service.get(host + urlV1 + '/company-fleet?$limit=' + limit + '&keyword=' + keyword)
+    service.get_company_fleet = function (startDay, endDay) {
+        return service.get(host + urlV1 + '/company-fleet?$limit=200' + '&startDay=' + startDay + '&endDay=' + endDay)
     }
 
     //申请更改目的地
