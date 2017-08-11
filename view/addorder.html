@@ -10,7 +10,8 @@
         <table>
             <tr>
                 <td><span class="require"></span>事故地点：</td>
-                <td><input class="input" type="text" ng-model="order.accidentAddress"  ng-click="selectMap(1)"  ng-change="change2()" placeholder="请输入事故地点">
+                <td><input class="input" type="text" ng-model="order.accidentAddress" ng-click="selectMap(1)" ng-change="change2()"
+                        placeholder="请输入事故地点">
 
                 </td>
             </tr>
@@ -62,7 +63,11 @@
                     <select ng-click="change2()" class="input" ng-model="order.designateGrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>
                 </td>
             </tr>
-             <tr>
+            <tr>
+                <td>救援车类型：</td>
+                <td>拖车</td>
+            </tr>
+            <tr>
                 <td><span class="require"></span>车保类型：</td>
                 <td><input type="radio" ng-click="change3(1)" class="addorder_radio" ng-model="biaodi" id="biaodi">
                     <label name="biaodi" class="{{insurance == 1?'checked':''}} addorder_label" for="biaodi"></label>标的车
