@@ -158,7 +158,7 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
             }
         }
         loading();
-        APIService.paging(urlV1 + '/third/user?roleId=3', limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + '/third/user?roleId=3&bOrderCounts=true', limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.list = res.data.userList;

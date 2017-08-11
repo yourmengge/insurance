@@ -131,6 +131,8 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 }
             }
         }
+        $scope.order.accidentLongitude = sessionStorage.getItem('nar_address_nar_lng')
+        $scope.order.accidentLatitude = sessionStorage.getItem('nar_address_nar_lat')
         if (!isPhone.test($scope.order.accidentDriverPhone)) {
             layer.msg('手机号码格式不正确');
         } else {

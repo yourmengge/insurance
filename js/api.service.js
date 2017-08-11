@@ -368,7 +368,7 @@ Road167.factory('APIService', function ($http) {
     }
     //获取查勘员列表
     service.get_inspector_list = function (limit) {
-        return service.get(host + urlV1 + '/third/user?roleId=3&$limit=' + limit)
+        return service.get(host + urlV1 + '/third/user?roleId=3&$limit=' + limit + '&bOrderCounts=true')
     }
 
     //添加查勘员

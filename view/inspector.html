@@ -35,11 +35,17 @@
         <tr>
             <th>查勘员姓名</th>
             <th>查勘员手机号</th>
+            <th>查勘员版本</th>
+            <th>总下单数</th>
+            <th>总完成数</th>
             <th>操作</th>
         </tr>
         <tr ng-repeat="a in list">
             <td>{{a.name}}</td>
             <td>{{a.phone}}</td>
+            <td>{{a.deviceVersion}}</td>
+            <td>{{a.orderCounts}}</td>
+            <td>{{a.finishOrderCounts}}</td>
             <td>
                 <span class="button_span" ng-click="delete(a)">离职</span>
                 <span class="button_span" ng-click="update(a)">修改</span>
