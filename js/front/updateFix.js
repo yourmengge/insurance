@@ -194,14 +194,15 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
             if (poi == undefined) {
                 alert('未找到该地址，请点击地图选取位置')
             } else {
-                $scope.lat = poi.point.lat;
-                $scope.lng = poi.point.lng;
+                $scope.selectFixLat = poi.point.lat;
+                $scope.selectFixLng = poi.point.lng;
                 $scope.searchLocation = $scope.searchName;
-                sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.lat);
-                sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.lng);
+                
+                sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.selectFixLat);
+                sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.selectFixLng);
                 $('#add').removeClass('button_disabled').removeAttr("disabled");
                 map.centerAndZoom(poi.point, 15);
-                var marker = new BMap.Marker(new BMap.Point($scope.lng, $scope.lat)); // 创建标注，为要查询的地方对应的经纬度
+                var marker = new BMap.Marker(new BMap.Point($scope.selectFixLng, $scope.selectFixLat)); // 创建标注，为要查询的地方对应的经纬度
                 map.addOverlay(marker);
             }
         });
