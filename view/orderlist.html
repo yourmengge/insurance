@@ -7,7 +7,7 @@
         <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        
         订单类型：
         <select class="input" name="" style="width:100px;" ng-model="ordertype" ng-options="a.id as a.name for a in orderTypeTexts" id=""></select>
-        <input class="input" type="text" ng-model="caseNo" style="width:300px;" placeholder="请输入查勘员、车牌号、施救单位或推修车行简称">
+        <input class="input" type="text" ng-model="caseNo" style="width:320px;" placeholder="请输入查勘员、车牌号、施救单位或推修车行简称">
         <button class="button" ng-click="search()">查询</button>
         <button class="button" ng-click="searchAll()">显示全部</button>
         <button class="button output_button" ng-click="toexcel(status,caseNo)">
