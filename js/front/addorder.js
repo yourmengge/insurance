@@ -341,6 +341,22 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         }
     }
     $scope.initData = function () {
+        APIService.get_company_cfg(sessionStorage.getItem('companyNo')).then(function (res) {
+            if (res.data.http_status == 200) {
+                for (var i in res.data.items) {
+                    if (res.data.items[i].funId == 1002) {
+                        $scope.zhipaisiji = true;
+
+                    }
+                    if (res.data.items[i].funId == 1001) {
+                        $scope.zhipaidiaodu = true;
+
+                    }
+                }
+            } else {
+                isError(res)
+            }
+        })
         $scope.message = ''
         var funcList = sessionStorage.getItem('funcList')
         if (contains(funcList, 1) || contains(funcList, 1001)) {
@@ -433,15 +449,15 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             }
 
         })
-        // APIService.get_fav_driver_list(200).then(function (res) {
-        //     if (res.data.count != 0) {
-        //         $scope.error = 1;
-        //         $scope.counts2 = 1;
-        //         $scope.driver_list = res.data.items;
-        //     } else {
-        //         $scope.error = 0;
-        //     }
-        // })
+        APIService.get_fav_driver_list(200).then(function (res) {
+            if (res.data.count != 0) {
+                $scope.error = 1;
+                $scope.counts2 = 1;
+                $scope.driver_list = res.data.items;
+            } else {
+                $scope.error = 0;
+            }
+        })
         APIService.get_team_list(200).then(function (res) {
             fleet_list = [
                 {

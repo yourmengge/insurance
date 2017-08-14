@@ -807,6 +807,13 @@ input[type=number]::-webkit-outer-spin-button {
     height: 35px;
     line-height: 35px;
 }
+.cfg_middle p{
+    display: flex;
+    text-align: center;
+}
+.cfg_middle p span{
+    flex: 1;
+}
 .companyFleet_tips:after{
     box-sizing: content-box;
     width: 0px;
@@ -822,6 +829,62 @@ input[type=number]::-webkit-outer-spin-button {
     display: block;
     content: '';
     z-index: 10;
+}
+.changeMode_btn{
+    margin-left: 50px;
+    margin-top: -40px;
+    border: none;
+    font-size: 18px;
+    background: none;
+    cursor: pointer;
+    color: #3e99ff
+}
+.changeMode_btn img{
+    vertical-align: middle;
+}
+.changeMode_btn:focus{
+    outline: none;
+}
+.description_title{
+    padding: 10px 30px;
+    background: #f7f7f7;
+    width: 87vw;
+    margin-left: -30px;
+}
+.select_div{
+    padding: 10px;
+    border: solid 1px #d7d7d7;
+    margin: 5px 0;
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+.select_div_click{
+    background: #eef6ff
+}
+.description{
+    padding: 5px 0px;
+    display: none;
+}
+.select_div img{
+    margin: 15px;
+    float: left;
+    width: 30px;
+    height: 20px;
+}
+.select_p{
+    margin: 10px 0;
+    font-weight: bold;
+}
+.opacity{
+    opacity: 0;
+}
+
+.description span{
+    font-size: 13px;
+    margin-left: 0px;
+}
+.attention{
+    font-size: 14px;
 }
 .title1{
     font-size: 14px;

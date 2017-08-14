@@ -173,6 +173,13 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                     $scope.down = hide;
                 }
             }
+            if (type == 'up') {
+                $scope.down = show;
+                $scope.current = $scope.current - 1;
+                if ($scope.current == 1) {
+                    $scope.up = hide;
+                }
+            }
 
             loading();
             APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {

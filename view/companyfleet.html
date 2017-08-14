@@ -1,26 +1,26 @@
 <div class="adddriver" ng-controller="companyfleetCtrl" ng-init="initData()">
     <h2>抢单车队管理</h2>
-    <div class="tabs">
+    <!-- <div class="tabs">
         <button ng-click="changeMode(1)">
                 就近抢单模式
             </button>
-        <!-- <div class="companyFleet_tips" id="tips1">
+        <div class="companyFleet_tips" id="tips1">
                 <p>根据5分钟以内，按 30公里范围内抢单；</p>
                 <p>5~10分钟以内，按30-50公里范围内抢单；</p>
                 <p>超过10分钟，按 50-70公里范围内抢单。</p>
-            </div> -->
+            </div>
         <button ng-click="changeMode(2)">
                 抢单模式
             </button>
-        <!-- <div class="companyFleet_tips" id="tips2">
+        <div class="companyFleet_tips" id="tips2">
                 <p>加入抢单模式的车队可随机进行抢单。</p>
-            </div> -->
+            </div>
         <button ng-click="changeMode(3)">
                 按权重指派
             </button>
-        <!-- <div class="companyFleet_tips" id="tips3">
-                <p>按权重指派订单给施救车队。</p>
-            </div> -->
+        <div class="companyFleet_tips" id="tips3">
+            <p>按权重指派订单给施救车队。</p>
+        </div>
         <button class="help_btn" title="解说" ng-click="openTips('div')"></button>
         <div class="companyFleet_tips" id="div">
             <p class="title1">1、就近抢单模式</p>
@@ -33,19 +33,46 @@
             <p class="title2">&emsp;&emsp;系统会根据配置比例，直接指派订单给对应的调度；若比例相同时，平均分配。</p>
             注： 1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的权重指派，且未配置车队，系统会默认使用第1种的就近抢单模式。
         </div>
+        
+    </div>-->
+    <div>
+        <div class="description_title">
+            <h3>当前模式为：<span style="color:#e69f17">  {{currentTitle}}  </span>
+                <button ng-click="changeMode()" class="changeMode_btn">切换模式 <img src="img/icon-qiehuanmoshi.png" alt=""></button>
+            </h3>
+            <p ng-hide="open">说明：{{description}}</p>
+        </div>
+        <div class="description">
+            <p class="attention"> 注：1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的权重指派，且未配置车队，系统会默认使用第1种的就近抢单模式。</p>
+            <div class="select_div {{current_mode != 1?'':'select_div_click'}}" ng-click="switchMode(1,$event)">
+                <p class="select_p">
+                    <img src="img/icon-gou.png" alt="" class="{{current_mode != 1?'opacity':''}}"> 就近抢单模式
+                </p>
+                <span>
+                    {{Texts[0]}}
+                </span>
+            </div>
+            <div class="select_div {{current_mode != 2?'':'select_div_click'}}" ng-click="switchMode(2,$event)">
+                <p class="select_p">
+                    <img src="img/icon-gou.png" alt="" class="{{current_mode != 2?'opacity':''}}">抢单模式
+                </p>
+                <span>
+                    {{Texts[1]}}
+                </span>
+            </div>
+            <div class="select_div {{current_mode != 3?'':'select_div_click'}}" ng-click="switchMode(3,$event)">
+                <p class="select_p">
+                    <img src="img/icon-gou.png" alt="" class="{{current_mode != 3?'opacity':''}}">按比例指派
+                </p>
+                <span>
+                    {{Texts[2]}}
+                </span>
+            </div>
+
+        </div>
+
     </div>
-    <h3>当前模式：{{currentTitle}}</h3>
-    <div ng-hide="current_mode != 1">
-        <p>
-            刚下单推送30公里范围内，30公里范围内的调度可以抢单；
-        </p>
-        <p>
-            5分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；
-        </p>
-        <p>
-            10分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。
-        </p>
-    </div>
+
     <div ng-hide="current_mode == 1">
         <p class="search_div">
             <!-- <input type="text" ng-model="keyword" placeholder="请输入车队或车队电话" class="input" style="width:200px;" ng-model="keyword"> -->
@@ -56,26 +83,30 @@
             <button class="button" style="float:right" ng-click="addDriver()">
                 添加抢单车队
             </button>
-            <button ng-hide="current_mode != 3" class="button" style="float:right" ng-click="weightCfg()">
-                权重配置
+            <button ng-hide="current_mode != 3 || team_list.length == 0" class="button" style="float:right" ng-click="weightCfg()">
+                比例配制
             </button>
         </p>
         <div class="weightCfg_div">
-            <h2 class="alert_add_h2">权重配置</h2>
+            <h2 class="alert_add_h2">比例配置</h2>
             <img src="img/guanbi-dianji.png" alt="" class="close_img" ng-click="close()">
-            <span class="wrong_font">*请输入</span>
-            <div>
+            <span class="wrong_font">*请输入0 ~100的整数</span>
+            <div class="cfg_middle">
+                <p>
+                    <span>车队名</span>
+                    <span style="flex:0.6">配额</span>
+                    <span style="flex:0.4">配额比例</span>
+                </p>
                 <p style="text-align:center;" ng-repeat="a in team_list">
                     <span class="list_span">{{a.fleetName}}：</span>
-                    <input ng-keyup="keyup($event,a.fleetId)" maxlength="3" ng-blur="lose_focus()" ng-model="input" ng-change="inputNum($event,a.fleetId)"
-                        ng-keypress="isNum($event,a.fleetId)" class="input weight_input" type="text" ng-value="a.weight" id="{{a.fleetId}}">
-                    <span class="{{a.fleetId}}"></span>
+                    <span style="flex:0.6">
+                        <input ng-model="input" ng-change="inputNum($event,a.fleetId)" ng-keypress="isNum($event,a.fleetId)" class="input weight_input" type="number" max="100" ng-value="a.weight" id="{{a.fleetId}}">
+                    </span>
+                    <span style="flex:0.4;color:#b5b5b5;" class="{{a.fleetId}}"></span>
                 </p>
-                {{a.fleetId}}
             </div>
             <div class="cfg_div_footer">
-                <!-- <p class="gray">比例值：{{bili}}</p> -->
-                <button class="button button_del" ng-click="close()">取消</button>
+                <button class="button button_small" ng-click="close()">取消</button>
                 <button class="button" ng-click="update_weight()">提交</button>
 
             </div>
@@ -93,8 +124,8 @@
             <p><button id="submit" class="button button_disabled" ng-click="submit_add()" disabled>确定</button>
                 <button class="button button_del" ng-click="close()">取消</button></p>
         </div>
-        <h2>{{tips}}</h2>
-        <table ng-hide="table" cellspacing="0" class="table">
+        <h2 ng-hide="team_list.length != 0">{{tips}}</h2>
+        <table ng-hide="team_list.length == 0" cellspacing="0" class="table">
             <tr>
                 <th></th>
                 <th>车队名</th>
@@ -103,7 +134,8 @@
                 <th>接单数</th>
                 <th>完成数</th>
                 <th>取消数</th>
-                <th ng-hide="current_mode != 3">抢单比例(%)</th>
+                <th ng-hide="current_mode != 3">配额</th>
+                <th ng-hide="current_mode != 3">配额比例(%)</th>
                 <th>操作</th>
             </tr>
             <tr ng-repeat="a in team_list">
@@ -115,6 +147,7 @@
                 <td>{{a.finishOrderCounts}}</td>
                 <td>{{a.cancelOrderCounts}}</td>
                 <td ng-hide="current_mode != 3">{{a.weight}}</td>
+                <td ng-hide="current_mode != 3">{{scale(a.weight)}}</td>
                 <td><span class="button_span" ng-click="delete(a)">移除</span></td>
             </tr>
         </table>

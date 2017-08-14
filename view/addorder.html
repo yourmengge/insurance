@@ -44,7 +44,7 @@
                 <td><span class="require"></span>车牌号：</td>
                 <td><input ng-change="change2()" class="input" type="text" ng-model="order.accidentCarNo" placeholder="请输入车牌号"></td>
             </tr>
-            <!-- <tr ng-hide="!diaodu">
+             <tr ng-hide="!zhipaisiji">
                 <td>指派司机：</td>
                 <td>
                     <input class="input" ng-model="Driver" ng-click="openDriver()" placeholder="请选择指派司机" readonly="true">
@@ -53,11 +53,10 @@
                             {{a.driverName}} - {{a.driverMobile}}
                         </p>
                     </div>
-                    <span class="require">*</span>
                     <span ng-hide="error != 0">当前没有司机 请<span style="color:blue;cursor:pointer" ui-sref="main.adddriver">添加指派司机</span></span>
                 </td>
-            </tr> -->
-            <tr ng-hide="diaodu">
+            </tr> 
+            <tr ng-hide="!zhipaidiaodu">
                 <td>指派调度：</td>
                 <td>
                     <select ng-click="change2()" class="input" ng-model="order.designateGrabUserId" ng-options="a.bossUserId as a.fleetName for a in driver_list"></select>

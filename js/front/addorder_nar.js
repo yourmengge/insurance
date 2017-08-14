@@ -373,6 +373,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             $scope.order.shop4sId = sessionStorage.getItem('fixAddress_shop4sId')
         }
         if ($scope.rescueType.type != 'tuoche') {
+            $scope.order.shop4sId = '';
             $scope.order.fixAddress = '';
             $scope.order.fixLatitude = '';
             $scope.order.fixLongitude = '';

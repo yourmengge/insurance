@@ -2,10 +2,14 @@ var companyfleet = angular.module('companyfleet', ['Road167']);
 companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         loading();
-        limit = 200;
+        $scope.limit = 200;
+        $scope.num = [];
         $scope.keyword = '';
+        $scope.open = false;
         $scope.searchName = '';
-        $scope.get_company_fleet('', limit);
+        $scope.table = show;
+        $scope.get_company_fleet('', $scope.limit);
+        $scope.tips = '当前无车队，请尽快配置车队启用模式，以免影响接单'
         //获取公司信息
         $scope.get_company_detail();
     }
@@ -13,37 +17,87 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         APIService.get_company_province(sessionStorage.getItem('companyId')).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.current_mode = res.data.orderDispatchMode;
-                switch ($scope.current_mode) {
-                    case 1:
-                        $scope.currentTitle = '就近抢单模式'
-                        break;
-                    case 2:
-                        $scope.currentTitle = '抢单模式'
-                        break;
-                    case 3:
-                        $scope.currentTitle = '按权重指派'
-                        break;
-                    default:
-                        break;
-                }
+                $scope.witchTpye($scope.current_mode);
             } else {
                 isError(res)
             }
         })
     }
+    $scope.witchTpye = function (type) {
+        switch (type) {
+            case 1:
+                $scope.alert = '';
+                $scope.currentTitle = '就近抢单模式'
+                $scope.description = $scope.Texts[0];
+                break;
+            case 2:
+                $scope.alert = '确定移除' + $scope.delete_fleetName + '的抢单。'
+                $scope.currentTitle = '抢单模式'
+                $scope.description = $scope.Texts[1];
+                break;
+            case 3:
+                $scope.alert = '确定移除' + $scope.delete_fleetName + '车队，请尽快调整车队比例配置，以免影响订单分配！'
+                $scope.currentTitle = '按权重指派'
+                $scope.description = $scope.Texts[2];
+                break;
+            default:
+                break;
+        }
+    }
+    $scope.changeMode = function () {
+        $('.description').toggle();
+        $scope.open = !$scope.open;
+    }
+    $scope.Texts = [
+        '刚下单推送30公里范围内，30公里范围内的调度可以抢单；5分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；10分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。',
+        '加入抢单模式的车队都可以抢单，不受范围限制。',
+        '系统会根据配置比例，直接指派订单给对应的调度；若比例相同时，平均分配。'
+    ]
     function isInteger(obj) {
         return obj % 1 === 0
     }
-    $scope.inputNum = function () {
+    $scope.scale = function (weight) {
+        if (isAllEqual($scope.num) && $scope.num[0] == 0) {
+            return parseInt(100 / $scope.num.length)
+        } else {
+            return parseInt(weight * 100 / $scope.totle)
+        }
+
+    }
+    function isAllEqual(array) {//判断数组内所有值是否相等
+        if (array.length > 0) {
+            return !array.some(function (value, index) {
+                return value !== array[0];
+            });
+        } else {
+            return true;
+        }
+    }
+    $scope.inputNum = function (e, id) {
         var totle = 0;
+        var array = [];
         for (let i in $scope.team_list) {
             var num = $('#' + $scope.team_list[i].fleetId).val()
+            if (num == '') {
+                num = '0';
+            }
+            array.push(num);
             totle = parseInt(num) + totle;
         }
-        for (var i in $scope.team_list) {
-            weight = $('#' + $scope.team_list[i].fleetId).val();
-            $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+        if (isAllEqual(array) && $('#' + $scope.team_list[0].fleetId).val() == 0) {
+            for (var i in $scope.team_list) {
+                $('.' + $scope.team_list[i].fleetId).text(parseInt(100 / $scope.team_list.length) + '%')
+            }
+        } else {
+            for (var i in $scope.team_list) {
+                weight = $('#' + $scope.team_list[i].fleetId).val();
+                if (weight == '') {
+                    weight = 0;
+                }
+                $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+            }
         }
+
     }
     $scope.lose_focus = function () {
         $('input').removeClass('wrong_input');
@@ -81,38 +135,70 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         }
 
     }
-    $scope.changeMode = function (type) {
-        if ($scope.current_mode != type) {
-            switch (type) {
-                case 1:
-                    $scope.message = '就近抢单模式'
-                    break;
-                case 2:
-                    $scope.message = '抢单模式'
-                    break;
-                case 3:
-                    $scope.message = '按权重指派'
-                    break;
-                default:
-                    break;
+
+    $scope.switchMode = function (type, e) {
+        $scope.message = '确定退出' + $scope.currentTitle + '，现有模式配置失效！'
+        if (confirm($scope.message)) {
+            var data = {
+                orderDispatchMode: type
             }
-            if (confirm($scope.message)) {
-                var data = {
-                    orderDispatchMode: type
+            APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
+                if (res.data.http_status == 200) {
+                    layer.msg('切换模式成功');
+                    $('.description').toggle();
+                    $scope.initData();
+                } else {
+                    isError(res);
                 }
-                APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
-                    if (res.data.http_status == 200) {
-                        layer.msg('切换模式成功');
-                        $scope.initData();
-                    } else {
-                        isError(res);
-                    }
-                })
-            }
+            })
         } else {
-
+            if (window.event) {
+                window.event.returnValue = false;
+            }
+            else {
+                e.preventDefault(); //for firefox 
+            }
         }
+    }
+    // $scope.changeMode = function (type) {
+    //     if ($scope.current_mode != type) {
+    //         switch (type) {
+    //             case 1:
+    //                 $scope.message = '就近抢单模式'
+    //                 break;
+    //             case 2:
+    //                 $scope.message = '抢单模式'
+    //                 break;
+    //             case 3:
+    //                 $scope.message = '按权重指派'
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //         if (confirm($scope.message)) {
+    //             var data = {
+    //                 orderDispatchMode: type
+    //             }
+    //             APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
+    //                 if (res.data.http_status == 200) {
+    //                     layer.msg('切换模式成功');
+    //                     $scope.initData();
+    //                 } else {
+    //                     isError(res);
+    //                 }
+    //             })
+    //         }
+    //     } else {
 
+    //     }
+
+    // }
+    $scope.isSelect = function (type) {
+        if (type == $scope.current_mode) {
+            return true;
+        } else {
+            return false;
+        }
     }
     $scope.get_company_fleet = function () {
         var startDay = $('#startDay').val();
@@ -121,12 +207,17 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.team_list = res.data.items;
+                $scope.totle = 0;
+                for (var i in $scope.team_list) {
+                    $scope.totle = $scope.totle + $scope.team_list[i].weight;
+                    $scope.num.push($scope.team_list[i].weight)
+                }
                 //分页部分
                 $scope.current = 1;
-                $scope.pageCount = Math.ceil(res.data.count / limit);
-                if (res.data.count <= limit) {
+                $scope.pageCount = Math.ceil(res.data.count / $scope.limit);
+                if (res.data.count <= $scope.limit) {
                     $scope.page_p = hide;
-                }else{
+                } else {
                     $scope.page_p = show;
                     $scope.down = show;
                 }
@@ -171,29 +262,32 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
     $scope.closeTips = function (id) {
         $('#' + id).css('display', 'none');
     }
-    $scope.keyup = function (e, id) {
-        var num = parseInt($('#' + id).val())
-        if (num > 100) {
+
+    $scope.isNum = function (e, id) {//限制输入0到100的正整数
+        var preventDefault = function () {
             if (window.event) {
                 window.event.returnValue = false;
-                return false;
             }
             else {
                 e.preventDefault(); //for firefox 
             }
         }
-    }
-    $scope.isNum = function (e, id) {
         var k = window.event ? e.keyCode : e.which;
-        if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
+        if (((k >= 48) && (k <= 57))) {//限制输入数字
+            var num = $('#' + id).val();
+            if (num > 10) {
+                preventDefault();
+            } else if (num == 10) {
+                if (k != 48) {
+                    preventDefault();
+                }
+            }
+            if (num.length == 3) {
+                preventDefault();
+            }
 
         } else {
-            if (window.event) {
-                window.event.returnValue = false;
-            }
-            else {
-                e.preventDefault(); //for firefox 
-            }
+            preventDefault();
         }
     }
     $scope.addDriver = function () {
@@ -206,9 +300,19 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         for (let i in $scope.team_list) {
             totle = $scope.team_list[i].weight + totle;
         }
-        for (var i in $scope.team_list) {
-            weight = $scope.team_list[i].weight;
-            $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+        // for (var i in $scope.team_list) {
+        //     weight = $scope.team_list[i].weight;
+        //     $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+        // }
+        if (isAllEqual($scope.num) && $scope.team_list[0].weight == 0) {
+            for (var i in $scope.team_list) {
+                $('.' + $scope.team_list[i].fleetId).text(parseInt(100 / $scope.team_list.length) + '%')
+            }
+        } else {
+            for (var i in $scope.team_list) {
+                weight = $scope.team_list[i].weight;
+                $('.' + $scope.team_list[i].fleetId).text(parseInt(weight * 100 / totle) + '%')
+            }
         }
     }
     $scope.weightCfg = function () {
@@ -229,9 +333,11 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $('.weightCfg_div').css('display', 'none');
         $scope.initData();
     }
-    $scope.delete = function (data) {
 
-        if (confirm('确定移除 ' + data.fleetName + '吗？')) {
+    $scope.delete = function (data) {
+        $scope.delete_fleetName = data.fleetName;
+        $scope.witchTpye($scope.current_mode);
+        if (confirm($scope.alert)) {
             loading();
             APIService.delete_company_fleet(data.id).then(function (res) {
                 closeloading();
@@ -307,7 +413,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
             }
         }
         loading();
-        APIService.paging(urlV1 + '/company-fleet?keyword=' + $scope.keyword, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + '/company-fleet?keyword=' + $scope.keyword, $scope.limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.team_list = res.data.items;
