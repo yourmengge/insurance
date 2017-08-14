@@ -839,6 +839,10 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
     color: #3e99ff
 }
+.full_width{
+    width: 95vw;
+    left: 1vw;
+}
 .changeMode_btn img{
     vertical-align: middle;
 }

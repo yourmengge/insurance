@@ -21,25 +21,32 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
             }
         })
     }
-    $scope.goto = function(){
+    $scope.goto = function () {
         goto_view('main/disaster')
     }
     $scope.initData = function () {
-        $('.left_menu p').css('display', 'none')
-        $scope.companyName = sessionStorage.getItem('companyName');
-        $scope.adminName = sessionStorage.getItem('adminName');
-        $('#' + sessionStorage.getItem('lmId')).addClass('left_menu_click').siblings().removeClass('left_menu_click');
-        APIService.get_menu().then(function (res) {
-            if (res.data.http_status == 200) {
-                if (res.data.items != null) {
-                    for (var i = 0; i < res.data.items.length; i++) {
-                        $('.left_menu .' + res.data.items[i].url).css('display', 'block')
+        $scope.isShop4SAdmin = sessionStorage.getItem('isShop4sAdmin');
+        if ($scope.isShop4SAdmin == 'true') {
+            $('.left_menu p').css('display', 'none')
+        } else {
+            $('.left_menu p').css('display', 'none')
+            $scope.companyName = sessionStorage.getItem('companyName');
+            $scope.adminName = sessionStorage.getItem('adminName');
+            $('#' + sessionStorage.getItem('lmId')).addClass('left_menu_click').siblings().removeClass('left_menu_click');
+            APIService.get_menu().then(function (res) {
+                if (res.data.http_status == 200) {
+                    if (res.data.items != null) {
+                        for (var i = 0; i < res.data.items.length; i++) {
+                            $('.left_menu .' + res.data.items[i].url).css('display', 'block')
+                        }
                     }
-                }
 
-            } else {
-                isError(res)
-            }
-        })
+                } else {
+                    isError(res)
+                }
+            })
+
+        }
+
     }
 }])

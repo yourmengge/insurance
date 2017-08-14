@@ -16,10 +16,19 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                     } else {
                         sessionStorage.setItem('zhipaidiaodu', 0);
                     }
+                    if (res.data.carNo == 'x') {
+                        sessionStorage.setItem('isShop4sAdmin', true)
+                        setTimeout(function () {
+                            goto_view('main/shop4S');
+                        }, 1000);
+                    } else {
+                        sessionStorage.setItem('isShop4sAdmin', false);
+                        setTimeout(function () {
+                            goto_view('main');
+                        }, 1000);
+                    }
 
-                    setTimeout(function () {
-                        goto_view('main');
-                    }, 1000);
+
                 }
                 isError(res)
             })
