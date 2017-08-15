@@ -2,6 +2,8 @@ var companyfleet = angular.module('companyfleet', ['Road167']);
 companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         loading();
+        $('#startDay').val('');
+        $('#endDay').val('');
         $scope.limit = 200;
         $scope.num = [];
         $scope.keyword = '';
@@ -37,7 +39,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
                 break;
             case 3:
                 $scope.alert = '确定移除' + $scope.delete_fleetName + '车队，请尽快调整车队比例配置，以免影响订单分配！'
-                $scope.currentTitle = '按权重指派'
+                $scope.currentTitle = '按比例指派'
                 $scope.description = $scope.Texts[2];
                 break;
             default:
@@ -49,7 +51,7 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
         $scope.open = !$scope.open;
     }
     $scope.Texts = [
-        '刚下单推送30公里范围内，30公里范围内的调度可以抢单；5分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；10分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。',
+        '刚下单推送30公里范围内，30公里范围内的调度可以抢单；3分钟未接单推送50公里范围内，50公里范围内的调度可以抢单；5分钟未接单推送70公里范围内，70公里范围内的调度可以抢单。',
         '加入抢单模式的车队都可以抢单，不受范围限制。',
         '系统会根据配置比例，直接指派订单给对应的调度；若比例相同时，平均分配。'
     ]
@@ -137,28 +139,33 @@ companyfleet.controller('companyfleetCtrl', ['$scope', 'APIService', function ($
     }
 
     $scope.switchMode = function (type, e) {
-        $scope.message = '确定退出' + $scope.currentTitle + '，现有模式配置失效！'
-        if (confirm($scope.message)) {
-            var data = {
-                orderDispatchMode: type
-            }
-            APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
-                if (res.data.http_status == 200) {
-                    layer.msg('切换模式成功');
-                    $('.description').toggle();
-                    $scope.initData();
-                } else {
-                    isError(res);
-                }
-            })
+        if ($scope.current_mode == type) {
+
         } else {
-            if (window.event) {
-                window.event.returnValue = false;
-            }
-            else {
-                e.preventDefault(); //for firefox 
+            $scope.message = '确定退出' + $scope.currentTitle + '，现有模式配置失效！'
+            if (confirm($scope.message)) {
+                var data = {
+                    orderDispatchMode: type
+                }
+                APIService.update_company(sessionStorage.getItem('companyId'), data).then(function (res) {
+                    if (res.data.http_status == 200) {
+                        layer.msg('切换模式成功');
+                        $('.description').toggle();
+                        $scope.initData();
+                    } else {
+                        isError(res);
+                    }
+                })
+            } else {
+                if (window.event) {
+                    window.event.returnValue = false;
+                }
+                else {
+                    e.preventDefault(); //for firefox 
+                }
             }
         }
+
     }
     // $scope.changeMode = function (type) {
     //     if ($scope.current_mode != type) {

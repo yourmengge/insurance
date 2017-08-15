@@ -43,7 +43,7 @@
             <p ng-hide="open">说明：{{description}}</p>
         </div>
         <div class="description">
-            <p class="attention"> 注：1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的权重指派，且未配置车队，系统会默认使用第1种的就近抢单模式。</p>
+            <p class="attention"> 注：1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的比例指派，且未配置车队，系统会默认使用第1种的就近抢单模式。</p>
             <div class="select_div {{current_mode != 1?'':'select_div_click'}}" ng-click="switchMode(1,$event)">
                 <p class="select_p">
                     <img src="img/icon-gou.png" alt="" class="{{current_mode != 1?'opacity':''}}"> 就近抢单模式
@@ -81,10 +81,10 @@
             <button class="button" ng-click="get_company_fleet()">查询</button>
             <button class="button" ng-click="initData()">显示全部</button>
             <button class="button" style="float:right" ng-click="addDriver()">
-                添加抢单车队
+                添加车队
             </button>
             <button ng-hide="current_mode != 3 || team_list.length == 0" class="button" style="float:right" ng-click="weightCfg()">
-                比例配制
+                比例配置
             </button>
         </p>
         <div class="weightCfg_div">

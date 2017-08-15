@@ -25,7 +25,7 @@ nar_location.controller('nar_locationCtrl', ['$scope', 'APIService', function ($
         localSearch = new BMap.LocalSearch(map);
         $scope.type = sessionStorage.getItem('addorder_nar_type')
         if ($scope.type == '事故') {
-            $scope.sessionStorageName = 'nar_address'
+            $scope.sessionStorageName = 'accident_address'
         } else if ($scope.type == '目的') {
             $scope.sessionStorageName = 'nar_address_fixaddress'
         } else if ($scope.type == '车行') {
@@ -33,7 +33,10 @@ nar_location.controller('nar_locationCtrl', ['$scope', 'APIService', function ($
         }else if($scope.type == '修改事故'){
             $scope.type = '事故';
             $scope.sessionStorageName = 'update'
+        }else if($scope.type = '事故_nar'){
+             $scope.sessionStorageName = 'nar_address'
         }
+
     }
     $scope.change = function (text) {
         if (text.length >= $scope.searchLocation.length) {//判断字数增加还是减少

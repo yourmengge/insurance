@@ -349,9 +349,10 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
     }
     $scope.selectMap = function (type) {
         if (type == 1) {
-            sessionStorage.setItem('addorder_nar_type', '事故');
+            sessionStorage.setItem('addorder_nar_type', '事故_nar');
             goto_view('main/nar_location');
         } else {
+            sessionStorage.setItem('select_map_type', '目的_nar');
             sessionStorage.setItem('select_type', 'addorder')
             goto_view('main/updateFix');
         }

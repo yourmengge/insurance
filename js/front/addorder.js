@@ -43,14 +43,16 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             sessionStorage.setItem('addorder_nar_type', '事故');
             goto_view('main/nar_location');
         } else {
-            sessionStorage.setItem('select_type', 'addorder')
+            sessionStorage.setItem('select_type', 'addorder');
+            sessionStorage.setItem('select_map_type', '目的');
             goto_view('main/updateFix');
         }
 
     }
     //清除sessionstorage
     $scope.clear = function () {
-        sessionStorage.removeItem('nar_address_fixaddress');
+        sessionStorage.removeItem('address_fixaddress');
+        sessionStorage.removeItem('accident_address');
         sessionStorage.setItem('addorder_order', '{}');
         sessionStorage.setItem('chargeMode', '');
         sessionStorage.removeItem('fixAddress_shop4sId');
@@ -79,9 +81,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     }
                     // history.pushState({}, "", url + "insurance/#!/main/addorder?type=success");
                     sessionStorage.setItem('jiexi_success', 'success');
+                    sessionStorage.removeItem('address_fixaddress');
+                    sessionStorage.removeItem('accident_address');
                     res.data.designateGrabUserId = '';
-                    sessionStorage.setItem('nar_address_fixaddress_nar_lat', res.data.fixLatitude);
-                    sessionStorage.setItem('nar_address_fixaddress_nar_lng', res.data.fixLongitude);
+                    sessionStorage.setItem('address_fixaddress_nar_lat', res.data.fixLatitude);
+                    sessionStorage.setItem('address_fixaddress_nar_lng', res.data.fixLongitude);
                     sessionStorage.setItem('addorder_order', JSON.stringify(res.data));
                     sessionStorage.removeItem('fixAddress_shop4sId');
                     $scope.order = res.data;
@@ -136,20 +140,21 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         if (!isPhone.test($scope.order.accidentDriverPhone)) {
             layer.msg('手机号码格式不正确');
         } else {
-            $scope.order.fixLatitude = sessionStorage.getItem('nar_address_fixaddress_nar_lat');
-            $scope.order.fixLongitude = sessionStorage.getItem('nar_address_fixaddress_nar_lng');
+            $scope.order.fixLatitude = sessionStorage.getItem('address_fixaddress_nar_lat');
+            $scope.order.fixLongitude = sessionStorage.getItem('address_fixaddress_nar_lng');
             $scope.order.fixAddress = $scope.fixAddress;
+            $scope.order.accidentAddress = $scope.accidentAddress;
             $scope.order.chargeMode = sessionStorage.getItem('chargeMode')
             APIService.add_order($scope.order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
-                    sessionStorage.removeItem('nar_address_fixaddress');
+                    sessionStorage.removeItem('address_fixaddress');
                     sessionStorage.removeItem('nar_address_fixaddress_nar_lat');
                     sessionStorage.removeItem('nar_address_fixaddress_nar_lng');
                     sessionStorage.setItem('chargeMode', 2);
                     sessionStorage.setItem('jiexi_success', '');
                     sessionStorage.removeItem('addorder_order');
-                    sessionStorage.removeItem('nar_address');
+                    sessionStorage.removeItem('accident_address');
                     sessionStorage.removeItem('location_address');
                     sessionStorage.removeItem('location_lat');
                     sessionStorage.removeItem('location_lng');
@@ -233,7 +238,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.counts6 = 1;
         }
     });
-    $scope.$watch('order.accidentAddress', function (accident) {
+    $scope.$watch('accidentAddress', function (accident) {
         if (accident == '' || accident == null) {
             $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
             $scope.counts1 = 0;
@@ -327,7 +332,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         $scope.jiexi = 0;
         $scope.message = '';
         sessionStorage.setItem('jiexi_success', '')
-        sessionStorage.removeItem('nar_address_fixaddress');
+        sessionStorage.removeItem('address_fixaddress');
         sessionStorage.setItem('addorder_order', '{}');
         sessionStorage.setItem('chargeMode', '');
         sessionStorage.setItem('location_address', '');
@@ -341,28 +346,18 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         }
     }
     $scope.initData = function () {
-        APIService.get_company_cfg(sessionStorage.getItem('companyNo')).then(function (res) {
-            if (res.data.http_status == 200) {
-                for (var i in res.data.items) {
-                    if (res.data.items[i].funId == 1002) {
-                        $scope.zhipaisiji = true;
-
-                    }
-                    if (res.data.items[i].funId == 1001) {
-                        $scope.zhipaidiaodu = true;
-
-                    }
-                }
-            } else {
-                isError(res)
-            }
-        })
         $scope.message = ''
-        var funcList = sessionStorage.getItem('funcList')
-        if (contains(funcList, 1) || contains(funcList, 1001)) {
-            $scope.diaodu = show;
+        var funcList = sessionStorage.getItem('funcList').split(',')
+
+        if (contains(funcList, 1002)) {
+            $scope.zhipaisiji = show;
         } else {
-            $scope.diaodu = hide;
+            $scope.zhipaisiji = hide;
+        }
+        if (contains(funcList, 1) || contains(funcList, 1001)) {
+            $scope.zhipaidiaodu = show;
+        } else {
+            $scope.zhipaidiaodu = hide;
         }
         if (sessionStorage.getItem('chargeMode') == '' || sessionStorage.getItem('chargeMode') == null) {
             $scope.mode = 2;
@@ -416,15 +411,20 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 // $scope.caseNo = data.caseNo;
                 // $scope.fixAddress = sessionStorage.getItem('location_address');
 
-                if (sessionStorage.getItem('nar_address_fixaddress') != undefined) {
-                    $scope.fixAddress = sessionStorage.getItem('nar_address_fixaddress')
+                if (sessionStorage.getItem('address_fixaddress') != undefined) {
+                    $scope.fixAddress = sessionStorage.getItem('address_fixaddress')
                 } else {
                     $scope.fixAddress = $scope.order.fixAddress;
                 }
-                if (sessionStorage.getItem('nar_address') != null) {
-                    $scope.order.accidentAddress = sessionStorage.getItem('nar_address')
-                    sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
+                if (sessionStorage.getItem('accident_address') != undefined) {
+                    $scope.accidentAddress = sessionStorage.getItem('accident_address')
+                } else {
+                    $scope.accidentAddress = $scope.order.accidentAddress;
                 }
+                // if (sessionStorage.getItem('accident_address') != undefined) {
+                //     $scope.order.accidentAddress = sessionStorage.getItem('accident_address')
+                //     sessionStorage.setItem('nar_addorder_order', JSON.stringify($scope.order));
+                // }
                 // $scope.accidentDriverName = data.accidentDriverName;
                 // $scope.accidentCarNoType = data.accidentCarNoType;
                 // $scope.accidentCarNo = data.accidentCarNo;
@@ -474,7 +474,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 res.data.items[i].fleetName = res.data.items[i].fleetName + '-' + res.data.items[i].bossPhone
                 fleet_list.push(res.data.items[i]);
             }
-            $scope.driver_list = fleet_list;
+            $scope.team_list = fleet_list;
             if (!$scope.order.hasOwnProperty('designateGrabUserId')) {
                 $scope.order.designateGrabUserId = '';
             }

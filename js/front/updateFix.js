@@ -57,13 +57,11 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
         map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
         map.addEventListener("click", showInfo);
         localSearch = new BMap.LocalSearch(map);
-        $scope.type = sessionStorage.getItem('addorder_nar_type')
-        if ($scope.type == '事故') {
-            $scope.sessionStorageName = 'nar_address'
-        } else if ($scope.type == '目的') {
+        $scope.type = sessionStorage.getItem('select_map_type')
+        if ($scope.type == '目的') {
+            $scope.sessionStorageName = 'address_fixaddress'
+        } else if ($scope.type == '目的_nar') {
             $scope.sessionStorageName = 'nar_address_fixaddress'
-        } else if ($scope.type == '车行') {
-            $scope.sessionStorageName = 'shop4S'
         }
     }
     //在地图上标注地点
@@ -181,7 +179,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     $scope.goBack = function () {
         window.history.back();
     }
-    $scope.tab = function(type){
+    $scope.tab = function (type) {
         map.clearOverlays(); //清空原来的标注
         $scope.showDiv = type;
         sessionStorage.removeItem('fixAddress_shop4sId')
@@ -197,7 +195,7 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
                 $scope.selectFixLat = poi.point.lat;
                 $scope.selectFixLng = poi.point.lng;
                 $scope.searchLocation = $scope.searchName;
-                
+
                 sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.selectFixLat);
                 sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.selectFixLng);
                 $('#add').removeClass('button_disabled').removeAttr("disabled");
@@ -253,7 +251,6 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
                 }
             })
         } else {
-            $scope.sessionStorageName = 'nar_address_fixaddress'
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.shop4s_lat);
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.shop4s_lng);
             sessionStorage.setItem($scope.sessionStorageName, $scope.shop4sFullName);
@@ -281,7 +278,6 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
             })
         } else {
             sessionStorage.removeItem('fixAddress_shop4sId')
-            $scope.sessionStorageName = 'nar_address_fixaddress'
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.fixaddress_lat);
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.fixaddress_lng);
             sessionStorage.setItem($scope.sessionStorageName, $scope.fixaddress);
@@ -309,7 +305,6 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
             })
         } else {
             sessionStorage.removeItem('fixAddress_shop4sId')
-            $scope.sessionStorageName = 'nar_address_fixaddress'
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lat', $scope.selectFixLat);
             sessionStorage.setItem($scope.sessionStorageName + '_nar_lng', $scope.selectFixLng);
             sessionStorage.setItem($scope.sessionStorageName, $scope.searchName);
