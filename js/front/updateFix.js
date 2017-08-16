@@ -83,12 +83,17 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     }
     //选择推修厂
     $scope.selectshop4s = function (data) {
-        $scope.add_mark(data.longitude, data.latitude, data.simpleName)
-        $scope.shop4s_lat = data.latitude;
-        $scope.shop4s_lng = data.longitude;
-        $scope.shop4sId = data.shop4sId;
-        sessionStorage.setItem('fixAddress_shop4sId', data.shop4sId)
-        $scope.shop4sFullName = data.address + data.simpleName;
+        if (data.simpleName == '未找到符合条件的地址') {
+
+        } else {
+            $scope.add_mark(data.longitude, data.latitude, data.simpleName)
+            $scope.shop4s_lat = data.latitude;
+            $scope.shop4s_lng = data.longitude;
+            $scope.shop4sId = data.shop4sId;
+            sessionStorage.setItem('fixAddress_shop4sId', data.shop4sId)
+            $scope.shop4sFullName = data.address + data.simpleName;
+        }
+
     }
 
     //获取固定目的地列表
@@ -110,10 +115,14 @@ updateFix.controller('updateFixCtrl', ['$scope', 'APIService', function ($scope,
     }
     //选择固定目的地
     $scope.selectaddress = function (data) {
-        $scope.add_mark(data.longitude, data.latitude, data.addressAbbr)
-        $scope.fixaddress_lat = data.latitude;
-        $scope.fixaddress_lng = data.longitude;
-        $scope.fixaddress = data.address + data.addressAbbr;
+        if (data.addressAbbr == '未找到符合条件的地址') {
+
+        } else {
+            $scope.add_mark(data.longitude, data.latitude, data.addressAbbr)
+            $scope.fixaddress_lat = data.latitude;
+            $scope.fixaddress_lng = data.longitude;
+            $scope.fixaddress = data.address + data.addressAbbr;
+        }
     }
     $scope.$watch('shop4s_lat', function (newValue) {
         if (newValue != '') {

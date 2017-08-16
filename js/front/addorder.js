@@ -57,6 +57,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
         sessionStorage.setItem('chargeMode', '');
         sessionStorage.removeItem('fixAddress_shop4sId');
         sessionStorage.setItem('location_address', '');
+        sessionStorage.removeItem('zhidingdriver_name');
         location.reload();
     }
     $scope.analysis = function () {
@@ -84,6 +85,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     sessionStorage.removeItem('address_fixaddress');
                     sessionStorage.removeItem('accident_address');
                     res.data.designateGrabUserId = '';
+                    sessionStorage.removeItem('zhidingdriver_name');
                     sessionStorage.setItem('address_fixaddress_nar_lat', res.data.fixLatitude);
                     sessionStorage.setItem('address_fixaddress_nar_lng', res.data.fixLongitude);
                     sessionStorage.setItem('addorder_order', JSON.stringify(res.data));
@@ -154,6 +156,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                     sessionStorage.setItem('chargeMode', 2);
                     sessionStorage.setItem('jiexi_success', '');
                     sessionStorage.removeItem('addorder_order');
+                    sessionStorage.removeItem('zhidingdriver_name')
                     sessionStorage.removeItem('accident_address');
                     sessionStorage.removeItem('location_address');
                     sessionStorage.removeItem('location_lat');
@@ -317,8 +320,10 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     // }
     $scope.clickDriver = function (name, phone, id) {
         $scope.Driver = name + '-' + phone;
-        $scope.driverId = id;
+        sessionStorage.setItem('zhidingdriver_name',$scope.Driver);
+        $scope.order.designateGrabDriverId = id;
         $('.fixaddress_div').css('display', 'none');
+        $scope.change2();
     }
     // $scope.back = function () {
     //     sessionStorage.setItem('jiexi_success', '');
@@ -410,7 +415,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 // $scope.accident = data.accidentAddress;
                 // $scope.caseNo = data.caseNo;
                 // $scope.fixAddress = sessionStorage.getItem('location_address');
-
+                if(sessionStorage.getItem('zhidingdriver_name') != undefined){
+                    $scope.Driver = sessionStorage.getItem('zhidingdriver_name')
+                }else{
+                    $scope.Driver = '';
+                }
                 if (sessionStorage.getItem('address_fixaddress') != undefined) {
                     $scope.fixAddress = sessionStorage.getItem('address_fixaddress')
                 } else {

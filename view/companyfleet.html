@@ -43,7 +43,7 @@
             <p ng-hide="open">说明：{{description}}</p>
         </div>
         <div class="description">
-            <p class="attention"> 注：1、三种模式为互斥不可兼容，切换时，配置数据保存但不可使用。 2、选择了按配置车队抢单或按配置车队的比例指派，且未配置车队，系统会默认使用第1种的就近抢单模式。</p>
+            <p class="attention"> 注：1、三种模式为互斥不可兼容。 2、当抢单模式、按比例指派中未配置车队时，系统会默认使用第一种的就近抢单模式</p>
             <div class="select_div {{current_mode != 1?'':'select_div_click'}}" ng-click="switchMode(1,$event)">
                 <p class="select_p">
                     <img src="img/icon-gou.png" alt="" class="{{current_mode != 1?'opacity':''}}"> 就近抢单模式
@@ -151,7 +151,7 @@
                 <td><span class="button_span" ng-click="delete(a)">移除</span></td>
             </tr>
         </table>
-        <div style='height:50px;'></div>
+         
         <div class="alert_bg" ng-click="close()"></div>
         <p ng-hide="page_p" class="page_p">
             <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>

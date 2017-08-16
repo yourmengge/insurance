@@ -15,21 +15,29 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         $scope.status = 0;
         $scope.ordertype = '';
         $scope.caseNo = '';
-
-        if (JSON.parse(sessionStorage.getItem('filter')) != null) {
+        $scope.current = 1;
+        if (sessionStorage.getItem('filter') != undefined) {
             var a = JSON.parse(sessionStorage.getItem('filter'))
             $scope.start = a.startDate;
             $scope.endDay = a.endDate;
             $scope.status = a.status;
             $scope.caseNo = a.keyword;
+            $scope.ordertype = a.ordertype;
+            if (a.order_current != '') {
+                $scope.current = a.order_current;
+            }
             $scope.reset_date();
         }
-        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype).then(function (res) {
+        $scope.get_order_list();
+
+    }
+    $scope.get_order_list = function () {
+        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype, ($scope.current - 1) * 10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.orderList = res.data.orderList;
                 //分页部分
-                $scope.current = 1;
+
                 $scope.pageCount = Math.ceil(res.data.orderCounts / limit);
                 if (res.data.orderCounts <= limit) {
                     $scope.page_p = hide;
@@ -38,6 +46,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                     $scope.down = show;
                 }
                 $scope.up = hide;
+                $scope.page_show();
                 //分页结束
             } else {
                 isError(res);
@@ -60,6 +69,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
     }
     $scope.editOrder = function (data) {
         goto_view('main/editorder');
+        $scope.save_filter();
         sessionStorage.setItem('editorder', JSON.stringify(data));
         sessionStorage.setItem('location_lat', data.accidentLatitude);
         sessionStorage.setItem('location_lng', data.accidentLongitude);
@@ -99,17 +109,36 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         //     filename: "下载"
         // });
     }
+    $scope.isNum = function (e) {//限制输入0到100的正整数
+        var preventDefault = function () {
+            if (window.event) {
+                window.event.returnValue = false;
+            }
+            else {
+                e.preventDefault(); //for firefox 
+            }
+        }
+        var k = window.event ? e.keyCode : e.which;
+        if (((k >= 48) && (k <= 57))) {//限制输入数字
+
+        } else {
+            preventDefault();
+        }
+    }
+    $scope.jump = function () {
+        if ($scope.input_jump > $scope.pageCount) {
+            alert('传送失败')
+        } else {
+            $scope.current = $scope.input_jump;
+            $scope.get_order_list();
+        }
+    }
     $scope.search = function () {
-        $scope.get_date();
-        filter.endDate = $scope.endDay;
-        filter.keyword = $scope.caseNo;
-        filter.startDate = $scope.start;
-        filter.status = $scope.status;
-        sessionStorage.setItem('filter', JSON.stringify(filter));
+        $scope.save_filter();
+
         $scope.openDetail = -1;
         loading();
-
-        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype).then(function (res) {
+        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype, ($scope.current - 1) * 10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 if (res.data.orderCounts == 0) {
@@ -131,6 +160,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                         $scope.down = show;
                     }
                     $scope.up = hide;
+                    $scope.page_show();
                     //分页结束
                 }
 
@@ -138,6 +168,16 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                 isError(res);
             }
         })
+    }
+    $scope.save_filter = function () {
+        $scope.get_date();
+        filter.endDate = $scope.endDay;
+        filter.keyword = $scope.caseNo;
+        filter.startDate = $scope.start;
+        filter.status = $scope.status;
+        filter.ordertype = $scope.ordertype;
+        filter.order_current = $scope.current;
+        sessionStorage.setItem('filter', JSON.stringify(filter));
     }
     $scope.get_date = function () {
         var startDate = $('#startDay').val();
@@ -148,39 +188,33 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         $scope.endDay = $scope.endDay[0].substr(2, 3) + '' + $scope.endDay[1] + '' + $scope.endDay[2];
     }
     $scope.detail = function (orderNo) {
+        $scope.save_filter();
         sessionStorage.setItem('orderNo', orderNo);
         sessionStorage.setItem('isDisaster', 'not');
         goto_view('main/detail');
     }
     $scope.Page = function (type) {
-        $scope.get_date();
         if ($scope.start - $scope.endDay <= 0) {
             $scope.openDetail = -1;
             if (type == 'home') {
                 $scope.current = 1;
-                $scope.up = hide;
-                $scope.down = show;
+
             }
             if (type == 'end') {
                 $scope.current = $scope.pageCount;
-                $scope.up = show;
-                $scope.down = hide;
+
             }
             if (type == 'down') {
-                $scope.up = show;
                 $scope.current = $scope.current + 1;
-                if ($scope.current == $scope.pageCount) {
-                    $scope.down = hide;
-                }
+
             }
             if (type == 'up') {
-                $scope.down = show;
                 $scope.current = $scope.current - 1;
-                if ($scope.current == 1) {
-                    $scope.up = hide;
-                }
+
             }
 
+            $scope.save_filter();
+            $scope.page_show();
             loading();
             APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
                 if (res.data.http_status == 200) {
@@ -189,20 +223,23 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
                 } else {
                     isError(res)
                 }
-                loading();
-                APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
-                    if (res.data.http_status == 200) {
-                        closeloading();
-                        $scope.orderList = res.data.orderList;
-                    } else {
-                        isError(res)
-                    }
-                })
             })
         } else {
             layer.msg('开始时间应在结束时间之前');
         }
 
+    }
+    $scope.page_show = function () {
+        if ($scope.current == 1) {
+            $scope.down = show;
+            $scope.up = hide;
+        } else if ($scope.current == $scope.pageCount) {
+            $scope.down = hide;
+            $scope.up = show;
+        } else {
+            $scope.down = show;
+            $scope.up = show;
+        }
     }
     $scope.statusTexts = [
         { id: 0, name: '全部订单' },
@@ -215,7 +252,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         { id: 9, name: '历史未完成' }
     ]
     $scope.orderTypeTexts = [
-        { id: '', name: '全部订单' },
+        { id: '', name: '全部' },
         { id: 1, name: '事故订单' },
         { id: 2, name: '非事故订单' },
         { id: 3, name: '非施救' }

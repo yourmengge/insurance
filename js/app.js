@@ -144,6 +144,14 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/orderlist',
             templateUrl: 'view/orderlist.html'
         })
+        .state('main.orderlist.detail', {
+            url: '/detail',
+            templateUrl: 'view/detail.html'
+        })
+        .state('main.orderlist.editorder', {
+            url: '/editorder',
+            templateUrl: 'view/editorder.html'
+        })
         .state('main.track', {
             url: '/track',
             templateUrl: 'view/track.html'

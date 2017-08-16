@@ -1,8 +1,8 @@
 var
-    // host = 'http://dev.road167.com/extrication';
-    // url = 'http://dev.road167.com';
     host = 'http://dev.road167.com/extrication';
-    url = 'http://localhost:8080';
+    url = 'http://dev.road167.com';
+    // host = 'http://dev.road167.com/extrication';
+    // url = 'http://localhost:8080';
     // host = 'http://test.road167.com/extrication';
     // url = 'http://test.road167.com';
     // host = 'http://www.road167.com/extrication';
@@ -45,5 +45,8 @@ var filter = {
     keyword: '',
     startDate: '',
     endDate: '',
-    status2:''
+    status2:'',
+    order_current:'',
+    shop_current:'',
+    ordertype:''
 }

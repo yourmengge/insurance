@@ -10,7 +10,7 @@
             <td>订单类型：</td>
             <td>{{detail.orderTypeDesc}}&emsp;{{detail.rescueTypeDesc}}</td>
             <td ng-hide="disaster == 'not'">二次派单：</td>
-            <td ng-hide="disaster == 'not'">{{detail.secondOrderNo == ''?'否':'是'}}</td>
+            <td ng-hide="disaster == 'not'">{{detail.sourceOrderNo == null || detail.sourceOrderNo == ''?'否':'是'}}</td>
 
         </tr>
         <tr>

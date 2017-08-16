@@ -2,11 +2,10 @@
     <h2>查看订单</h2>
     <p class="search_div">
         开始时间：<input type="date" id="startDay" class="input"> 结束时间：
-        <input type="date" id="endDay" class="input"> 
-        订单状态：
-        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        
-        订单类型：
-        <select class="input" name="" style="width:100px;" ng-model="ordertype" ng-options="a.id as a.name for a in orderTypeTexts" id=""></select>
+        <input type="date" id="endDay" class="input"> 订单状态：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        订单类型：
+        <select class="input" name="" style="width:100px;" ng-model="ordertype" ng-options="a.id as a.name for a in orderTypeTexts"
+            id=""></select>
         <input class="input" type="text" ng-model="caseNo" style="width:320px;" placeholder="请输入查勘员、车牌号、施救单位或推修车行简称">
         <button class="button" ng-click="search()">查询</button>
         <button class="button" ng-click="searchAll()">显示全部</button>
@@ -62,7 +61,7 @@
                 车牌号
             </div>
             <div>
-                车主手机号
+                车保类型
             </div>
             <div>
                 订单状态
@@ -85,8 +84,8 @@
         </div>
         <div ng-repeat="a in orderList">
             <div class="list_table_td">
-                <div ng-click="openDiv($index)" style="flex: 0.3;padding: 0;padding-top: 7px;font-size: 24px;">
-                    {{openDetail != $index?'+':'-'}}
+                <div ng-click="openDiv($index)" class="openDiv">
+                    <img src="img/bihe-s.png" alt="" ng-hide="openDetail == $index"><img src="img/xiala-s.png" alt="" ng-hide="openDetail != $index">
                 </div>
                 <div>
                     {{a.inspectorName}}
@@ -101,7 +100,7 @@
                     {{a.accidentCarNoDesc}}
                 </div>
                 <div>
-                    {{a.accidentDriverPhone}}
+                    {{a.insuranceTypeDesc}}
                 </div>
                 <div>
                     {{a.statusDesc}}
@@ -154,16 +153,26 @@
                         </td>
 
                     </tr>
+                    <tr>
+                        <td>
+                            车主手机号：
+                        </td>
+                        <td>
+                            {{a.accidentDriverPhone}}
+                        </td>
+                    </tr>
                 </table>
             </div>
 
         </div>
     </div>
-    <div style='height:50px;'></div>
+    <!-- <div ui-view class="ui_view_1" ng-hide="none"></div> -->
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
-        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> 
+        <button class="page_btn current_btn" disabled>{{current}}</button>
         <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
         <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+        <!-- 传送到<input type="text" ng-model="input_jump" ng-keypress="isNum($event)"><button ng-click="jump()" class="button" style="min-width:50px;">传送</button> -->
     </p>
 </div>

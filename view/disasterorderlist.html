@@ -57,8 +57,8 @@
         </div>
         <div ng-repeat="a in list">
             <div class="list_table_td" >
-                <div ng-click="openDiv($index)" style="flex: 0.3;padding: 0;padding-top: 7px;font-size: 24px;">
-                    {{openDetail != $index?'+':'-'}}
+                <div ng-click="openDiv($index)" class="openDiv">
+                    <img src="img/bihe-s.png" alt="" ng-hide="openDetail == $index"><img src="img/xiala-s.png" alt="" ng-hide="openDetail != $index" >
                 </div>
                 <div>
                     {{a.inspectorName}}
@@ -130,7 +130,7 @@
 
         </div>
     </div>
-    <div style='height:50px;'></div>
+     
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
         <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
