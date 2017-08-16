@@ -1,12 +1,12 @@
 var
     host = 'http://dev.road167.com/extrication';
-    url = 'http://dev.road167.com';
-    // host = 'http://dev.road167.com/extrication';
-    // url = 'http://localhost:8080';
-    // host = 'http://test.road167.com/extrication';
-    // url = 'http://test.road167.com';
-    // host = 'http://www.road167.com/extrication';
-    // url = 'http://www.road167.com';
+url = 'http://dev.road167.com';
+// host = 'http://dev.road167.com/extrication';
+// url = 'http://localhost:8080';
+// host = 'http://test.road167.com/extrication';
+// url = 'http://test.road167.com';
+// host = 'http://www.road167.com/extrication';
+// url = 'http://www.road167.com';
 urlOrder = '/order';
 urlV1 = '/v1';
 urlUser = '/user';
@@ -45,8 +45,12 @@ var filter = {
     keyword: '',
     startDate: '',
     endDate: '',
-    status2:'',
-    order_current:'',
-    shop_current:'',
-    ordertype:''
+    status2: '',
+    order_current: '',
+    shop_current: '',
+    ordertype: ''
+}
+var shop4s_filter = {
+    keyword: '',
+    shop4s_current: ''
 }

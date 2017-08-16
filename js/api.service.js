@@ -303,8 +303,8 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + '/shop4s/list?$limit=' + limit + '&keyword=' + keyword)
     }
     //获取4S店列表(后台列表)
-    service.get_shop4S_page = function (keyword, limit) {
-        return service.get(host + urlV1 + '/shop4s/page?$limit=' + limit + '&keyword=' + keyword)
+    service.get_shop4S_page = function (keyword, limit, offset) {
+        return service.get(host + urlV1 + '/shop4s/page?$limit=' + limit + '&$offset=' + offset + '&keyword=' + keyword)
     }
     //确认批量导入
     service.submit_shop4S_list = function (id) {

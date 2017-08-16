@@ -134,6 +134,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
         }
     }
     $scope.search = function () {
+        $scope.current = 1;
         $scope.save_filter();
 
         $scope.openDetail = -1;

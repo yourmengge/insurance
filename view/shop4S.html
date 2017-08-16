@@ -6,8 +6,8 @@
 
 
         <input type="text" ng-model="keyword" placeholder="请输入推修码、车行全称或车行地址" class="input" style="width:250px;" ng-model="keyword">
-        <button class="button" ng-click="get_shop4S_page(keyword,10)">查询</button>
-        <button class="button" ng-click="initData()">显示全部</button>
+        <button class="button" ng-click="search()">查询</button>
+        <button class="button" ng-click="searchAll()">显示全部</button>
         <button class="button" style="float:right" ui-sref="main.batchshop4S">批量导入</button>
         <button class="button" style="float:right" ng-click="goto('add','')">添加</button>
 
@@ -99,7 +99,8 @@
      
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
-        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button>
+        <button class="page_btn current_btn" disabled>{{current}}</button>
         <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
         <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
     </p>

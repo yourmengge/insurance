@@ -6,33 +6,62 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
         $scope.keyword = '';
         $scope.all = false;
         $scope.page_p = show;
-        $scope.get_shop4S_page('', limit)
-    }
+        $scope.current = 1;
 
+        if (sessionStorage.getItem('shop4s_filter') != undefined) {
+            var a = JSON.parse(sessionStorage.getItem('shop4s_filter'))
+            $scope.keyword = a.keyword;
+            $scope.current = a.shop4s_current;
+        }
+        $scope.get_shop4S_page();
+    }
+    //查询全部
+    $scope.searchAll = function () {
+        sessionStorage.removeItem('shop4s_filter');
+        $scope.initData();
+    }
+    $scope.search = function () {
+        $scope.current = 1;
+        $scope.save_filter();
+        $scope.get_shop4S_page();
+    }
     //获取4S店列表
-    $scope.get_shop4S_page = function (keyword, limit) {
-        APIService.get_shop4S_page(keyword, limit).then(function (res) {
+    $scope.get_shop4S_page = function () {
+        APIService.get_shop4S_page($scope.keyword, limit, ($scope.current - 1) * 10).then(function (res) {
             if (res.data.http_status == 200) {
                 $scope.shopList = res.data.items;
                 //分页部分
-                $scope.current = 1;
                 $scope.pageCount = Math.ceil(res.data.count / limit);
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
-                }else{
+                } else {
                     $scope.page_p = show;
                     $scope.down = show;
                 }
                 $scope.up = hide;
+                $scope.page_show();
                 //分页结束
             } else {
                 isError(res);
             }
         })
     }
+    $scope.page_show = function () {
+        if ($scope.current == 1) {
+            $scope.down = show;
+            $scope.up = hide;
+        } else if ($scope.current == $scope.pageCount) {
+            $scope.down = hide;
+            $scope.up = show;
+        } else {
+            $scope.down = show;
+            $scope.up = show;
+        }
+    }
 
     //页面跳转
     $scope.goto = function (type, a) {
+        $scope.save_filter();
         sessionStorage.setItem('shop4S_type', type)
         if (a == '') {
             sessionStorage.removeItem('shop4S_data');
@@ -108,31 +137,27 @@ shop4S.controller('shop4SCtrl', ['$scope', 'APIService', function ($scope, APISe
         }
 
     }
+    $scope.save_filter = function () {
+        shop4s_filter.keyword = $scope.keyword;
+        shop4s_filter.shop4s_current = $scope.current;
+        sessionStorage.setItem('shop4s_filter', JSON.stringify(shop4s_filter));
+    }
     $scope.Page = function (type) {
         if (type == 'home') {
             $scope.current = 1;
-            $scope.up = hide;
-            $scope.down = show;
         }
         if (type == 'end') {
             $scope.current = $scope.pageCount;
-            $scope.up = show;
-            $scope.down = hide;
         }
         if (type == 'down') {
             $scope.up = show;
             $scope.current = $scope.current + 1;
-            if ($scope.current == $scope.pageCount) {
-                $scope.down = hide;
-            }
         }
         if (type == 'up') {
-            $scope.down = show;
             $scope.current = $scope.current - 1;
-            if ($scope.current == 1) {
-                $scope.up = hide;
-            }
         }
+        $scope.save_filter();
+        $scope.page_show();
         loading();
         APIService.paging(urlV1 + '/shop4s/page?keyword=' + $scope.keyword, limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
