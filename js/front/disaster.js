@@ -14,8 +14,17 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             }, 1000);
 
         }
+        $scope.page_p = show;
+        $scope.current = 1;
         $scope.status = '';
         $scope.disasterNo = '';
+        if (sessionStorage.getItem('disaster_filter') != undefined) {
+            var a = JSON.parse(sessionStorage.getItem('disaster_filter'))
+            $scope.disasterNo = a.keyword;
+            $scope.current = a.disaster_current;
+            $scope.status = a.status;
+        }
+
         $('#startDay').val('')
         $scope.get_disaster_list('', '', '', '')
     }
@@ -24,7 +33,6 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             if (res.data.http_status == 200) {
                 $scope.list = res.data.items
                 //分页部分
-                $scope.current = 1;
                 $scope.pageCount = Math.ceil(res.data.count / limit);
                 if (res.data.count <= limit) {
                     $scope.page_p = hide;
@@ -42,13 +50,25 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
     //查询大灾列表
     $scope.search_disaster = function () {
         if ($scope.disasterNo != '') {
-            if (!isNaN($scope.disasterNo)) {
+            if (!isNaN($scope.disasterNo)) {//判断是否为数字，数字表示编号搜索，非数字表示区域搜索
                 $scope.get_disaster_list($('#startDay').val(), '', $scope.status, $scope.disasterNo)
             } else {
                 $scope.get_disaster_list($('#startDay').val(), $scope.disasterNo, $scope.status, '')
             }
         } else {
             $scope.get_disaster_list($('#startDay').val(), '', $scope.status, '')
+        }
+    }
+    $scope.page_show = function () {
+        if ($scope.current == 1) {
+            $scope.down = show;
+            $scope.up = hide;
+        } else if ($scope.current == $scope.pageCount) {
+            $scope.down = hide;
+            $scope.up = show;
+        } else {
+            $scope.down = show;
+            $scope.up = show;
         }
     }
     $scope.site = function (id, area, status, url, need) {
@@ -96,28 +116,17 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
     $scope.Page = function (type) {
         if (type == 'home') {
             $scope.current = 1;
-            $scope.up = hide;
-            $scope.down = show;
         }
         if (type == 'end') {
             $scope.current = $scope.pageCount;
-            $scope.up = show;
-            $scope.down = hide;
         }
         if (type == 'down') {
-            $scope.up = show;
             $scope.current = $scope.current + 1;
-            if ($scope.current == $scope.pageCount) {
-                $scope.down = hide;
-            }
         }
         if (type == 'up') {
-            $scope.down = show;
             $scope.current = $scope.current - 1;
-            if ($scope.current == 1) {
-                $scope.up = hide;
-            }
         }
+        $scope.page_show();
         loading();
         var disasterId = ''; var area = '';
         if (!isNaN($scope.disasterNo)) {

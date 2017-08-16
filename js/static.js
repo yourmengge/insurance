@@ -54,3 +54,9 @@ var shop4s_filter = {
     keyword: '',
     shop4s_current: ''
 }
+var disaster_filter = {
+    startDay: '',
+    status: '',
+    keyword: '',
+    disaster_current: ''
+}

@@ -61,7 +61,8 @@
      
     <p ng-hide="page_p" class="page_p">
         <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
-        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> {{current}}
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> 
+        <button class="page_btn current_btn" disabled>{{current}}</button>
         <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
         <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
     </p>
