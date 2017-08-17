@@ -2,10 +2,11 @@ var inspector = angular.module('inspector', ['Road167']);
 inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         loading();
+        $scope.limit = 50;
         $scope.edit_div = hide;
         $scope.phone = '';
         $scope.Name = '';
-        $scope.get_inspector_list(limit);
+        $scope.get_inspector_list($scope.limit);
     }
     $scope.get_inspector_list = function (limit) {
         APIService.get_inspector_list(limit).then(function (res) {
@@ -14,8 +15,8 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
                 $scope.list = res.data.userList;
                 //分页部分
                 $scope.current = 1;
-                $scope.pageCount = Math.ceil(res.data.count / limit);
-                if (res.data.count <= limit) {
+                $scope.pageCount = Math.ceil(res.data.count / $scope.limit);
+                if (res.data.count <= $scope.limit) {
                     $scope.page_p = hide;
                 }
                 $scope.up = hide;
@@ -151,14 +152,14 @@ inspector.controller('inspectorCtrl', ['$scope', 'APIService', function ($scope,
             }
         }
         if (type == 'up') {
-            $scope.down = show;
+            $scope.down = show; 
             $scope.current = $scope.current - 1;
             if ($scope.current == 1) {
                 $scope.up = hide;
             }
         }
         loading();
-        APIService.paging(urlV1 + '/third/user?roleId=3&bOrderCounts=true', limit, type, $scope.pageCount, $scope.current).then(function (res) {
+        APIService.paging(urlV1 + '/third/user?roleId=3&bOrderCounts=true', $scope.limit, type, $scope.pageCount, $scope.current).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 $scope.list = res.data.userList;

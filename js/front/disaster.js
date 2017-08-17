@@ -24,9 +24,9 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.current = a.disaster_current;
             $scope.status = a.status;
         }
-
+        if($scope.disasterNo )
         $('#startDay').val('')
-        $scope.get_disaster_list('', '', '', '')
+        $scope.get_disaster_list('', '', $scope.status, '')
     }
     $scope.get_disaster_list = function (startDate, area, status, disasterId) {
         APIService.get_disaster_list(startDate, area, status, disasterId, 10, 0).then(function (res) {
@@ -49,6 +49,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
     }
     //查询大灾列表
     $scope.search_disaster = function () {
+        $scope.save_filter();
         if ($scope.disasterNo != '') {
             if (!isNaN($scope.disasterNo)) {//判断是否为数字，数字表示编号搜索，非数字表示区域搜索
                 $scope.get_disaster_list($('#startDay').val(), '', $scope.status, $scope.disasterNo)
@@ -101,6 +102,10 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.initData();
         }
 
+    }
+    $scope.save_filter = function(){
+        disaster_filter.status = $scope.status;
+        sessionStorage.setItem('disaster_filter',JSON.stringify(disaster_filter))
     }
     $scope.viewdetail = function (a) {
         sessionStorage.setItem('disasterId', a)

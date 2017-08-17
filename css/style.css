@@ -7,11 +7,15 @@ html,body{
 ul li{
     list-style: none;
 }
+.main{
+    width: 100vw;
+    height: 100vh;
+}
 .login_div{
-      background: url('../img/bg2.jpg');
-      height: 100vh;
-      width: 100vw;
-      text-align: center;
+    background: url('../img/bg2.jpg');
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
 }
 .login_div .logo_img{
     width: 13vw;
