@@ -139,7 +139,7 @@ third.controller('thirdCtrl', ['$scope', 'APIService', '$http', function ($scope
 
         $scope.openDetail = -1;
         loading();
-        APIService.get_order_list(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype, ($scope.current - 1) * 10).then(function (res) {
+        APIService.get_order_list_third(10, $scope.start, $scope.endDay, $scope.status, $scope.caseNo, $scope.ordertype, ($scope.current - 1) * 10).then(function (res) {
             if (res.data.http_status == 200) {
                 closeloading();
                 if (res.data.orderCounts == 0) {
@@ -217,7 +217,7 @@ third.controller('thirdCtrl', ['$scope', 'APIService', '$http', function ($scope
             $scope.save_filter();
             $scope.page_show();
             loading();
-            APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            APIService.paging(urlV1 + urlThird + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo + '&insuranceType=THIRD_CAR', limit, type, $scope.pageCount, $scope.current).then(function (res) {
                 if (res.data.http_status == 200) {
                     closeloading();
                     $scope.orderList = res.data.orderList;

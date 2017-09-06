@@ -582,6 +582,7 @@ input[type=number]::-webkit-outer-spin-button {
     position: fixed;
     top: 15vh;
     z-index: 100;
+    left: 15vw;
 }
 .goback{
     float: right;

@@ -217,7 +217,7 @@ orderlist.controller('orderlistCtrl', ['$scope', 'APIService', '$http', function
             $scope.save_filter();
             $scope.page_show();
             loading();
-            APIService.paging(urlV1 + third + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
+            APIService.paging(urlV1 + urlThird + urlOrder + '?startDay=' + $scope.start + '&endDay=' + $scope.endDay + '&status=' + $scope.status + '&orderType=' + $scope.ordertype + '&keyword=' + $scope.caseNo, limit, type, $scope.pageCount, $scope.current).then(function (res) {
                 if (res.data.http_status == 200) {
                     closeloading();
                     $scope.orderList = res.data.orderList;

@@ -22,6 +22,7 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                         }, 1000);
                     } else {
                         sessionStorage.setItem('isShop4sAdmin', false);
+                        sessionStorage.setItem('isThrid', false)
                         setTimeout(function () {
                             goto_view('main');
                         }, 1000);
