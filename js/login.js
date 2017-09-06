@@ -15,6 +15,11 @@ login.controller('loginCtrl', ['$scope', 'APIService', function ($scope, APIServ
                         setTimeout(function () {
                             goto_view('main/shop4S');
                         }, 1000);
+                    } else if ((res.data.userFlag & 1) > 0) {
+                        sessionStorage.setItem('isThrid', true)
+                        setTimeout(function () {
+                            goto_view('main/third');
+                        }, 1000);
                     } else {
                         sessionStorage.setItem('isShop4sAdmin', false);
                         setTimeout(function () {

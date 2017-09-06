@@ -27,8 +27,12 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
     }
     $scope.initData = function () {
         $scope.isShop4SAdmin = sessionStorage.getItem('isShop4sAdmin');
-        if ($scope.isShop4SAdmin == 'true') {
-            $('.left_menu p').css('display', 'none')
+        $scope.isThrid = sessionStorage.getItem('isThrid');
+        if ($scope.isShop4SAdmin == 'true' || $scope.isThrid == 'true') {
+            $('.left_menu p').css('display', 'none');
+            $scope.isShop4SAdmin = 'true';
+            $scope.companyName = sessionStorage.getItem('companyName');
+            $scope.adminName = sessionStorage.getItem('adminName');
         } else {
             $('.left_menu p').css('display', 'none')
             $scope.companyName = sessionStorage.getItem('companyName');

@@ -1,0 +1,178 @@
+<div class="adddriver" ng-controller="thirdCtrl" ng-init="initData()">
+    <h2>查看订单</h2>
+    <p class="search_div">
+        开始时间：<input type="date" id="startDay" class="input"> 结束时间：
+        <input type="date" id="endDay" class="input"> 订单状态：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        订单类型：
+        <select class="input" name="" style="width:100px;" ng-model="ordertype" ng-options="a.id as a.name for a in orderTypeTexts"
+            id=""></select>
+        <input class="input" type="text" ng-model="caseNo" style="width:320px;" placeholder="请输入查勘员、车牌号、施救单位或推修车行简称">
+        <button class="button" ng-click="search()" style="min-width:60px;">查询</button>
+        <button class="button" ng-click="searchAll()" style="min-width:60px;">显示全部</button>
+        <button class="button output_button" ng-click="toexcel(status,caseNo)">
+            导出excel
+        </button>
+    </p>
+    <h1>{{tips}}</h1>
+    <!-- <table cellspacing="0" ng-hide="table" cellpadding='10' class="table">
+        <tr class="table_1_tr">
+            <td>案件号</td>
+            <td>查勘员</td>
+            <td>下单时间</td>
+            <td>车主</td>
+            <td width="120">车主手机号</td>
+            <td>订单状态</td>
+            <td width="15%">施救地点</td>
+            <td>施救单位</td>
+            <td width="15%">施救终点地点</td>
+            <td>操作</td>
+        </tr>
+        <tr ng-repeat="a in orderList">
+            <td>{{a.caseNo}}</td>
+            <td>{{a.inspectorName}}</td>
+            <td>{{a.createTime | ToLocal}}</td>
+            <td>{{a.accidentDriverName}}</td>
+            <td>{{a.accidentDriverPhone}}</td>
+            <td>{{a.statusDesc}}</td>
+            <td>{{a.accidentAddress}}</td>
+            <td>{{a.grabFleetName}}</td>
+            <td>{{a.fixAddress}}</td>
+            <td>
+                <button class="detail_button" title="查看订单" ng-click="detail(a.orderNo)"></button>
+                <button class="edit_button" ng-hide="a.status >= 4" title="修改订单" ng-click="editOrder(a)"></button>
+                <button class="cancel_button" ng-hide="a.status >= 4" title="取消订单" ng-click="cancel(a.orderNo)"></button>
+            </td>
+        </tr>
+    </table> -->
+    <div class="list_table" ng-hide="table">
+        <div class="list_table_tr">
+            <div style="flex: 0.3;">
+            </div>
+            <div>
+                查勘员
+            </div>
+            <div>
+                下单时间
+            </div>
+            <div>
+                车主
+            </div>
+            <div>
+                车牌号
+            </div>
+            <div>
+                车保类型
+            </div>
+            <div>
+                订单状态
+            </div>
+            <div>
+                施救地点
+            </div>
+            <div>
+                推修车行简称
+            </div>
+            <div>
+                施救单位
+            </div>
+            <div>
+                施救终点地点
+            </div>
+            <div>
+                操作
+            </div>
+        </div>
+        <div ng-repeat="a in orderList">
+            <div class="list_table_td">
+                <div ng-click="openDiv($index)" class="openDiv">
+                    <img src="img/bihe-s.png" alt="" ng-hide="openDetail == $index"><img src="img/xiala-s.png" alt="" ng-hide="openDetail != $index">
+                </div>
+                <div>
+                    {{a.inspectorName}}
+                </div>
+                <div>
+                    {{a.createTime | ToLocal}}
+                </div>
+                <div>
+                    {{a.accidentDriverName}}
+                </div>
+                <div>
+                    {{a.accidentCarNoDesc}}
+                </div>
+                <div>
+                    {{a.insuranceTypeDesc}}
+                </div>
+                <div>
+                    {{a.statusDesc}}
+                </div>
+                <div>
+                    {{a.accidentAddress}}
+                </div>
+                <div>
+                    {{a.shop4sName}}
+                </div>
+                <div>
+                    {{a.grabFleetName}}
+                </div>
+                <div>
+                    {{a.fixAddress}}
+                </div>
+                <div>
+                    <button class="detail_button" title="查看订单" ng-click="detail(a.orderNo)"></button>
+                    <!-- <button class="edit_button" ng-hide="a.status >= 4" title="修改订单" ng-click="editOrder(a)"></button>
+                    <button class="cancel_button" ng-hide="a.status >= 4" title="取消订单" ng-click="cancel(a.orderNo)"></button> -->
+                </div>
+            </div>
+            <div class="list_table_detail" ng-hide="openDetail != $index">
+                <table>
+                    <tr>
+
+                        <td>
+                            订单类型：
+                        </td>
+                        <td>
+                            {{a.orderTypeDesc}}
+                        </td>
+                        <td>
+                            推修厂确认时间：
+                        </td>
+                        <td>
+                            {{a.shop4sConfirmTime | ToLocal}}
+                        </td>
+                        <!-- <td>
+                            车行简称：
+                        </td>
+                        <td>
+                            
+                        </td> -->
+                        <td>
+                            拍照目的地点：
+                        </td>
+                        <td>
+                            {{a.fixAddressPicture}}
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            车主手机号：
+                        </td>
+                        <td>
+                            {{a.accidentDriverPhone}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- <div ui-view class="ui_view_1" ng-hide="none"></div> -->
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button> 
+        <button class="page_btn current_btn" disabled>{{current}}</button>
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+        <!-- 传送到<input type="text" ng-model="input_jump" ng-keypress="isNum($event)"><button ng-click="jump()" class="button" style="min-width:50px;">传送</button> -->
+    </p>
+</div>

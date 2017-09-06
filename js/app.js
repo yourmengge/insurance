@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['updateFix', 'auth', 'paymentdetail', 'batchinspector', 'payment', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['updateFix', 'third', 'auth', 'paymentdetail', 'batchinspector', 'payment', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 var t;
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
@@ -44,7 +44,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/shop4S',
             templateUrl: 'view/shop4S.html'
         })
-        
+
         .state('main.batchshop4S', {
             url: '/batchshop4S',
             templateUrl: 'view/batchshop4S.html'
@@ -164,6 +164,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.orderlist', {
             url: '/orderlist',
             templateUrl: 'view/orderlist.html'
+        })
+        .state('main.third', {
+            url: '/third',
+            templateUrl: 'view/third.html'
         })
         .state('main.orderlist.detail', {
             url: '/detail',
