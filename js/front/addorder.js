@@ -97,7 +97,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
 
                     $scope.order.designateGrabUserId = '';
                     $scope.jiexi = hide;
-                    $scope.accident = res.data.accidentAddress;
+                    $scope.accidentAddress = res.data.accidentAddress;
                     $scope.caseNo = res.data.caseNo;
                     $scope.accidentDriverName = res.data.accidentDriverName;
                     $scope.fixAddress = res.data.fixAddress;

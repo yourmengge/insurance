@@ -1,0 +1,103 @@
+<div class="paymentDetail" ng-controller="paymentdetailCtrl" ng-init="initData()">
+    <h2>付款信息</h2>
+    <button class="goback" ng-click="back()"></button>
+    <div class="detail_content_div">
+        <p ng-hide="auth" class="font_red">授权委托书：未授权</p>
+        <p ng-hide="!auth" ui-sref='main.payment.auth' class="font_blue">授权委托书：已授权</p>
+    </div>
+    <div class="detail_title_div">
+        发票信息
+    </div>
+    <div class="detail_content_div">
+        <img ng-click="BigPic(a.path)" ng-src="{{a.zoomOutView}}" alt="" ng-repeat="a in detail.pictures" style="margin: 20px;">
+    </div>
+    <div class="detail_title_div">
+        报价信息
+    </div>
+    <div class="detail_content_div">
+        <table>
+            <tr>
+                <td>
+                    <span class="font_red">
+                            车牌号：
+                    </span> {{detail.carNo}}
+                </td>
+                <td>
+                    <span class="font_red">查勘姓名：</span>{{detail.inspectorName}}
+                </td>
+                <td>
+                    <span class="font_red">查勘电话：</span>{{detail.inspectorPhone}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="font_red">接单车队：</span>{{detail.fleetName}}
+                </td>
+                <td>
+                    <span class="font_red">车队电话：</span>{{detail.grabPhone}}
+                </td>
+                <td>
+                    <span class="font_red">事故地点：</span>{{detail.accidentAddress}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="font_red">施救地点：</span>{{detail.fixAddress}}
+                </td>
+            </tr>
+        </table>
+        <div class="payment_detail" ng-repeat="a in detail.assignFeeList">
+            <div class="detail_title">
+                {{a.carRemark}}
+            </div>
+            <table>
+                <tr>
+                    <td>
+                        <span class="font_red">
+                            派遣司机：
+                        </span>
+                        <span>
+                            {{a.driverName}}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="font_red">
+                            行驶里程：
+                        </span>
+                        <span>
+                            {{a.distance | gongli}}公里
+                        </span>
+                    </td>
+                    <td>
+                        <span class="font_red">
+                            {{a.carTypeDesc}}费用：
+                        </span>
+                        <span>
+                            {{a.fee | Price}}元
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="payment_detail">
+            <div class="detail_title">
+                其他费用
+            </div>
+            <table>
+                <tr>
+                    <td ng-repeat="b in detail.otherFeeList">
+                        <span class="font_red">
+                            {{b.feeName}}：
+                        </span>
+                        <span>
+                            {{b.fee | Price}}元
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="rescuefee"><button>施救费用：{{detail.rescueFee | Price}}元</button></div>
+
+    </div>
+
+</div>

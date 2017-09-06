@@ -49,6 +49,7 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
     }
     //查询大灾列表
     $scope.search_disaster = function () {
+        $scope.current = 1;
         $scope.save_filter();
         if ($scope.disasterNo != '') {
             if (!isNaN($scope.disasterNo)) {//判断是否为数字，数字表示编号搜索，非数字表示区域搜索
@@ -103,7 +104,11 @@ disaster.controller('disasterCtrl', ['$scope', 'APIService', function ($scope, A
         }
 
     }
+    $scope.removeSession = function(){
+        sessionStorage.removeItem('disaster_filter');
+    }
     $scope.save_filter = function(){
+        disaster_filter.disaster_current = $scope.current;
         disaster_filter.status = $scope.status;
         sessionStorage.setItem('disaster_filter',JSON.stringify(disaster_filter))
     }

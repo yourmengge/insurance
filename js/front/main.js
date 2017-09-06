@@ -5,6 +5,7 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
         sessionStorage.setItem('lmId', $(this).attr('id'));
         sessionStorage.setItem('jiexi_success', '');
         sessionStorage.removeItem('filter')
+        sessionStorage.removeItem('disaster_filter');
         // sessionStorage.removeItem('nar_address');
         // sessionStorage.removeItem('nar_address_fixaddress');
     })
@@ -38,6 +39,7 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
                     if (res.data.items != null) {
                         for (var i = 0; i < res.data.items.length; i++) {
                             $('.left_menu .' + res.data.items[i].url).css('display', 'block')
+                            $('.left_menu .payment').css('display', 'block')
                         }
                     }
 

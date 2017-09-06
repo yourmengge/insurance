@@ -158,6 +158,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
             orderType: 2,
             rescueType: '',
             localPic: [],
+            chargeMode: 2,
             picturePaths: []
         }
         //判断是否允许指派调度
@@ -404,6 +405,7 @@ addorder_nar.controller('addorder_narCtrl', ['$scope', 'APIService', function ($
         if (!isPhone.test($scope.order.accidentDriverPhone)) {
             layer.msg('手机号码格式不正确');
         } else {
+            $scope.order.chargeMode = sessionStorage.getItem('chargeMode')
             APIService.add_order($scope.order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');

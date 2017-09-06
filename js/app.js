@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['updateFix', 'batchinspector', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['updateFix', 'auth', 'paymentdetail', 'batchinspector', 'payment', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 var t;
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
@@ -32,6 +32,10 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/addorder',
             templateUrl: 'view/addorder.html'
         })
+        .state('main.payment', {
+            url: '/payment',
+            templateUrl: 'view/payment.html'
+        })
         .state('main.batchinspector', {
             url: '/batchinspector',
             templateUrl: 'view/batchinspector.html'
@@ -40,6 +44,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
             url: '/shop4S',
             templateUrl: 'view/shop4S.html'
         })
+        
         .state('main.batchshop4S', {
             url: '/batchshop4S',
             templateUrl: 'view/batchshop4S.html'
@@ -55,6 +60,14 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.disasterdriverorderlist', {
             url: '/disasterdriverorderlist',
             templateUrl: 'view/disasterdriverorderlist.html'
+        })
+        .state('main.paymentdetail', {
+            url: '/paymentdetail',
+            templateUrl: 'view/paymentdetail.html'
+        })
+        .state('main.payment.paymentdetail', {
+            url: '/paymentdetail',
+            templateUrl: 'view/paymentdetail.html'
         })
         .state('main.editorder', {
             url: '/editorder',
@@ -131,6 +144,14 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         .state('main.detail', {
             url: '/detail',
             templateUrl: 'view/detail.html'
+        })
+        .state('main.payment.detail', {
+            url: '/detail',
+            templateUrl: 'view/detail.html'
+        })
+        .state('main.payment.auth', {
+            url: '/auth',
+            templateUrl: 'view/auth.html'
         })
         .state('main.map', {
             url: '/map',
@@ -226,6 +247,29 @@ insurance.filter('ToDay', function () {
     }
     return ToLocal;
 });
+insurance.filter('ToFormat', function () {
+    function add0(m) {
+        return m < 10 ? '0' + m : m
+    }
+
+    function ToLocal(shijianchuo) {
+        if (shijianchuo == null) {
+            return null;
+        } else {
+            //shijianchuo是整数，否则要parseInt转换
+            var time = new Date(shijianchuo);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            var nowtime = y + '年' + add0(m) + '月' + add0(d) + '日';
+            return nowtime;
+        }
+    }
+    return ToLocal;
+})
 insurance.filter('SecondOrder', function () {
     function ToLocal(shijianchuo) {
         if (shijianchuo != null) {
@@ -552,16 +596,26 @@ insurance.filter('CarType', function () {
     }
     return CarType;
 });
-insurance.filter('Price', function () {
-    function Price(text) {
-        if (text == null) {
-            return null;
+insurance.filter('gongli', function () {
+    function Price(value) {
+        if (value == 0) {
+            return 0.0;
         } else {
-            return text / 100 + '元';
+            return (value / 1000).toFixed(1);
         }
     }
     return Price;
-});
+})
+insurance.filter('Price', function () {
+    function Price(value) {
+        if (value == 0) {
+            return 0;
+        } else {
+            return (value / 100).toFixed(2);
+        }
+    }
+    return Price;
+})
 insurance.filter('AccidentCarNoType', function () {
     function Price(text) {
         if (text != 1) {

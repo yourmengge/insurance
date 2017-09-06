@@ -400,6 +400,23 @@ Road167.factory('APIService', function ($http) {
     service.weight_cfg = function (no, data) {
         return service.put(host + urlV1 + '/company-fleet/company/' + no, data)
     }
+
+    //查询授权信息
+    service.get_auth_detail = function (orderNo) {
+        return service.post(host + urlV1 + '/order/authorization', { orderNo: orderNo })
+    }
+
+    //付款管理列表查询
+    service.get_payment_list = function (offset, limit, name) {
+        return service.get(host + urlV1 + '/order/payment/bill?BillStatus=INSURANCE_BILL_PAYED&$offset=' + offset + '&$limit=' + limit + '&inspectorName=' + name)
+    }
+
+    //获取付款信息
+    service.get_detail = function (orderNo) {
+        return service.get(host + urlV1 + '/order/' + orderNo + '/bill/detail')
+    }
+
+
     // //导出订单
     // service.export = function(){
     //     return service.get(host + urlV1 + '/order/export')

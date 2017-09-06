@@ -1,0 +1,66 @@
+<div ng-controller="paymentCtrl" ng-init="initData()">
+    <p>
+        <input type="text" class="input" placeholder="输入查勘员姓名" ng-model="name">
+        <button class="button" ng-click="get_payment_list()">
+            查询
+        </button>
+    </p>
+    <div class="list_table" ng-hide="table">
+        <div class="list_table_tr">
+            <div>
+                车牌号
+            </div>
+            <div>
+                查勘员
+            </div>
+            <div>
+                查勘电话
+            </div>
+            <div>
+                事故地点
+            </div>
+            <div>
+                施救地点
+            </div>
+            <div>
+                施救费用
+            </div>
+            <div>
+                操作
+            </div>
+        </div>
+        <div ng-repeat="a in list">
+            <div class="list_table_td">
+                <div>
+                    {{a.carNo}}
+                </div>
+                <div>
+                    {{a.inspectorName}}
+                </div>
+                <div>
+                    {{a.inspectorPhone}}
+                </div>
+                <div>
+                    {{a.accidentAddress}}
+                </div>
+                <div>
+                    {{a.fixAddress}}
+                </div>
+                <div>
+                    {{a.rescueFee | Price}}
+                </div>
+                <div>
+                    <span class="button_span" ng-click="detail(a.orderNo)">查看订单</span>
+                    <span class="button_span" ng-click="paymentdetail(a.orderNo)">付款信息</span>
+                </div>
+            </div>
+        </div>
+        <p ng-hide="page_p" class="page_p">
+            <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+            <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button>
+            <button class="page_btn current_btn" disabled>{{current}}</button>
+            <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+            <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+        </p>
+        <div class="mini_view" ui-view></div>
+    </div>
