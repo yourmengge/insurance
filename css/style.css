@@ -1092,6 +1092,9 @@ input[type=number]::-webkit-outer-spin-button {
 .gray{
     color: #b5b5b5;
 }
+.font_gray{
+    color: #b5b5b5;
+}
 .red_font{
     color: #f00;
 }
@@ -1571,9 +1574,12 @@ video{
     height: 40px;
     padding: 0 30px;
     border: none;
-    background: #008cff;
+    background: #e8a649;
     color: #fff;
     margin-right: 40px;
+}
+.rescuefee button:focus{
+    outline: none;
 }
  /* input[type=checkbox]{
     margin: 3px 3px 0px 5px;  

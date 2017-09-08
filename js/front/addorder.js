@@ -147,6 +147,9 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.order.fixAddress = $scope.fixAddress;
             $scope.order.accidentAddress = $scope.accidentAddress;
             $scope.order.chargeMode = sessionStorage.getItem('chargeMode')
+            if(!$scope.tuixiu){
+                $scope.order.pushFixType = '';     
+            }
             APIService.add_order($scope.order).then(function (res) {
                 if (res.data.http_status == 200) {
                     layer.msg('新增订单成功');
@@ -292,10 +295,18 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     //     }
     // });
     $scope.$watch('counts1 + counts2  + counts4 + counts5 + counts6 + counts7', function (newValue, oldValue) {
-        if (newValue == 6) {
-            $('#submit').removeAttr("disabled").removeClass('button_disabled');
+        if (!$scope.tuixiu) {
+            if (newValue == 5) {
+                $('#submit').removeAttr("disabled").removeClass('button_disabled');
+            } else {
+                $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            }
         } else {
-            $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            if (newValue == 6) {
+                $('#submit').removeAttr("disabled").removeClass('button_disabled');
+            } else {
+                $('#submit').addClass('button_disabled').attr("disabled", 'disabled');
+            }
         }
     });
     $scope.openFix = function () {
@@ -320,7 +331,7 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
     // }
     $scope.clickDriver = function (name, phone, id) {
         $scope.Driver = name + '-' + phone;
-        sessionStorage.setItem('zhidingdriver_name',$scope.Driver);
+        sessionStorage.setItem('zhidingdriver_name', $scope.Driver);
         $scope.order.designateGrabDriverId = id;
         $('.fixaddress_div').css('display', 'none');
         $scope.change2();
@@ -358,6 +369,11 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
             $scope.zhipaisiji = show;
         } else {
             $scope.zhipaisiji = hide;
+        }
+        if (contains(funcList, 1007)) {
+            $scope.tuixiu = true;
+        } else {
+            $scope.tuixiu = false;
         }
         if (contains(funcList, 1) || contains(funcList, 1001)) {
             $scope.zhipaidiaodu = show;
@@ -415,9 +431,9 @@ addorder.controller('addorderCtrl', ['$scope', 'APIService', function ($scope, A
                 // $scope.accident = data.accidentAddress;
                 // $scope.caseNo = data.caseNo;
                 // $scope.fixAddress = sessionStorage.getItem('location_address');
-                if(sessionStorage.getItem('zhidingdriver_name') != undefined){
+                if (sessionStorage.getItem('zhidingdriver_name') != undefined) {
                     $scope.Driver = sessionStorage.getItem('zhidingdriver_name')
-                }else{
+                } else {
                     $scope.Driver = '';
                 }
                 if (sessionStorage.getItem('address_fixaddress') != undefined) {

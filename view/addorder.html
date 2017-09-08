@@ -73,7 +73,7 @@
                     <input ng-click="change3(2)" ng-model="sanzhe" type="radio" class="addorder_radio" id="sanzhe">
                     <label name="sanzhe" class="{{insurance == 2?'checked':''}} addorder_label" for="sanzhe"></label>三者车</td>
             </tr>
-            <tr>
+            <tr ng-hide="!tuixiu">
                 <td><span class="require"></span>推修类型：</td>
                 <td><input type="radio" ng-click="change4(2)" class="addorder_radio" ng-model="qiangzhi" id="qiangzhi">
                     <label name="qiangzhi" class="{{pushFix == 2?'checked':''}} addorder_label" for="qiangzhi"></label>强制推修
