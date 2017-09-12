@@ -1,0 +1,24 @@
+<html>
+
+<body>
+</body>
+<script src="https://g.alicdn.com/aliww/ww/json/json.js" charset="utf-8"></script>
+<![endif]-->
+<!-- 自动适配移动端与pc端 -->
+<script src="https://g.alicdn.com/aliww/??h5.openim.sdk/1.0.6/scripts/wsdk.js,h5.openim.kit/0.3.3/scripts/kit.js" charset="utf-8"></script>
+<script>
+    window.onload = function () {
+        // 页面内展示
+        WKIT.init({
+            uid: '666',
+            appkey: 23637239,
+            credential: 'yzmMFWIOEUgE',
+            touid: '10001',
+            onMsgReceived: function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+</script>
+</html>

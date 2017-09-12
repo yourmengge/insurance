@@ -13,5 +13,8 @@ auth.controller('authCtrl', ['$scope', 'APIService', function ($scope, APIServic
             }
         })
     }
+    $scope.back = function () {
+        window.history.back();
+    }
 
 }])

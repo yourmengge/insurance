@@ -18,7 +18,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.updateFix', {
             url: '/updateFix',
-            templateUrl: 'view/updateFix.html'
+            templateUrl: 'view/map/updateFix.html'
         })
         .state('main.inspector', {
             url: '/inspector',
@@ -55,19 +55,19 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.selectlocation', {
             url: '/selectlocation',
-            templateUrl: 'view/selectlocation.html'
+            templateUrl: 'view/map/selectlocation.html'
         })
         .state('main.disasterdriverorderlist', {
             url: '/disasterdriverorderlist',
-            templateUrl: 'view/disasterdriverorderlist.html'
+            templateUrl: 'view/disaster/disasterdriverorderlist.html'
         })
         .state('main.paymentdetail', {
             url: '/paymentdetail',
-            templateUrl: 'view/paymentdetail.html'
+            templateUrl: 'view/detail/paymentdetail.html'
         })
         .state('main.payment.paymentdetail', {
             url: '/paymentdetail',
-            templateUrl: 'view/paymentdetail.html'
+            templateUrl: 'view/detail/paymentdetail.html'
         })
         .state('main.editorder', {
             url: '/editorder',
@@ -79,15 +79,15 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.disastermap', {
             url: '/disastermap',
-            templateUrl: 'view/disastermap.html'
+            templateUrl: 'view/disaster/disastermap.html'
         })
         .state('main.createdisaster', {
             url: '/createdisaster',
-            templateUrl: 'view/createdisaster.html'
+            templateUrl: 'view/disaster/createdisaster.html'
         })
         .state('main.disasterdetail', {
             url: '/disasterdetail',
-            templateUrl: 'view/disasterdetail.html'
+            templateUrl: 'view/disaster/disasterdetail.html'
         })
         .state('main.site', {
             url: '/site',
@@ -95,15 +95,15 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.disasterinspector', {
             url: '/disasterinspector',
-            templateUrl: 'view/disasterinspector.html'
+            templateUrl: 'view/disaster/disasterinspector.html'
         })
         .state('main.disasterdriver', {
             url: '/disasterdriver',
-            templateUrl: 'view/disasterdriver.html'
+            templateUrl: 'view/disaster/disasterdriver.html'
         })
         .state('main.driverlocation', {
             url: '/driverlocation',
-            templateUrl: 'view/driverlocation.html'
+            templateUrl: 'view/disaster/driverlocation.html'
         })
         .state('main.review', {
             url: '/review',
@@ -119,11 +119,11 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.disasterorderlist', {
             url: '/disasterorderlist',
-            templateUrl: 'view/disasterorderlist.html'
+            templateUrl: 'view/disaster/disasterorderlist.html'
         })
         .state('main.driverordertotle', {
             url: '/driverordertotle',
-            templateUrl: 'view/driverordertotle.html'
+            templateUrl: 'view/disaster/driverordertotle.html'
         })
         .state('main.evaluation', {
             url: '/evaluation',
@@ -131,11 +131,11 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.nar_location', {
             url: '/nar_location',
-            templateUrl: 'view/nar_location.html'
+            templateUrl: 'view/map/nar_location.html'
         })
         .state('main.fixaddress', {
             url: '/fixaddress',
-            templateUrl: 'view/fixaddress.html'
+            templateUrl: 'view/map/fixaddress.html'
         })
         .state('main.adddriver', {
             url: '/adddriver',
@@ -143,11 +143,11 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.detail', {
             url: '/detail',
-            templateUrl: 'view/detail.html'
+            templateUrl: 'view/detail/detail.html'
         })
         .state('main.payment.detail', {
             url: '/detail',
-            templateUrl: 'view/detail.html'
+            templateUrl: 'view/detail/detail.html'
         })
         .state('main.payment.auth', {
             url: '/auth',
@@ -155,11 +155,11 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.map', {
             url: '/map',
-            templateUrl: 'view/map.html'
+            templateUrl: 'view/map/map.html'
         })
         .state('main.disaster', {
             url: '/disaster',
-            templateUrl: 'view/disaster.html'
+            templateUrl: 'view/disaster/disaster.html'
         })
         .state('main.orderlist', {
             url: '/orderlist',
@@ -171,7 +171,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.orderlist.detail', {
             url: '/detail',
-            templateUrl: 'view/detail.html'
+            templateUrl: 'view/detail/detail.html'
         })
         .state('main.orderlist.editorder', {
             url: '/editorder',
