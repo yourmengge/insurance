@@ -1,0 +1,74 @@
+<div class="adddriver" ng-controller="auditCtrl" ng-init="initData()">
+    <h2>{{title}}审核</h2>
+    <p class="search_div">
+        报价状态：<select ng-change="search()" name="" id="" class="input" ng-model="status" ng-options="a.id as a.name for a in statusTexts"></select>        &emsp;
+        <input type="text" class="input" style="width:250px;" placeholder="请输入车队名称进行模糊搜索" ng-model="fleetName">&emsp;
+        <button class="button search_button" ng-click="search()"> 查询</button>
+        <button class="button" ng-click="searchAll()">显示全部</button>
+    </p>
+    <div class="list_table" ng-hide="table">
+        <div class="list_table_tr">
+            <div>
+                车队名
+            </div>
+            <div>
+                车牌号
+            </div>
+            <div>
+                事故地点
+            </div>
+            <div>
+                施救地点
+            </div>
+            <div>
+                车辆类型
+            </div>
+            <div>
+                施救费用（元）
+            </div>
+            <div>
+                报价状态
+            </div>
+            <div>
+                操作
+            </div>
+        </div>
+        <div ng-repeat="a in list">
+            <div class="list_table_td">
+                <div>
+                    {{a.grabFleetName}}
+                </div>
+                <div>
+                    {{a.accidentCarNo}}
+                </div>
+                <div>
+                    {{a.accidentAddress}}
+                </div>
+                <div>
+                    {{a.fixAddress}}
+                </div>
+                <div>
+                    {{a.carTypes}}
+                </div>
+                <div>
+                    {{a.rescueFee | Price}}
+                </div>
+                <div>
+                    {{a.settleStatusDesc}}
+                </div>
+                <div>
+                    <span class="button_span" ng-click="detail(a)">{{title}}详情</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button>
+        <button class="page_btn current_btn" disabled>{{current}}</button>
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+        <!-- 传送到<input type="text" ng-model="input_jump" ng-keypress="isNum($event)"><button ng-click="jump()" class="button" style="min-width:50px;">传送</button> -->
+    </p>
+    <div ui-view class="mini_view"></div>
+</div>

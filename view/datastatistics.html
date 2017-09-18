@@ -1,0 +1,157 @@
+<div class="adddriver" ng-controller="datastatisticsCtrl" ng-init="initData()">
+    <h2>数据统计</h2>
+    <div style="padding: 0px 20px;border: solid 1px #ddd;">
+        <p>
+            数据总平均值
+        </p>
+        <div class="data_table">
+            <div>
+                <p>
+                    下单到接单时长
+                </p>
+                <h1>
+                    {{timeDetail.avgCreateToGrab | ToMin}}
+                </h1>
+            </div>
+            <div>
+                <p>
+                    接单到派遣时长
+                </p>
+                <h1>
+                    {{timeDetail.avgGrabToDepartureTime | ToMin}}
+                </h1>
+            </div>
+            <div>
+                <p>
+                    派遣到司机到达事故地点时长
+                </p>
+                <h1>
+                    {{timeDetail.avgDepartureToAccident | ToMin}}
+                </h1>
+            </div>
+            <div>
+                <p>
+                    司机作业时长
+                </p>
+                <h1>
+                    {{timeDetail.avgOperationTime | ToMin}}
+                </h1>
+            </div>
+        </div>
+    </div>
+    <p class="search_div">
+        开始日期：<input type="month" class="input" ng-model="startMonth">&emsp; 结束日期：
+        <input type="month" class="input" ng-model="endMonth">&emsp; 施救单位：
+        <input type="text" class="input" placeholder="输入施救单位" ng-model="fleetName">&emsp;
+        <button class="button search_button" ng-click="search()"> 查询</button>
+        <button class="button" ng-click="initData()">查看全部</button>
+    </p>
+    <div class="list_table" ng-hide="table">
+        <div class="list_table_tr">
+            <div style="flex: 0.3;">
+            </div>
+            <div>
+                施救单位
+            </div>
+            <div>
+                派单时间
+            </div>
+            <div>
+                接单时间
+            </div>
+            <div>
+                派遣时间
+            </div>
+            <div>
+                下单到接单时长
+            </div>
+            <div>
+                接单到派遣时长
+            </div>
+        </div>
+        <div ng-repeat="a in list">
+            <div class="list_table_td">
+                <div ng-click="openDiv($index,a.orderNo)" class="openDiv">
+                    <img src="img/bihe-s.png" alt="" ng-hide="openDetail == $index"><img src="img/xiala-s.png" alt="" ng-hide="openDetail != $index">
+                </div>
+                <div>
+                    {{a.fleetName}}
+                </div>
+                <div>
+                    {{a.orderCreateTime | ToLocal2}}
+                </div>
+                <div>
+                    {{a.orderGrabTime | ToLocal2}}
+                </div>
+                <div>
+                    {{a.orderDepartureTime | ToLocal2}}
+                </div>
+                <div>
+                    {{a.createToGrab | ToMin}}
+                </div>
+                <div>
+                    {{a.grabToDepartureTime | ToMin}}
+                </div>
+            </div>
+            <div class="data_list_detail" ng-hide="openDetail != $index">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th>
+                            司机
+                        </th>
+                        <th>
+                            司机出发时间
+                        </th>
+                        <th>
+                            到达事故地点时间
+                        </th>
+                        <th>
+                            事故地点出发时间
+                        </th>
+                        <th>
+                            到达目的地时间
+                        </th>
+                        <th>
+                            派遣到司机到达是事故地点时长
+                        </th>
+                        <th>
+                            司机作业时长
+                        </th>
+                    </tr>
+                    <tr ng-repeat="a in detailList">
+                        <td>
+                            {{a.name}}
+                        </td>
+                        <td>
+                            {{a.departureTime | ToLocal2}}
+                        </td>
+                        <td>
+                            {{a.accidentReachTime | ToLocal2}}
+                        </td>
+                        <td>
+                            {{a.firstPictureTime | ToLocal2}}
+                        </td>
+                        <td>
+                            {{a.fixReachTime | ToLocal2}}
+                        </td>
+                        <td>
+                            {{a.departureToAccident | ToMin}}
+                        </td>
+                        <td>
+                            {{a.operationTime | ToMin}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <p ng-hide="page_p" class="page_p">
+        <button class="page_btn" ng-hide="home" ng-click="Page('home')">首页 </button>
+        <button class="page_btn" ng-hide="up" ng-click="Page('up')">上一页 </button>
+        <button class="page_btn current_btn" disabled>{{current}}</button>
+        <button class="page_btn" ng-hide="down" ng-click="Page('down')">下一页 </button>
+        <button class="page_btn" ng-hide="end" ng-click="Page('end')">尾页 </button> 总页数:{{pageCount}}
+        <!-- 传送到<input type="text" ng-model="input_jump" ng-keypress="isNum($event)"><button ng-click="jump()" class="button" style="min-width:50px;">传送</button> -->
+    </p>
+</div>

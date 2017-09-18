@@ -3,6 +3,11 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
     $('.left_menu p').click(function () {
         $(this).addClass('left_menu_click').siblings().removeClass('left_menu_click');
         sessionStorage.setItem('lmId', $(this).attr('id'));
+        if ($(this).attr('id') != 'lm14') {
+            $(".child_span").addClass('hide')
+        } else {
+            $(".child_span").removeClass('hide')
+        }
         sessionStorage.setItem('jiexi_success', '');
         sessionStorage.removeItem('filter')
         sessionStorage.removeItem('disaster_filter');
@@ -22,10 +27,24 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
             }
         })
     }
+    $scope.selectType = 1;
     $scope.goto = function () {
         goto_view('main/disaster')
     }
+    $scope.back = function () {
+        window.history.back();
+    }
+    $scope.open = function (type) {
+        if (type == 1) {
+            sessionStorage.setItem('audit_type', 'QUOTE')
+        } else {
+            sessionStorage.setItem('audit_type', 'BILL')
+        }
+        $scope.selectType = type;
+        goto_view('audit')
+    }
     $scope.initData = function () {
+
         $scope.isShop4SAdmin = sessionStorage.getItem('isShop4sAdmin');
         $scope.isThrid = sessionStorage.getItem('isThrid');
         if ($scope.isShop4SAdmin == 'true' || $scope.isThrid == 'true') {
@@ -38,12 +57,16 @@ main.controller('mainCtrl', ['$scope', 'APIService', function ($scope, APIServic
             $scope.companyName = sessionStorage.getItem('companyName');
             $scope.adminName = sessionStorage.getItem('adminName');
             $('#' + sessionStorage.getItem('lmId')).addClass('left_menu_click').siblings().removeClass('left_menu_click');
+
             APIService.get_menu().then(function (res) {
                 if (res.data.http_status == 200) {
                     if (res.data.items != null) {
-                        for (var i = 0; i < res.data.items.length; i++) {
+                        for (let i = 0; i < res.data.items.length; i++) {
                             $('.left_menu .' + res.data.items[i].url).css('display', 'block')
-                            $('.left_menu .payment').css('display', 'block')
+                            $(".child_span").addClass('hide')
+                        }
+                        if (sessionStorage.getItem('lmId') == 'lm14') {
+                            $(".child_span").removeClass('hide')
                         }
                     }
 

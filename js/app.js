@@ -1,4 +1,4 @@
-var insurance = angular.module('insurance', ['updateFix', 'third', 'auth', 'paymentdetail', 'batchinspector', 'payment', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
+var insurance = angular.module('insurance', ['updateFix', 'auditDetail', 'audit', 'third', 'auth', 'datastatistics', 'paymentdetail', 'batchinspector', 'payment', 'inspector', 'companyfleet', 'addshop4S', 'batchshop4S', 'shop4S', 'nar_location', 'disasterdriverorderlist', 'disastermap', 'driverordertotle', 'disasterorderlist', 'totleorder', 'batchaddorder', 'review', 'driverlocation', 'disasterdriver', 'disasterinspector', 'site', 'disasterdetail', 'disaster', 'createdisaster', 'addorder_nar', 'selectlocation', 'editorder', 'track', 'detail', 'team', 'ui.router', 'evaluation', 'adddriver', 'map', 'login', 'Road167', 'fixaddress', 'main', 'addorder', 'orderlist']);
 var t;
 insurance.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/login');
@@ -14,7 +14,27 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
 
         .state('main.addshop4S', {
             url: '/addshop4S',
-            templateUrl: 'view/addshop4S.html'
+            templateUrl: 'view/add/addshop4S.html'
+        })
+        .state('main.auditQ', {
+            url: '/auditQ',
+            templateUrl: 'view/audit/audit.html'
+        })
+        .state('main.auditQ.detailQ', {
+            url: '/detailQ',
+            templateUrl: 'view/audit/audit_detail.html'
+        })
+        .state('main.auditB', {
+            url: '/auditB',
+            templateUrl: 'view/audit/audit.html'
+        })
+        .state('main.auditB.detailB', {
+            url: '/detailB',
+            templateUrl: 'view/audit/audit_detail.html'
+        })
+        .state('main.datastatistics', {
+            url: '/datastatistics',
+            templateUrl: 'view/datastatistics.html'
         })
         .state('main.updateFix', {
             url: '/updateFix',
@@ -30,7 +50,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.addorder', {
             url: '/addorder',
-            templateUrl: 'view/addorder.html'
+            templateUrl: 'view/add/addorder.html'
         })
         .state('main.payment', {
             url: '/payment',
@@ -38,7 +58,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.batchinspector', {
             url: '/batchinspector',
-            templateUrl: 'view/batchinspector.html'
+            templateUrl: 'view/batch/batchinspector.html'
         })
         .state('main.shop4S', {
             url: '/shop4S',
@@ -47,11 +67,11 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
 
         .state('main.batchshop4S', {
             url: '/batchshop4S',
-            templateUrl: 'view/batchshop4S.html'
+            templateUrl: 'view/batch/batchshop4S.html'
         })
         .state('main.addorder_nar', {
             url: '/addorder_nar',
-            templateUrl: 'view/addorder_nar.html'
+            templateUrl: 'view/add/addorder_nar.html'
         })
         .state('main.selectlocation', {
             url: '/selectlocation',
@@ -111,7 +131,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.batchaddorder', {
             url: '/batchaddorder',
-            templateUrl: 'view/batchaddorder.html'
+            templateUrl: 'view/batch/batchaddorder.html'
         })
         .state('main.totleorder', {
             url: '/totleorder',
@@ -139,7 +159,7 @@ insurance.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('main.adddriver', {
             url: '/adddriver',
-            templateUrl: 'view/adddriver.html'
+            templateUrl: 'view/add/adddriver.html'
         })
         .state('main.detail', {
             url: '/detail',
@@ -236,6 +256,16 @@ function ToLocalTime(shijianchuo) {
 function add0(m) {
     return m < 10 ? '0' + m : m
 }
+function DateFormat(type, date) {
+    switch (type) {
+        case 'yyMM':
+            return date.getFullYear() % 2000 + add0(date.getMonth() + 1);
+            break;
+
+        default:
+            break;
+    }
+}
 insurance.filter('ToDay', function () {
     function ToLocal(shijianchuo) {
         if (shijianchuo != null) {
@@ -247,6 +277,28 @@ insurance.filter('ToDay', function () {
             return nowtime;
         } else {
             return null;
+        }
+    }
+    return ToLocal;
+});
+insurance.filter('ToMin', function () {
+    function add0(num) {
+        num = parseInt(num);
+        if (num < 10) {
+            return '0' + num;
+        } else {
+            return num;
+        }
+    }
+    function ToLocal(shijianchuo) {
+        if (shijianchuo == 0) {
+            return '00:00:00'
+        } else {
+            shijianchuo = parseInt(shijianchuo / 1000);
+            var hour = shijianchuo / 3600;
+            var min = (shijianchuo % 3600) / 60;
+            var second = (shijianchuo % 3600) % 60;
+            return add0(hour) + ':' + add0(min) + ':' + add0(second);
         }
     }
     return ToLocal;
@@ -324,6 +376,25 @@ insurance.filter('ToLocal', function () {
             return nowtime;
         } else {
             return null;
+        }
+
+    }
+    return ToLocal;
+});
+insurance.filter('ToLocal2', function () {
+    function ToLocal(shijianchuo) {
+        if (shijianchuo != null) {
+            var time = new Date(shijianchuo);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            var nowtime = y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+            return nowtime;
+        } else {
+            return '-';
         }
 
     }

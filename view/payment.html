@@ -1,8 +1,17 @@
 <div ng-controller="paymentCtrl" ng-init="initData()">
-    <p>
-        <input type="text" class="input" placeholder="输入查勘员姓名" ng-model="name">
-        <button class="button" ng-click="get_payment_list()">
+    <h2>付款管理</h2>
+    <p class="search_div">
+        付款状态：
+        <select class="input" name="" style="width:100px;" ng-model="status" ng-options="a.id as a.name for a in statusTexts" id=""></select>        
+        订单类型：
+        <select class="input" name="" style="width:100px;" ng-model="ordertype" ng-options="a.id as a.name for a in orderTypeTexts"
+            id=""></select>
+        <input type="text" class="input" placeholder="请输入下单人员姓名" ng-model="name" style="width:250px;">
+        <button class="button" ng-click="search()">
             查询
+        </button>
+        <button class="button" ng-click="initData()">
+            显示全部
         </button>
     </p>
     <div class="list_table" ng-hide="table">
@@ -11,10 +20,7 @@
                 车牌号
             </div>
             <div>
-                查勘员
-            </div>
-            <div>
-                查勘电话
+                订单来源
             </div>
             <div>
                 事故地点
@@ -26,6 +32,9 @@
                 施救费用
             </div>
             <div>
+                付款状态
+            </div>
+            <div>
                 操作
             </div>
         </div>
@@ -35,10 +44,7 @@
                     {{a.carNo}}
                 </div>
                 <div>
-                    {{a.inspectorName}}
-                </div>
-                <div>
-                    {{a.inspectorPhone}}
+                    {{a.orderFrom}}
                 </div>
                 <div>
                     {{a.accidentAddress}}
@@ -50,8 +56,11 @@
                     {{a.rescueFee | Price}}
                 </div>
                 <div>
+                    {{a.settleStatusDesc}}
+                </div>
+                <div>
                     <span class="button_span" ng-click="detail(a.orderNo)">查看订单</span>
-                    <span class="button_span" ng-click="paymentdetail(a.orderNo)">付款信息</span>
+                    <span class="button_span" ng-click="paymentdetail(a.orderNo,a.orderFrom)">付款信息</span>
                 </div>
             </div>
         </div>

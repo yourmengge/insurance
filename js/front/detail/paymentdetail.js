@@ -2,6 +2,7 @@ var paymentdetail = angular.module('paymentdetail', ['Road167']);
 paymentdetail.controller('paymentdetailCtrl', ['$scope', 'APIService', function ($scope, APIService) {
     $scope.initData = function () {
         $scope.orderNo = sessionStorage.getItem('orderNo');
+        $scope.orderFrom = sessionStorage.getItem('orderFrom')
         $scope.get_detail();
     }
     //获取详情

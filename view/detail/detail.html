@@ -40,9 +40,15 @@
         </tr>
         <tr>
             <td>下单备注：</td>
-            <td style="max-width: 30px;">{{detail.remark}}</td>
+            <td style="max-width: 30px;">
+                <audio ng-src="{{a.remarkOfVoice}}" controls></audio>
+            </td>
             <td>推修类型：</td>
             <td style="max-width: 30px;">{{detail.pushFixTypeDesc}}</td>
+            <td>推修备注：</td>
+            <td style="max-width: 30px;">
+                <audio ng-src="{{a.pushFixRemark}}" controls></audio>
+            </td>
         </tr>
         <tr ng-hide="detail.status != 8 && detail.status != 81 && detail.status != 82">
             <td>取消订单备注：</td>
@@ -110,10 +116,13 @@
         </tr>
     </table>
     <h4 class="detail_title">
-        下单照片
+        下单拍摄
     </h4>
     <div class="img_div">
+        <p>下单照片</p>
         <img ng-repeat="a in detail.orderPictures" ng-src="{{a.zoomOutView}}" alt="" ng-click="openPic(a.path)">
+        <p class="addorder_p">下单视频</p>
+        <video ng-repeat="a in detail.videos" ng-src="a" controls></video>
     </div>
     <h4 ng-hide="disaster == 'yes'" class="detail_title">
         目的地变更记录
@@ -179,7 +188,7 @@
                     派遣备注：
                 </td>
                 <td ng-hide="disaster == 'yes'">
-                    {{driver.remark}}
+                    <audio ng-src="driver.remarkOfVoice" controls></audio>
                 </td>
                 <td ng-hide="disaster != 'yes'">
                     所属车队：
@@ -248,10 +257,10 @@
     </div>
     <h4 class="detail_title">推修厂确认信息</h4>
     <div class="car_div">
-         <p>
+        <p>
             <span class="car_div_title">查看时间：</span>
             <span>{{detail.shop4sReadTime | ToLocal}}</span>
-        </p> 
+        </p>
         <p>
             <span class="car_div_title">确认时间：</span>
             <span>{{detail.shop4sConfirmTime | ToLocal}}</span>

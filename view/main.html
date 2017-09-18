@@ -18,8 +18,20 @@
             <img src="img/orderlist1.png" alt=""><span class="right_span">查看订单</span>
         </p>
         <p id="lm12" ui-sref='main.payment' class="payment" title="付款管理">
-            <img src="img/chakanyuan.png" alt=""><span class="right_span">付款管理</span>
+            <img src="img/fukuan.png" alt=""><span class="right_span">付款管理</span>
         </p>
+        <p id="lm13" ui-sref='main.datastatistics' class='datastatistics' title="数据统计">
+            <img src="img/chakanyuan.png" alt=""><span class="right_span">数据统计</span>
+        </p>
+        <p id="lm14" class='audit' title="审核管理" ui-sref='main.auditQ'  ng-click="open(1)">
+            <img src="img/ic-shenhe.png" alt=""><span class="right_span">审核管理</span>
+        </p>
+        <span  class="child_span {{selectType == 1?'child_span_click':''}}" ui-sref='main.auditQ'  ng-click="open(1)">
+            <img src="img/ic-fapiao.png" alt="">  报价审核
+        </span>
+        <span class="child_span {{selectType == 2?'child_span_click':''}}" ui-sref='main.auditB' ng-click="open(2)">
+            发票审核
+        </span>
         <p id="lm3" ui-sref='main.evaluation' class='evaluation' title="查看评价">
             <img src="img/eval1.png" alt=""><span class="right_span">查看评价</span>
         </p>
@@ -45,6 +57,8 @@
         <p id="lm11" ui-sref='main.inspector' class='inspector' title="查勘员管理">
             <img src="img/chakanyuan.png" alt=""><span class="right_span">查勘员管理</span>
         </p>
+
+
     </div>
     <div ui-view class="right_content {{isShop4SAdmin == 'true'?'full_width':''}}"></div>
 </div>

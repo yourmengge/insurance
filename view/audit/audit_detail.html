@@ -1,0 +1,86 @@
+<div class="paymentDetail" ng-controller="auditDetailCtrl" ng-init="initData()">
+    <h2>{{title}}详情</h2>
+    <button class="goback" ng-click="back()"></button>
+    <p class="audit_title_p">
+        车牌号：{{carNo}}
+    </p>
+    <p class="audit_title_p" style="border-bottom: 7px solid #e4e4e4;padding-bottom: 30px;">
+        {{title}}状态：<span class="font_red">{{detail.settleStatusDesc}}</span><span ui-sref='main.payment.auth' class="auth_span_audit" ng-hide="!detail.authorized">授权委托书：已授权</span><span class="auth_span_audit gray" ng-hide="detail.authorized">授权委托书：未授权</span>
+        <span style="margin-left:465px;">施救费用：</span>
+        <span class="money">{{detail.rescueFee | Price}}</span>元
+    </p>
+    <div class="audit_title_div">
+        <div class="flex_div">{{fleetName}}</div>
+        <div class="flex_div">
+            <p style="margin-top:0;"><span class="">事故地点：</span>{{address}}</p>
+            <p><span class="">施救地点：</span>{{fix}}</p>
+        </div>
+    </div>
+    <div class="audit_table_div">
+        <table>
+            <tr ng-repeat="a in detail.assignFeeList">
+                <td style="width: 263px;">
+                    {{a.carRemark}}
+                </td>
+                <td>
+                    施救司机：
+                </td>
+                <td class="margin_right">
+                    {{a.driverName}}
+                </td>
+                <td>
+                    行驶里程：
+                </td>
+                <td class="margin_right">
+                    {{a.distance | gongli}}公里
+                </td>
+                <td>
+                    {{a.carTypeDesc}}费用：
+                </td>
+                <td>
+                    {{a.fee | Price}}元
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="audit_table_div" ng-hide="detail.otherFeeList.length == 0">
+        <table>
+            <tr ng-repeat="a in detail.otherFeeList">
+                <td style="width: 263px;">
+                    {{$index == 0?'其他费用':''}}
+                </td>
+                <td>
+                    费用名称：
+                </td>
+                <td class="margin_right">
+                    {{a.feeName}}
+                </td>
+                <td>
+                    费用：
+                </td>
+                <td>
+                    {{a.fee | Price}}元
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="audit_title_div" style="height:300px;" ng-hide="title == '报价'">
+            <div class="flex_div">发票照片</div>
+            <div class="flex_div">
+                <img ng-repeat="a in detail.pictures" ng-src="{{a.zoomOutView}}"  alt="" ng-click="openPic(a.path)">
+            </div>
+        </div>
+    <div class="audit_title_div" style="height:100px;">
+        <div class="flex_div">备注</div>
+        <div class="flex_div">
+            <p ng-hide="settleStatus == 412" style="margin-top:0;">{{detail.verifyRemark}}</span>
+            </p>
+            <p ng-hide="settleStatus != 412 " style="margin-top:0;"><input type="text" maxlength="50" ng-model="remark" class="input" style="width:500px;" placeholder="输入审核备注">
+                <span
+                    style="color:#999;margin-left:10px">{{remark.length + 0}}/50</span>
+            </p>
+            <p ng-hide="settleStatus != 412 "><button class="button button_defult" ng-click="autid_order(0)">审核不通过</button><button class="button" ng-click="autid_order(1)">审核通过</button></p>
+        </div>
+    </div>
+
+</div>

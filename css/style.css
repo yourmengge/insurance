@@ -7,6 +7,9 @@ html,body{
 ul li{
     list-style: none;
 }
+button{
+    outline: none;
+}
 .main{
     width: 100vw;
     height: 100vh;
@@ -184,6 +187,12 @@ ul li{
     float: left;
     margin-right: 23px;
 }
+.left_menu span img{
+    width: 33px;
+    vertical-align: middle;
+    float: left;
+    margin-right: 23px;
+}
 .left_menu p:hover{
     background: #efefef;
     border-bottom: solid 1px #fff;
@@ -274,6 +283,64 @@ textarea{
 }
 .font_blue{
     color: #008cff !important;
+}
+.auth_span_audit{
+    margin-left: 97px;
+    color: #3e99ff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.auth_span_audit:active{
+    color: #2b6bb2;
+}
+.flex_div img{
+    width: 250px;
+    height: 250px;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.audit_title_div{
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    margin-top: 30px;
+    height: 80px;
+}
+.audit_title_div .flex_div:nth-child(odd){
+    width: 270px;
+    height: 70px;
+    float: left;
+    padding-left: 30px;
+}
+.audit_table_div{
+    border-bottom: solid 1px #ddd;
+    padding: 20px 30px;
+}
+.audit_table_div table{
+    font-size: 14px;
+}
+.audit_table_div table tr{
+    height: 40px;
+    line-height: 40px;
+}
+.audit_table_div table .margin_right{
+    width: 193px;
+}
+.audit_title_div .flex{
+    display: flex;
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+}
+.audit_title_div .flex .car_fee{
+    float: left;
+    margin-right: 20px;
+}
+.audit_title_div .flex .car_fee:nth-child(even){
+    margin-right: 100px;
+}
+.money{
+    font-size: 24px;
+    color: #f08200;
 }
 .addorder table tr{
     height: 50px;
@@ -377,6 +444,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .button_disabled{
     background: #dedede !important;
+}
+.button_defult{
+    background: #efefef;
+    color: #000;
+}
+.button_defult:active{
+    background: #A9A9A9;
 }
 .add_driver_div_p{
     display: none;
@@ -556,11 +630,12 @@ input[type=number]::-webkit-outer-spin-button {
     width: 60vw;
     padding: 5px 30px;
 }
-.img_div img{
+.img_div img,.img_div video{
     width: 10vw;
     padding: 20px;
     cursor: pointer;
 }
+
 .img_div img:hover{
     transform: scale(1.1);
     transition-duration: 1000ms;
@@ -607,7 +682,7 @@ input[type=number]::-webkit-outer-spin-button {
     line-height: 30px;
 }
 .hide{
-    display: none;
+    display: none !important;
 }
 .bold{
     font-weight: bold;
@@ -1432,6 +1507,24 @@ video{
     -webkit-box-align: center;
     box-align: center;
 }
+.data_table{
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    flex-flow: row wrap;
+}
+.data_table div{
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+    min-height: 40px;
+    overflow-wrap: break-word;
+    width: 10px;
+}
+.data_table div p{
+    width: 100%;
+}
 .ui_view_1{
     position: absolute;
     top: 0;
@@ -1451,6 +1544,37 @@ video{
     border: 1px solid #333;
     color: #333;
     background: #fff;
+}
+.data_list_detail{
+    font-size: 13px;
+    border: 1px solid #a9ebff;
+}
+.data_list_detail table{
+    width: 100%;
+    text-align: center;
+}
+.data_list_detail table tr{
+    font-size: 13px;
+    height: 48px;
+    line-height: 48px;
+    border-bottom: solid 1px #f5f5f5;
+}
+.data_list_detail table tr th{
+    background: #e5e5e5;
+    border: none;
+    color: #333;
+}
+.data_list_detail table tr td{
+    background: #f7f7f7;
+    border: none;
+    color: #333;
+}
+audio{
+    width: 80px;
+}
+.addorder_p{
+    padding-top: 20px;
+    border-top: solid 1px #dedede;
 }
 @media screen and (max-width:1366px){
     .list_table_tr div{
@@ -1523,6 +1647,7 @@ video{
     min-height: 900px;
     overflow-y: auto;
     background: #fff;
+    color: #333;
 }
 .detail_content_div p{
     padding-left: 20px;
@@ -1580,6 +1705,21 @@ video{
 }
 .rescuefee button:focus{
     outline: none;
+}
+.child_span{
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    background: #f5f5f5;
+    padding-left: 40px;
+    border-bottom: solid 1px #b5b5b5;
+    cursor: pointer;
+}
+.child_span_click{
+    background: #e4e4e4;
+}
+.audit_title_p{
+    padding-left: 30px;
 }
  /* input[type=checkbox]{
     margin: 3px 3px 0px 5px;  

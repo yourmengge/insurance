@@ -412,8 +412,8 @@ Road167.factory('APIService', function ($http) {
     }
 
     //付款管理列表查询
-    service.get_payment_list = function (offset, limit, name) {
-        return service.get(host + urlV1 + '/order/payment/bill?BillStatus=INSURANCE_BILL_PAYED&$offset=' + offset + '&$limit=' + limit + '&inspectorName=' + name)
+    service.get_payment_list = function (offset, limit, name, roleId, status) {
+        return service.get(host + urlV1 + '/order/payment/bill?BillStatus=' + status + '&$offset=' + offset + '&$limit=' + limit + '&createName=' + name + '&createRoleId=' + roleId)
     }
 
     //获取付款信息
@@ -421,6 +421,43 @@ Road167.factory('APIService', function ($http) {
         return service.get(host + urlV1 + '/order/' + orderNo + '/bill/detail')
     }
 
+    //时间统计-均值统计
+    service.get_timecount_average = function (fleetName, start, end) {
+        return service.get(host + urlV1 + '/time-count/average?fleetName=' + fleetName + '&startMonth=' + start + '&endMonth=' + end)
+    }
+
+    //获取数据统计列表
+    service.get_data_list = function (fleetName, start, end, limit, offset) {
+        return service.get(host + urlV1 + '/time-count/order?fleetName=' + fleetName + '&startMonth=' + start + '&endMonth=' + end + '&$limit=' + limit + '&$offset=' + offset)
+    }
+
+    //获取时间统计-派遣列表
+    service.get_data_detail = function (orderNo) {
+        return service.get(host + urlV1 + '/time-count/order/' + orderNo + '/assign')
+    }
+
+    //查询待审核报价/发票订单列表
+    service.get_order_quote_list = function (verifyType, name, status, limit, offset) {
+        return service.get(host + urlV1 + '/order-quote/list/third?VerifyType=' + verifyType + '&fleetName=' + name + '&verifyStatus=' + status + '&$limit=' + limit + '&$offset=' + offset)
+    }
+    //获取报价详情
+    service.get_orderquote_detail = function (orderNo) {
+        return service.get(host + urlV1 + '/order-quote/detail/' + orderNo);
+    }
+
+    //报价审核
+    service.patch_order_quote = function (orderNo, data) {
+        return service.patch(host + urlV1 + '/order-quote/verify/' + orderNo, data)
+    }
+
+    //获取发票详情
+    service.get_order_bill = function (orderNo) {
+        return service.get(host + urlV1 + '/order/' + orderNo + '/bill/detail')
+    }
+    //发票审核
+    service.patch_order_bill = function (orderNo, data) {
+        return service.patch(host + urlV1 + '/order-quote/verify/' + orderNo + '/bill', data)
+    }
 
     // //导出订单
     // service.export = function(){
